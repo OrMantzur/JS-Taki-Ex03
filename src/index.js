@@ -1,10 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import "./style.css";
-
+import BaseContainer from './components/baseContainer.jsx';
 
 /* Directly adding react element */
 ReactDOM.render(
-    React.createElement('div',null, 'hello world'), 
+    <BaseContainer/>,
     document.getElementById("root")
 );
