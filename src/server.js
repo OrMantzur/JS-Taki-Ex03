@@ -8,6 +8,7 @@
  * npm run build-watch
  * npm install --save express
  * npm install express-session
+ * npm install body-parser
  */
 
 const express = require('express');
@@ -27,4 +28,4 @@ app.use(express.static(path.resolve(__dirname, "..", "public")));
 app.use('/users', userManager);
 
 // run server
-app.listen(PORT, console.log('taki application listening on port 3000'));
+app.listen(PORT, console.log('taki application listening on port ' + PORT));

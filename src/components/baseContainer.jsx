@@ -1,4 +1,6 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
+import LoggedInUsersContainer from "./loggedInUsersContainer.jsx";
 
 /**
  * kind of entry point of all components
@@ -12,24 +14,25 @@ export default class BaseContainer extends React.Component {
         };
 
         this.handleLogin = this.handleLogin.bind(this);
-        // this.printUserList = this.printUserList.bind(this);
     }
 
     render() {
         return (
             <div>
+
                 <form onSubmit={this.handleLogin}>
                     <label htmlFor="userName">name: </label>
                     <input name="userName"/>
                     <input type="submit" value="Login"/>
                 </form>
-                {/*{this.printUserList()}*/}
+
+                <LoggedInUsersContainer/>
+
             </div>
         )
     }
 
     handleLogin(formEvent) {
-        // TODO test that
         formEvent.preventDefault();
         const userName = formEvent.target.elements.userName.value;
         fetch('/users/addUser', {method: 'POST', body: userName, credentials: 'include'})
@@ -45,20 +48,4 @@ export default class BaseContainer extends React.Component {
         return false;
     }
 
-    // printUserList() {
-    //     if (this.state.loginSuccess) {
-    //         // print all logged in users
-    //         let allUsers = fetch('/users/allUsers', {method: 'GET', credentials: 'include'})
-    //             .then(response=>{
-    //                 let allUsers2 = response.json();
-    //                 if (allUsers !== undefined || allUsers !== null) {
-    //                     return (<div>
-    //                             {allUsers.map((sessionId, userName) => (
-    //                                 <p key={userName}>{sessionId}: {userName}</p>))}
-    //                         </div>
-    //                     )
-    //                 }
-    //             });
-    //     }
-    // }
 }
