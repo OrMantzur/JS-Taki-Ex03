@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 
 const USER_REFRESH_INTERVAL = 1000;
 
@@ -11,14 +10,13 @@ export default class LoggedInUsersContainer extends React.Component {
             userList: []
         };
         this.getAllUsers = this.getAllUsers.bind(this);
-        this.idCounter = 0;
     }
 
     render() {
         return (
             <div>
                 {this.state.userList.map((entry, index) => (
-                    <p key={entry.userName + index}>{entry.userName+":"+ entry.sessionId}</p>))}
+                    <p key={entry.userName + index}>{entry.userName + ":" + entry.sessionId}</p>))}
             </div>
         );
     }
