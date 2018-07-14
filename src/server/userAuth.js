@@ -7,23 +7,22 @@
  * all the changes in userList in userManager go through that module
  */
 
-// list of <sessionId, userName>
+/**
+ * list of <sessionId, userName>
+ * userName and userName are unique
+ */
 const users = [];
 
-
-// function getUserName(sessionId) {
-//     // TODO
-// }
+function getUserName(sessionId) {
+    return users[sessionId];
+}
 
 /**
  * check if user logged in
  */
 function checkUserAuth(req, res, next) {
     if (users[req.session.id] === undefined) {
-        // TODO uncomment(if for auto refresh of user list output)
-        // res.sendStatus(401);
-        // TODO delete next
-        next();
+        res.sendStatus(401);
     } else {
         next();
     }
@@ -41,7 +40,7 @@ function addUser(req, res, next) {
         for (let sessionId in users) {
             let userNameInSystem = users[sessionId];
             if (userNameToAdd === userNameInSystem) {
-                res.status(403).send('user name already exist');
+                res.status(403).send("user name already exist");
                 return;
             }
         }
@@ -51,9 +50,14 @@ function addUser(req, res, next) {
     }
 }
 
-// function removeUser(req, res, next) {
-//     // TODO
-// }
+function removeUser(req, res, next) {
+    if (users[req.session.id] === undefined) {
+        res.status(403).send("user doesn't exist");
+    } else {
+        // delete that key and value
+        delete users[req.session.id];
+        next();
+    }
+}
 
-module.exports = {users, checkUserAuth, addUser};
-//module.exports = {users, getUserName, checkUserAuth, addUser, removeUser};
+module.exports = {users, getUserName, checkUserAuth, addUser, removeUser};

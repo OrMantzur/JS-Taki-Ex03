@@ -1,53 +1,59 @@
 import React from 'react';
 
-const USER_REFRESH_INTERVAL = 1000;
 
 export default class LoggedInUsersContainer extends React.Component {
 
     constructor() {
         super();
         this.state = {
-            userList: []
+            errMessage: ""
         };
-        this.getAllUsers = this.getAllUsers.bind(this);
+
+        this.login = this.login.bind(this);
+        this.renderLoginErrorMessage = this.renderLoginErrorMessage.bind(this);
     }
 
     render() {
         return (
             <div>
-                {this.state.userList.map((entry, index) => (
-                    <p key={entry.userName + index}>{entry.userName + ":" + entry.sessionId}</p>))}
+                <form onSubmit={this.login}>
+                    <label htmlFor="userName">name: </label>
+                    <input name="userName"/>
+                    <input type="submit" value="Login"/>
+                </form>
+                {this.renderLoginErrorMessage()}
             </div>
         );
     }
 
-    /**
-     * This method is called once all our children Elements
-     * and our Component instances are mounted onto the Native UI
-     */
-    componentDidMount() {
-        this.getAllUsers();
+    login(formEvent) {
+        formEvent.preventDefault();
+        const userName = formEvent.target.elements.userName.value;
+        fetch('/users/addUser', {method: 'POST', body: userName, credentials: 'include'})
+            .then(response => {
+                if (response.ok) {
+                    console.log("login success");
+                    this.setState(() => ({errMessage: ""}));
+                    this.props.loginSuccessHandler();
+                } else {
+                    if (response.status === 403) {
+                        this.setState(() => ({errMessage: "user name already exist, please try another one"}));
+                    }
+                    this.props.loginErrorHandler();
+                }
+            });
+        return false;
     }
 
-    /**
-     * update {@code userList} every {@code USER_REFRESH_INTERVAL}
-     * @returns {Promise<Response>}
-     */
-    getAllUsers() {
-        return fetch('/users/allUsers', {method: 'GET', credentials: 'include'})
-            .then((response) => {
-                if (!response.ok) {
-                    throw response;
-                }
-                setTimeout(this.getAllUsers, USER_REFRESH_INTERVAL);
-                return response.json();
-            })
-            .then(userList => {
-                this.setState(() => ({userList}));
-            })
-            .catch(err => {
-                throw err
-            });
+    renderLoginErrorMessage() {
+        if (this.state.errMessage) {
+            return (
+                <div>
+                    {this.state.errMessage}
+                </div>
+            );
+        }
+        return null;
     }
 
 }

@@ -28,6 +28,14 @@ userManager.get('/allUsers', userAuth.checkUserAuth, (req, res) => {
     res.json(usersMap);
 });
 
-// TODO /logout resource
+userManager.get('/activeUserName', userAuth.checkUserAuth, (req, res) => {
+    const userName = userAuth.getUserName(req.session.id);
+    res.json(userName);
+});
+
+userManager.get('/logout', userAuth.removeUser, (req, res) => {
+        res.sendStatus(200);
+    }
+);
 
 module.exports = userManager;

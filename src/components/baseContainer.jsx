@@ -1,6 +1,6 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import LoggedInUsersContainer from "./loggedInUsersContainer.jsx";
+import GamesRoomComponent from "./gamesRoomComponent.jsx";
 
 /**
  * kind of entry point of all components
@@ -10,42 +10,55 @@ export default class BaseContainer extends React.Component {
     constructor() {
         super();
         this.state = {
-            loginSuccess: false
+            showLogin: true,
+            userName: ""
         };
 
-        this.handleLogin = this.handleLogin.bind(this);
+        this.handleSuccessLogin = this.handleSuccessLogin.bind(this);
+        this.handleLoginError = this.handleLoginError.bind(this);
+        this.setUserName = this.setUserName.bind(this);
+        this.initLoginState = this.initLoginState.bind(this);
     }
 
     render() {
-        return (
-            <div>
-
-                <form onSubmit={this.handleLogin}>
-                    <label htmlFor="userName">name: </label>
-                    <input name="userName"/>
-                    <input type="submit" value="Login"/>
-                </form>
-
-                <LoggedInUsersContainer/>
-
-            </div>
-        )
+        return this.state.showLogin ?
+            <LoggedInUsersContainer loginSuccessHandler={this.handleSuccessLogin}
+                                    loginErrorHandler={this.handleLoginError}/> :
+            <GamesRoomComponent userName={this.state.userName}
+                                initLoginState={this.initLoginState}/>;
     }
 
-    handleLogin(formEvent) {
-        formEvent.preventDefault();
-        const userName = formEvent.target.elements.userName.value;
-        fetch('/users/addUser', {method: 'POST', body: userName, credentials: 'include'})
+    handleSuccessLogin() {
+        this.setState(() => ({showLogin: false}), this.setUserName);
+    }
+
+    handleLoginError() {
+        this.setState(() => ({showLogin: true}));
+    }
+
+    setUserName() {
+        fetch('/users/activeUserName', {method: 'GET', credentials: 'include'})
             .then(response => {
-                if (response.ok) {
-                    console.log("userName form success");
-                    this.setState(() => ({loginSuccess: true}));
+                if (!response.ok) {
+                    throw response;
+                }
+                return response.json();
+            })
+            .then(userName => {
+                this.setState(() => ({showLogin: false, userName: userName}));
+            })
+            .catch(err => {
+                // in case we're getting unauthorized
+                if (err.status === 401) {
+                    this.setState(() => ({showLogin: true}));
                 } else {
-                    console.log("userName form fail");
-                    this.setState(() => ({loginSuccess: false}));
+                    throw err;
                 }
             });
-        return false;
+    }
+
+    initLoginState() {
+        this.setState(() => ({showLogin: true, userName: ""}));
     }
 
 }
