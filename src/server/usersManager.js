@@ -9,10 +9,15 @@
  */
 
 const express = require('express');
+const gameManager = require('../server/logic/gameManager');
 const userManager = express.Router();
 const userAuth = require('./userAuth');
 
 userManager.post('/addUser', userAuth.addUser, (req, res) => {
+    const userName = userAuth.users[req.session.id];
+    if (userName !== undefined) {
+        gameManager.addPlayer(userName);
+    }
     res.sendStatus(200);
 });
 

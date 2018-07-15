@@ -3,18 +3,21 @@
  * Or Mantzur - 204311997
  */
 
-import {Color, SpecialCard} from "./card";
-import CardsOnTable from "./cardsOnTable";
-import Deck from "./deck";
+const Color = require("./card").Color;
+const SpecialCard = require("./card").SpecialCard;
+const CardsOnTable = require("./cardsOnTable");
+const Deck = require("./deck");
 
 const NUM_STARTING_CARDS = 8;
+const MIN_PLAYER_PER_GAME = 2;
+const MAX_PLAYER_PER_GAME = 4;
 
-export const GameType = {
+const GameType = {
     BASIC: "basic",
     ADVANCED: "advanced"
 };
 
-export const GameState = {
+const GameState = {
     OPEN_TAKI: "openTaki",
     OPEN_PLUS: "openPlus",
     CHANGE_COLOR: "changeColor",
@@ -28,7 +31,7 @@ export const GameState = {
 };
 
 
-export default class Game {
+class Game {
     constructor(gameType, playersNum, gameName, gameCreator) {
         // TODO (advanced game) Validate in gameManager when there is more than one game
         this._gameId = Game.nextFreeGameId++;
@@ -445,3 +448,5 @@ export default class Game {
 }
 
 Game.nextFreeGameId = 0;
+
+module.exports = {Game, GameType, GameState};

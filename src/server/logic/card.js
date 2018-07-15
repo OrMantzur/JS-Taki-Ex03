@@ -3,8 +3,8 @@
  * Or Mantzur - 204311997
  */
 
-export const NUMBER_CARD = ["1", "3", "4", "5", "6", "7", "8", "9"];
-export const SpecialCard = {
+const NUMBER_CARD = ["1", "3", "4", "5", "6", "7", "8", "9"];
+const SpecialCard = {
     TAKI: "taki",
     STOP: "stop",
     CHANGE_COLOR: "change color",
@@ -13,7 +13,7 @@ export const SpecialCard = {
     SUPER_TAKI: "super taki"
 };
 
-export const Color = {
+const Color = {
     allColors: ["red", "green", "blue", "yellow"],
 
     getRandomColor: function () {
@@ -22,7 +22,8 @@ export const Color = {
     }
 };
 
-export default class Card {
+//TODO separate to 4 module
+class Card {
 
     constructor(value, color) {
         this._id = Card.nextFreeCardId++;
@@ -42,9 +43,9 @@ export default class Card {
         return this._color;
     }
 
-    getUserMessage(){
+    getUserMessage() {
         let message = null;
-        switch (this._value){
+        switch (this._value) {
             case SpecialCard.PLUS_2:
                 message = "Plus 2: Next player must place +2 or take cards from the deck";
                 break;
@@ -99,3 +100,5 @@ export default class Card {
 }
 
 Card.nextFreeCardId = 0;
+
+module.exports = {Card, NUMBER_CARD, SpecialCard, Color};

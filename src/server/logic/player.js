@@ -3,7 +3,7 @@
  * Or Mantzur - 204311997
  */
 
-import {SpecialCard} from "./card";
+const SpecialCard = require("./card").SpecialCard;
 
 /**
  * can be human/computer player
@@ -13,8 +13,9 @@ import {SpecialCard} from "./card";
  * @returns {*}
  * @constructor
  */
-export default class Player {
+class Player {
 
+    // TODO delete all computer player
     constructor(playerName, isComputer) {
         this._playerId = Player.nextFreePlayerId++;
         this._playerName = playerName;
@@ -209,3 +210,5 @@ export default class Player {
 }
 
 Player.nextFreePlayerId = 0;
+
+module.exports = Player;

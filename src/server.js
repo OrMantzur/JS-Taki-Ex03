@@ -16,7 +16,9 @@ const app = express();
 const session = require('express-session');
 const bodyParser = require('body-parser');
 const path = require('path');
+const gameManager = require('./server/logic/gameManager');
 const userManager = require('./server/usersManager');
+
 const PORT = 3000;
 
 app.use(session({secret: 'keyboard cat', cookie: {maxAge: null}}));
@@ -29,3 +31,5 @@ app.use('/users', userManager);
 
 // run server
 app.listen(PORT, console.log('taki application listening on port ' + PORT));
+
+module.exports = gameManager;

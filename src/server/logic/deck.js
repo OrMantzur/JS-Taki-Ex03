@@ -3,9 +3,11 @@
  * Or Mantzur - 204311997
  */
 
-import Card, {Color, SpecialCard} from "./card";
-import {NUMBER_CARD} from "./card";
-import {GameType} from "./game";
+const Card = require("./card").Card;
+const Color = require("./card").Color;
+const SpecialCard = require("./card").SpecialCard;
+const NUMBER_CARD = require("./card").NUMBER_CARD;
+const GameType = require("./game").GameType;
 
 /**
  * deck in BASIC game contains:
@@ -28,7 +30,7 @@ import {GameType} from "./game";
  * @returns {{getSize: (function(): number), addCardsToDeck: addCardsToDeck, drawCards: (function(*): Array), printAllCards: printAllCards}}
  * @constructor
  */
-export default class Deck {
+class Deck {
 
     constructor(gameType) {
         this.gameType = gameType;
@@ -134,3 +136,5 @@ export default class Deck {
 Deck.CARD_NUMBER_OF_EACH_COLOR = 2;
 Deck.CHANGE_COLOR_AMOUNT = 4;
 Deck.SUPER_TAKI_AMOUNT = 2;
+
+module.exports = Deck;

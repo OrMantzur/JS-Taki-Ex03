@@ -3,7 +3,7 @@
  * Or Mantzur - 204311997
  */
 
-export default class CardsOnTable {
+class CardsOnTable {
 
     constructor() {
         this._cards = [];
@@ -38,3 +38,5 @@ export default class CardsOnTable {
     }
 
 }
+
+module.exports = CardsOnTable;
