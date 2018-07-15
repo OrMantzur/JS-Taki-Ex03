@@ -21,6 +21,7 @@ export default class GamesRoomComponent extends React.Component {
 
                     hello {this.props.userName}
 
+                    {/*TODO delete */}
                     <div>
                         list of all logged in users:
                         {this.state.userList.map((entry, index) => (
