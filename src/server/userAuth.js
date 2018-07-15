@@ -46,6 +46,8 @@ function addUser(req, res, next) {
         }
         // we got here only when the user is validate
         users[req.session.id] = userNameToAdd;
+        // send to next middleware request
+        res.addedUserName = userNameToAdd;
         next();
     }
 }
@@ -54,6 +56,8 @@ function removeUser(req, res, next) {
     if (users[req.session.id] === undefined) {
         res.status(403).send("user doesn't exist");
     } else {
+        // send to next middleware request
+        res.deletedUserName = users[req.session.id];
         // delete that key and value
         delete users[req.session.id];
         next();

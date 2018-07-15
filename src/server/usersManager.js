@@ -9,12 +9,12 @@
  */
 
 const express = require('express');
-const gameManager = require('../server/logic/gameManager');
+const gameManager = new (require('./logic/gameManager'))();
 const userManager = express.Router();
 const userAuth = require('./userAuth');
 
 userManager.post('/addUser', userAuth.addUser, (req, res) => {
-    const userName = userAuth.users[req.session.id];
+    const userName = res.addedUserName;
     if (userName !== undefined) {
         gameManager.addPlayer(userName);
     }
@@ -39,8 +39,11 @@ userManager.get('/activeUserName', userAuth.checkUserAuth, (req, res) => {
 });
 
 userManager.get('/logout', userAuth.removeUser, (req, res) => {
-        res.sendStatus(200);
+    const userName = res.deletedUserName;
+    if (userName !== undefined) {
+        gameManager.removePlayer(userName);
     }
-);
+    res.sendStatus(200);
+});
 
 module.exports = userManager;

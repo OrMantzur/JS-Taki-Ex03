@@ -16,11 +16,11 @@ class GameManager {
     }
 
     getPlayer(playerId) {
-
+        // TODO
     }
 
     getGame(gameId) {
-
+        // TODO
     }
 
     /**
@@ -30,8 +30,17 @@ class GameManager {
         this._players.push(new Player(playerName, false));
     }
 
-    addGame() {
+    removePlayer(playerNameToDelete) {
+        let playerIndexInArray = this._players.findIndex(player => {
+            return player.getName() === playerNameToDelete;
+        });
+        if (playerIndexInArray > -1) {
+            this._players.splice(playerIndexInArray, 1);
+        }
+    }
 
+    addGame() {
+        // TODO
     }
 
 }
