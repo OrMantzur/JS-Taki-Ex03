@@ -16,7 +16,7 @@ class GameManager {
     constructor() {
         this._players = [];
         this._games = {};
-        this._notifyOnPlayerAdded = null;
+        // this._notifyOnPlayerAdded = null;
     }
 
     getPlayer(playerId) {
@@ -27,9 +27,9 @@ class GameManager {
         return this._games[gameId];
     }
 
-    setNotifyOnPlayerAdded(callback) {
-        this._notifyOnPlayerAdded = callback;
-    }
+    // setNotifyOnPlayerAdded(callback) {
+    //     this._notifyOnPlayerAdded = callback;
+    // }
 
     /**
      * @param playerName suppose to be unique
@@ -69,12 +69,12 @@ class GameManager {
     }
 }
 
-var gameManager = (function () {
-    var instance;
+// singleton
+let gameManager = (function () {
+    let instance;
 
     function createInstance() {
-        var object = new GameManager();
-        return object;
+        return new GameManager();
     }
 
     return {

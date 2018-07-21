@@ -1,6 +1,6 @@
 import React from 'react';
 
-const USER_REFRESH_INTERVAL = 2000;
+const USER_REFRESH_INTERVAL = 2 * 1000;
 
 export default class UsersListComponent extends React.Component {
     constructor() {

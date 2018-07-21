@@ -4,6 +4,7 @@
  */
 
 
+//TODO separate to module
 const Color = {
     allColors: ["red", "green", "blue", "yellow"],
 
@@ -13,7 +14,6 @@ const Color = {
     }
 };
 
-//TODO separate to 4 module
 class Card {
 
     constructor(value, color) {

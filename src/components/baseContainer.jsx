@@ -6,7 +6,7 @@ const DisplayScreen = {
     LOGIN: "login",
     GAMES_ROOM: "GamesRoom",
     ACTIVE_GAME: "ActiveGame"
-}
+};
 
 /**
  * kind of entry point of all components
@@ -16,7 +16,7 @@ export default class BaseContainer extends React.Component {
     constructor() {
         super();
         this.state = {
-            displayedScreen: "login",
+            displayedScreen: DisplayScreen.LOGIN,
             userName: "",
         };
 
