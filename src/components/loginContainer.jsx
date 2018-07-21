@@ -1,7 +1,7 @@
 import React from 'react';
 
 
-export default class LoggedInUsersContainer extends React.Component {
+export default class LoginContainer extends React.Component {
 
     constructor() {
         super();

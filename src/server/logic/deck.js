@@ -5,9 +5,9 @@
 
 const Card = require("./card").Card;
 const Color = require("./card").Color;
-const SpecialCard = require("./card").SpecialCard;
-const NUMBER_CARD = require("./card").NUMBER_CARD;
-const GameType = require("./game").GameType;
+const SpecialCard = require("./enums").SpecialCard;
+const NumberCard = require("./enums").NumberCard;
+const GameType = require("./enums").GameType;
 
 /**
  * deck in BASIC game contains:
@@ -41,7 +41,7 @@ class Deck {
 
     _initNumberCards() {
         Color.allColors.forEach((color) => {
-            NUMBER_CARD.forEach((cardValue) => {
+            NumberCard.forEach((cardValue) => {
                 this._cards = this._cards.concat(Deck.createCards(cardValue, color, Deck.CARD_NUMBER_OF_EACH_COLOR));
             });
         });

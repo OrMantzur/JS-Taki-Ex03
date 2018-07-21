@@ -9,27 +9,6 @@ const CardsOnTable = require("./cardsOnTable");
 const Deck = require("./deck");
 
 const NUM_STARTING_CARDS = 8;
-const MIN_PLAYER_PER_GAME = 2;
-const MAX_PLAYER_PER_GAME = 4;
-
-const GameType = {
-    BASIC: "basic",
-    ADVANCED: "advanced"
-};
-
-const GameState = {
-    OPEN_TAKI: "openTaki",
-    OPEN_PLUS: "openPlus",
-    CHANGE_COLOR: "changeColor",
-    GAME_STARTED: "gameStarted",
-    GAME_ENDED: "gameEnded - Player won",
-    SUPER_TAKI: "superTaki",
-    CLOSE_TAKI: "closeTaki",
-    CLOSE_PLUS: "closePlus",
-    OPEN_PLUS_2: "openPlus2",
-    CLOSE_PLUS_2: "closePlus2"
-};
-
 
 class Game {
     constructor(gameType, playersNum, gameName, gameCreator) {
@@ -449,4 +428,4 @@ class Game {
 
 Game.nextFreeGameId = 0;
 
-module.exports = {Game, GameType, GameState};
+module.exports = {Game};

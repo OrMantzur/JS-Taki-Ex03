@@ -16,20 +16,21 @@ const app = express();
 const session = require('express-session');
 const bodyParser = require('body-parser');
 const path = require('path');
-const gameManager = require('./server/logic/gameManager');
-const userManager = require('./server/usersManager');
+const gameRouter = require('./server/gamesRouter');
+const userRouter = require('./server/usersRouter');
 
 const PORT = 3000;
 
-app.use(session({secret: 'keyboard cat', cookie: {maxAge: null}}));
+app.use(session({secret: 'top secret password', cookie: {maxAge: null}}));
 app.use(bodyParser.text());
 
 // run index.html on startup
 app.use(express.static(path.resolve(__dirname, "..", "public")));
 
-app.use('/users', userManager);
+app.use('/users', userRouter);
+app.use('/games', gameRouter);
 
 // run server
-app.listen(PORT, console.log('taki application listening on port ' + PORT));
+app.listen(PORT, console.log('Taki server listening on port ' + PORT));
 
-module.exports = gameManager;
+module.exports = gameRouter;

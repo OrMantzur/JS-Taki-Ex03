@@ -1,6 +1,12 @@
 import React from 'react';
-import LoggedInUsersContainer from "./loggedInUsersContainer.jsx";
-import GamesRoomComponent from "./gamesRoomComponent.jsx";
+import LoginContainer from "./loginContainer.jsx";
+import GamesRoomComponent from "./gamesRoom/gamesRoomComponent.jsx";
+
+const DisplayScreen = {
+    LOGIN: "login",
+    GAMES_ROOM: "GamesRoom",
+    ACTIVE_GAME: "ActiveGame"
+}
 
 /**
  * kind of entry point of all components
@@ -10,8 +16,8 @@ export default class BaseContainer extends React.Component {
     constructor() {
         super();
         this.state = {
-            showLogin: true,
-            userName: ""
+            displayedScreen: "login",
+            userName: "",
         };
 
         this.handleSuccessLogin = this.handleSuccessLogin.bind(this);
@@ -21,19 +27,30 @@ export default class BaseContainer extends React.Component {
     }
 
     render() {
-        return this.state.showLogin ?
-            <LoggedInUsersContainer loginSuccessHandler={this.handleSuccessLogin}
-                                    loginErrorHandler={this.handleLoginError}/> :
-            <GamesRoomComponent userName={this.state.userName}
-                                initLoginState={this.initLoginState}/>;
+        switch (this.state.displayedScreen) {
+            case DisplayScreen.GAMES_ROOM:
+                return (
+                    <GamesRoomComponent userName={this.state.userName} initLoginState={this.initLoginState}/>
+                );
+            case DisplayScreen.ACTIVE_GAME:
+                return (
+                    <h1>Active Game (TODO)</h1>
+                );
+            case DisplayScreen.LOGIN:
+            default:
+                return (
+                    <LoginContainer loginSuccessHandler={this.handleSuccessLogin}
+                                    loginErrorHandler={this.handleLoginError}/>
+                );
+        }
     }
 
     handleSuccessLogin() {
-        this.setState(() => ({showLogin: false}), this.setUserName);
+        this.setState(() => ({displayedScreen: DisplayScreen.GAMES_ROOM}), this.setUserName);
     }
 
     handleLoginError() {
-        this.setState(() => ({showLogin: true}));
+        this.setState(() => ({displayedScreen: DisplayScreen.LOGIN}));
     }
 
     setUserName() {
@@ -45,12 +62,12 @@ export default class BaseContainer extends React.Component {
                 return response.json();
             })
             .then(userName => {
-                this.setState(() => ({showLogin: false, userName: userName}));
+                this.setState(() => ({displayedScreen: DisplayScreen.GAMES_ROOM, userName: userName}));
             })
             .catch(err => {
                 // in case we're getting unauthorized
                 if (err.status === 401) {
-                    this.setState(() => ({showLogin: true}));
+                    this.setState(() => ({displayedScreen: DisplayScreen.LOGIN}));
                 } else {
                     throw err;
                 }
@@ -58,7 +75,7 @@ export default class BaseContainer extends React.Component {
     }
 
     initLoginState() {
-        this.setState(() => ({showLogin: true, userName: ""}));
+        this.setState(() => ({displayedScreen: DisplayScreen.LOGIN, userName: ""}));
     }
 
 }

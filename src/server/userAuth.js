@@ -11,7 +11,7 @@
  * list of <sessionId, userName>
  * userName and userName are unique
  */
-const users = [];
+const users = {};
 
 function getUserName(sessionId) {
     return users[sessionId];
