@@ -1,6 +1,7 @@
 import React from 'react';
 import UsersListComponent from "./usersListComponent.jsx";
 import GamesListComponent from "./gamesListComponent.jsx";
+
 var enums = require('../../server/logic/enums');
 var bodyParser = require('body-parser');
 
@@ -8,8 +9,9 @@ export default class GamesRoomComponent extends React.Component {
 
     constructor() {
         super();
-        this.logout = this.logout.bind(this);
         this.addGame = this.addGame.bind(this);
+        this.startGame = this.startGame.bind(this);
+        this.logout = this.logout.bind(this);
     }
 
     render() {
@@ -38,38 +40,23 @@ export default class GamesRoomComponent extends React.Component {
                 {/*<input type="submit" className="addGame btn" onClick={this.addGame}>Add Game</input>*/}
                 {/*</form>*/}
 
+                <form onSubmit={this.startGame}>
+                    <label className="gameId" htmlFor="gameId">gameId: </label>
+                    <input className="gameId-input" name="gameId"/>
+                    <input className="submit-btn btn" type="submit" value="Start Game"/>
+                </form>
+
                 <button className="logout btn" onClick={this.logout}>Logout</button>
             </div>
         )
     }
 
-    getAllGames() {
-        return
-    }
-
-    logout() {
-        fetch('/users/logout', {method: 'GET', credentials: 'include'})
-            .then(response => {
-                if (!response.ok) {
-                    console.log(`failed to logout user ${this.state.userName}`, response);
-                }
-                this.props.initLoginState();
-            })
-    }
-
-    addGame(e) {
-        // fetch('/games/addGame', {method: 'POST', credentials: 'include'})
-        //     .then(response => {
-        //         if (!response.ok) {
-        //             console.log(`failed to logout user ${this.state.userName}`, response);
-        //         }
-        //     })
-
-        e.preventDefault();
+    addGame(formEvent) {
+        formEvent.preventDefault();
         const body = {
-            gameTitle: e.target.elements.gameTitle.value,
-            gameType: e.target.elements.gameType.value,
-            numPlayers: e.target.elements.numPlayers.value
+            gameTitle: formEvent.target.elements.gameTitle.value,
+            gameType: formEvent.target.elements.gameType.value,
+            numPlayers: formEvent.target.elements.numPlayers.value
         };
 
         fetch('/games/addGame', {method: 'POST', body: JSON.stringify(body), credentials: 'include'})
@@ -85,9 +72,41 @@ export default class GamesRoomComponent extends React.Component {
                     return false;
                 }
             }).then(gameAdded => {
-                if (gameAdded)
-                    e.target.reset();
+            if (gameAdded)
+                formEvent.target.reset();
         });
-        // return false;
     }
+
+    // getAllGames() {
+    //     // TODO
+    //     return null;
+    // }
+
+    startGame(formEvent) {
+        formEvent.preventDefault();
+        let gameIdToStart = formEvent.target.elements.gameId.value;
+
+        // start game
+        let activeGame = fetch('/games/startGame', {
+            method: 'POST',
+            body: JSON.stringify({gameId: gameIdToStart}),
+            credentials: 'include'
+        }).then(response => {
+            return response.json();
+        }).then(activeGame => {
+            // render base container to active game component
+            this.props.initActiveGameState(activeGame);
+        });
+    }
+
+    logout() {
+        fetch('/users/logout', {method: 'GET', credentials: 'include'})
+            .then(response => {
+                if (!response.ok) {
+                    console.log(`failed to logout user ${this.state.userName}`, response);
+                }
+                this.props.initLoginState();
+            })
+    }
+
 }

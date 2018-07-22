@@ -3,9 +3,9 @@
  * Or Mantzur - 204311997
  */
 
-const CardOnTable = require("./cardsOnTable");
+// const CardOnTable = require("./cardsOnTable");
 const Game = require("./game");
-const Deck = require("./deck");
+// const Deck = require("./deck");
 const Player = require("./player");
 const enums = require("./enums");
 
@@ -13,6 +13,7 @@ const MIN_PLAYER_PER_GAME = 2;
 const MAX_PLAYER_PER_GAME = 4;
 
 class GameManager {
+
     constructor() {
         this._players = [];
         this._games = {};

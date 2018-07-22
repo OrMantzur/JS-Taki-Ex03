@@ -10,15 +10,11 @@ const gamesRouter = express.Router();
 
 gamesRouter.post('/addGame', userAuth.checkUserAuth, (req, res) => {
     const userName = userAuth.getUserName(req.session.id);
-    var gameParams = JSON.parse(req.body);
+    let gameParams = JSON.parse(req.body);
 
     // addGame returns true if game was successfully added
     gameManager.addGame(gameParams.gameType, gameParams.numPlayers, gameParams.gameTitle, userName) ? res.sendStatus(200) : res.sendStatus(403);
 
-});
-
-gamesRouter.get('/allGames', userAuth.checkUserAuth, (req, res) => {
-    res.json(gameManager.getAllGames());
 });
 
 gamesRouter.get('/deleteGame', userAuth.removeUser, (req, res) => {
@@ -27,6 +23,17 @@ gamesRouter.get('/deleteGame', userAuth.removeUser, (req, res) => {
         gameManager.removeGame(gameId);
     }
     res.sendStatus(200);
+});
+
+gamesRouter.get('/allGames', userAuth.checkUserAuth, (req, res) => {
+    res.json(gameManager.getAllGames());
+});
+
+// get in the request gameId
+gamesRouter.post('/startGame', userAuth.checkUserAuth, (req, res) => {
+    let gameId = JSON.parse(req.body).gameId;
+    let activeGame = gameManager.getGame(gameId);
+    res.json(activeGame);
 });
 
 module.exports = gamesRouter;
