@@ -1,6 +1,7 @@
 import React from 'react';
 import LoginContainer from "./login/loginContainer.jsx";
 import GamesRoomComponent from "./gamesRoom/gamesRoomComponent.jsx";
+
 const Game = require("../server/logic/game.js").Game;
 
 const DisplayScreen = {
@@ -19,7 +20,10 @@ export default class BaseContainer extends React.Component {
         this.state = {
             displayedScreen: DisplayScreen.LOGIN,
             userName: "",
-            activeGame: null
+            gameState: {
+                gameName: "",
+                playersName: undefined,
+            },
         };
 
         this.handleSuccessLogin = this.handleSuccessLogin.bind(this);
@@ -39,7 +43,14 @@ export default class BaseContainer extends React.Component {
                 );
             case DisplayScreen.ACTIVE_GAME:
                 return (
-                    <h1>Active Game id {this.state.activeGame.getGameId()}</h1>
+                    <div>
+                        <h1>Active Game name: {this.state.gameState.gameName}</h1>
+                        <div>
+                            playerList:
+                            {this.state.gameState.playersName.map((playerName, index) => (
+                                <p key={playerName + index}>playName: {playerName.toString()}</p>))}
+                        </div>
+                    </div>
                 );
             case DisplayScreen.LOGIN:
             default:
@@ -83,8 +94,11 @@ export default class BaseContainer extends React.Component {
         this.setState(() => ({displayedScreen: DisplayScreen.LOGIN, userName: ""}));
     }
 
-    initActiveGameState(activeGame) {
-        this.setState(() => ({displayedScreen: DisplayScreen.ACTIVE_GAME, activeGame: activeGame}));
+    initActiveGameState(activeGameState) {
+        this.setState(() => ({
+            displayedScreen: DisplayScreen.ACTIVE_GAME,
+            gameState: activeGameState,
+        }));
     }
 
 }

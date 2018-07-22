@@ -7,10 +7,12 @@ const Color = require("./card").Color;
 const SpecialCard = require("./card").SpecialCard;
 const CardsOnTable = require("./cardsOnTable");
 const Deck = require("./deck");
+const Player = require("./player");
 
 const NUM_STARTING_CARDS = 8;
 
 class Game {
+
     constructor(gameType, playersNum, gameName, gameCreator) {
         // TODO (advanced game) Validate in gameManager when there is more than one game
         this._gameId = Game.nextFreeGameId++;
@@ -59,6 +61,14 @@ class Game {
 
     getPlayer(playerId) {
         return this._players[playerId];
+    }
+
+    getPlayerNameList() {
+        let playersNames = [];
+        this._players.forEach(player => {
+            playersNames.push(player.getName());
+        });
+        return playersNames;
     }
 
     getFirstHumanPlayer() {

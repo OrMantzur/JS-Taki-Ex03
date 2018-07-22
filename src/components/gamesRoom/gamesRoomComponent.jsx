@@ -63,7 +63,7 @@ export default class GamesRoomComponent extends React.Component {
             .then(response => {
                 if (response.ok) {
                     this.setState(() => ({errMessage: ""}));
-                    alert("Game added");
+                    // alert("Game added");
                     return true;
                 } else {
                     if (response.status === 403) {
@@ -72,8 +72,10 @@ export default class GamesRoomComponent extends React.Component {
                     return false;
                 }
             }).then(gameAdded => {
-            if (gameAdded)
+            if (gameAdded){
+                // TODO its throw an exception
                 formEvent.target.reset();
+            }
         });
     }
 
@@ -93,9 +95,9 @@ export default class GamesRoomComponent extends React.Component {
             credentials: 'include'
         }).then(response => {
             return response.json();
-        }).then(activeGame => {
+        }).then(activeGameState => {
             // render base container to active game component
-            this.props.initActiveGameState(activeGame);
+            this.props.initActiveGameState(activeGameState);
         });
     }
 

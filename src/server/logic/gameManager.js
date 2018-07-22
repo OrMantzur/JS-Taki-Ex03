@@ -20,8 +20,9 @@ class GameManager {
         // this._notifyOnPlayerAdded = null;
     }
 
-    getPlayer(playerId) {
-        return this._players[playerId];
+    // player name is unique
+    getPlayer(playerName) {
+        return this._players[playerName];
     }
 
     getGame(gameId) {
@@ -36,16 +37,12 @@ class GameManager {
      * @param playerName suppose to be unique
      */
     addPlayer(playerName) {
-        this._players.push(new Player(playerName, false));
+        this._players[playerName]= new Player(playerName, false);
     }
 
     removePlayer(playerNameToDelete) {
-        let playerIndexInArray = this._players.findIndex(player => {
-            return player.getName() === playerNameToDelete;
-        });
-        if (playerIndexInArray > -1) {
-            this._players.splice(playerIndexInArray, 1);
-        }
+        // TODO add validations
+        delete this._players[playerNameToDelete];
     }
 
     getAllGames() {

@@ -7,6 +7,7 @@ const express = require('express');
 const gameManager = require('./logic/gameManager.js');
 const userAuth = require('./userAuth');
 const gamesRouter = express.Router();
+const Game = require("./logic/game.js").Game;
 
 gamesRouter.post('/addGame', userAuth.checkUserAuth, (req, res) => {
     const userName = userAuth.getUserName(req.session.id);
@@ -33,7 +34,14 @@ gamesRouter.get('/allGames', userAuth.checkUserAuth, (req, res) => {
 gamesRouter.post('/startGame', userAuth.checkUserAuth, (req, res) => {
     let gameId = JSON.parse(req.body).gameId;
     let activeGame = gameManager.getGame(gameId);
-    res.json(activeGame);
+    let activeUserName = userAuth.getUserName(req.session.id);
+    let activePlayer= gameManager.getPlayer(activeUserName);
+    activeGame.addPlayerToGame(activePlayer);
+    // return active game state
+    res.json({
+        gameName: activeGame.getGameName(),
+        playersName: activeGame.getPlayerNameList(),
+    });
 });
 
 module.exports = gamesRouter;
