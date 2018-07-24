@@ -29,6 +29,10 @@ class GameManager {
         return this._games[gameId];
     }
 
+    getGameState(gameId, playerId){
+        this._games[gameId].getActivePlayer()
+    }
+
     // setNotifyOnPlayerAdded(callback) {
     //     this._notifyOnPlayerAdded = callback;
     // }

@@ -14,7 +14,7 @@ import PlayerWonContainer from "./playerWonContainer";
 
 const COMPUTER_DELAY = 1.5 * 1000;
 
-export default class BaseContainer extends React.Component {
+export default class ActiveGameBaseContainer extends React.Component {
     constructor(args) {
         super(...args);
         this.initGame = this.initGame.bind(this);
