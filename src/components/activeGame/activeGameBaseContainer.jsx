@@ -3,36 +3,35 @@
  * Or Mantzur - 204311997
  */
 import React from 'react';
-import Game, {GameState, GameType} from "../game";
-import Player from "../player";
-import PlayingTableContainer from "./playingTableContainer";
-import PlayerContainer from "./playerContainer";
-import StatisticsContainer from "./statisticsContainer";
-import ComputerPlayerContainer from "./computerPlayerContainer";
-import takiLogo from "../takiImages/TAKI_logo.png";
-import PlayerWonContainer from "./playerWonContainer";
+import Game, {GameState, GameType} from "../../server/logic/game";
+import Player from "../../server/logic/player";
+import PlayingTableContainer from "./playingTableContainer.jsx";
+import PlayerContainer from "./playerContainer.jsx";
+import StatisticsContainer from "./statisticsContainer.jsx";
+import ComputerPlayerContainer from "./computerPlayerContainer.jsx";
+import takiLogo from "../../server/takiImages/TAKI_logo.png";
+import PlayerWonContainer from "./playerWonContainer.jsx";
 
 const COMPUTER_DELAY = 1.5 * 1000;
 
 export default class ActiveGameBaseContainer extends React.Component {
     constructor(args) {
         super(...args);
-        this.initGame = this.initGame.bind(this);
         this.generateGameState = this.generateGameState.bind(this);
         this.updateUIGameState = this.updateUIGameState.bind(this);
         this.initGame();
         this.state = this.generateGameState();
-        this.computerPlayPromise = function () {
-            return new Promise((resolve, reject) => {
-                setTimeout(() => {
-                    if (this.game.makeComputerMove.bind(this.game).apply()) {
-                        resolve('the function resolved');
-                    } else {
-                        reject('the function rejected');
-                    }
-                }, COMPUTER_DELAY);
-            });
-        };
+        // this.computerPlayPromise = function () {
+        //     return new Promise((resolve, reject) => {
+        //         setTimeout(() => {
+        //             if (this.game.makeComputerMove.bind(this.game).apply()) {
+        //                 resolve('the function resolved');
+        //             } else {
+        //                 reject('the function rejected');
+        //             }
+        //         }, COMPUTER_DELAY);
+        //     });
+        // };
 
         this.movePlayed = this.movePlayed.bind(this);
         this.restartGame = this.restartGame.bind(this);
@@ -48,19 +47,6 @@ export default class ActiveGameBaseContainer extends React.Component {
             pause: this.replayPause,
             resume: this.replayResumeGame
         };
-    }
-
-    initGame() {
-        this.game = new Game(GameType.ADVANCED, 2, "Taki Man", "ex2");
-        this.game.setNotifyOnMakeMove(this.updateUIGameState);
-        this.regularPlayer = new Player("Human player", false);
-        this.computerPlayer = new Player("Computer player", true);
-        this.game.addPlayerToGame(this.regularPlayer);
-        this.game.addPlayerToGame(this.computerPlayer);
-        this.uiGameStatesArray = [];
-        console.log("Game started - top card is: ");
-        this.game.viewTopCardOnTable().printCardToConsole();
-        this.uiGameStatesArray.push(this.generateGameState())
     }
 
     generateGameState() {
@@ -123,7 +109,7 @@ export default class ActiveGameBaseContainer extends React.Component {
 
     exitGameClicked() {
         if (!this.game.getActivePlayer().isComputerPlayer()) {
-            this.game.leaveGame(this.game.getFirstHumanPlayer());
+            this.game.removePlayerFromGame(this.game.getFirstHumanPlayer());
             this.setState({gameEnded: true});
         }
     }

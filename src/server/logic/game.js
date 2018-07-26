@@ -8,11 +8,12 @@ const SpecialCard = require("./card").SpecialCard;
 const CardsOnTable = require("./cardsOnTable");
 const Deck = require("./deck");
 const Player = require("./player");
+const enums = require("./enums");
+const _ = require("lodash");
 
 const NUM_STARTING_CARDS = 8;
 
 class Game {
-
     constructor(gameType, playersNum, gameName, gameCreator) {
         // TODO (advanced game) Validate in gameManager when there is more than one game
         this._gameId = Game.nextFreeGameId++;
@@ -27,9 +28,10 @@ class Game {
         this._cardsOnTable = new CardsOnTable();
         this._gameStartTime = new Date();
         this._gameEndTime = null;
+        this._gameDirection = enums.Direction.RIGHT;
         this._gameState = {
             currColor: null,
-            gameState: undefined,
+            gameState: enums.GameState.WAITING_FOR_PLAYERS,
             additionalInfo: null
         };
         this._notifyOnMakeMove = null;
@@ -45,6 +47,10 @@ class Game {
 
     getGameType() {
         return this._gameType;
+    }
+
+    getNumPlayersInGame(){
+        return this._players.length;
     }
 
     getGameName() {
@@ -120,19 +126,19 @@ class Game {
     }
 
     addPlayerToGame(playerToAdd) {
-        let playerAdded = false;
+        let playerAddedSuccessfully = false;
         if (this._active || this._players.length >= this._numPlayersToStartGame) {
             console.log("Cannot add another player, game is full or has already started");
         } else {
             this._players.push(playerToAdd);
             playerToAdd.addCardsToHand(this._deck.drawCards(NUM_STARTING_CARDS));
             console.log("GameID (" + this._gameId + "): " + playerToAdd.getName() + " has joined the game");
-            playerAdded = true;
+            playerAddedSuccessfully = true;
             if (this._players.length === this._numPlayersToStartGame) {
                 this._startGame();
             }
         }
-        return playerAdded;
+        return playerAddedSuccessfully;
     }
 
     /**
@@ -291,9 +297,18 @@ class Game {
         }
     }
 
+    /**
+     *
+     * @param skipOnePlayer - if true will skip the next player
+     * @param {enums.Direction} direction to move (left or right - using enum)
+     */
+    // TODO debug and verify this works in both directions with and without skipping
     _moveToNextPlayer(skipOnePlayer) {
         this._players[this._activePlayerIndex].endTurn();
-        this._activePlayerIndex = (this._activePlayerIndex + (skipOnePlayer === true ? 2 : 1)) % this._players.length;
+        let newIndex = this._activePlayerIndex + (this._gameDirection*(skipOnePlayer === true ? 2 : 1));
+        if (newIndex < 0)
+            newIndex += this._players.length;
+        this._activePlayerIndex = newIndex % this._players.length;
         this._players[this._activePlayerIndex].startTurn();
     }
 
@@ -336,6 +351,10 @@ class Game {
         this._moveToNextPlayer();
         this._notifyOnMakeMove();
         return cardsTaken;
+    }
+
+    switchGameDirection(){
+        this._gameDirection = this._gameDirection === enums.Direction.RIGHT ? enums.Direction.LEFT : enums.Direction.RIGHT;
     }
 
     /**
@@ -409,25 +428,30 @@ class Game {
         console.log("game ended");
     }
 
-    leaveGame(playerWhoLeftTheGame) {
-        let countPlayerThatInGame = 0;
-        let somePlayerInGame = playerWhoLeftTheGame;
-        this._players.forEach(function (player) {
-            if (player === playerWhoLeftTheGame) {
-                player.leave();
-                console.log("player " + player.getName() + " leave the game");
-            } else if (!player.isLeave()) {
-                // if that player was the only player that stay in game
-                // determine him to the winner
-                somePlayerInGame = player;
-                countPlayerThatInGame++;
-            }
-        });
+    //TODO debug and make sure this works
+    removePlayerFromGame(playerId) {
+        let playerIndex = this.getPlayerIndexById(playerId);
 
-        if (countPlayerThatInGame < 2) {
-            this._gameEnded(somePlayerInGame);
+        if (playerIndex < 0 || this._gameState.gameState !== enums.GameState.WAITING_FOR_PLAYERS){
+            console.log("error while trying to remove playerId " + playerId+ " from gameId " + this._gameId + " \n.Player isn't in the game/less than two players are active/game has already started");
+            return false;
         }
-        this._notifyOnMakeMove();
+
+        let playerRemoved = this._players.splice(playerIndex,1);
+        playerRemoved.leave();
+        console.log("player " + playerRemoved.getName() + " has left the game");
+        // this._notifyOnMakeMove();
+    }
+
+    getPlayerIndexById(playerId){
+        let index = 0;
+        this._players.forEach(function (player) {
+            if (player.getId() === playerId) {
+                return index;
+            }
+            index++;
+        });
+        return -1;
     }
 
     makeComputerMove() {

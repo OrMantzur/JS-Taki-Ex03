@@ -30,15 +30,21 @@ export default class UsersListComponent extends React.Component {
                 if (!response.ok) {
                     throw response;
                 }
-                setTimeout(this.getAllUsers, USER_REFRESH_INTERVAL);
+                this.timeoutId = setTimeout(this.getAllUsers, USER_REFRESH_INTERVAL);
                 return response.json();
             })
             .then(userList => {
-                this.setState(() => ({userList: userList}));
+                this.setState({userList: userList});
             })
             .catch(err => {
                 throw err
             });
+    }
+
+    componentWillUnmount() {
+        if (this.timeoutId) {
+            clearTimeout(this.timeoutId);
+        }
     }
 
     render() {
@@ -46,7 +52,7 @@ export default class UsersListComponent extends React.Component {
             <div>
                 list of all logged in users:
                 {this.state.userList.map((entry, index) => (
-                    <p key={entry.userName + index}>{entry.userName + ":" + entry.sessionId}</p>))}
+                    <p key={entry.playerName + index}>{entry.playerName + ":" + entry.sessionId}</p>))}
             </div>
         )
     }

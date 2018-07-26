@@ -4,8 +4,8 @@
  */
 
 import React from "react";
-import CardContainer from "./cardContainer";
-import DeckContainer from "./deckContainer";
+import CardContainer from "./cardContainer.jsx";
+import DeckContainer from "./deckContainer.jsx";
 
 export default class PlayingTableContainer extends React.Component {
     constructor(args) {

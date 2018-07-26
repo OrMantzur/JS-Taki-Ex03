@@ -1,12 +1,11 @@
 import React from 'react';
 
-
 export default class LoginContainer extends React.Component {
 
     constructor() {
         super();
         this.state = {
-            errMessage: ""
+            errMessage: null
         };
 
         this.login = this.login.bind(this);
@@ -17,29 +16,36 @@ export default class LoginContainer extends React.Component {
         return (
             <div>
                 <form onSubmit={this.login}>
-                    <label htmlFor="userName">name: </label>
-                    <input name="userName"/>
+                    <label htmlFor="playerName">name: </label>
+                    <input name="playerName"/>
                     <input type="submit" value="Login"/>
                 </form>
-                {this.renderLoginErrorMessage()}
+                <p>{this.state.errMessage}</p>
+                {/*{this.renderLoginErrorMessage()}*/}
             </div>
         );
     }
 
     login(formEvent) {
         formEvent.preventDefault();
-        const userName = formEvent.target.elements.userName.value;
-        fetch('/users/addUser', {method: 'POST', body: userName, credentials: 'include'})
+        let playerName = {"playerName": formEvent.target.elements.playerName.value};
+        fetch('/users/addPlayer', {method: 'POST', body: JSON.stringify(playerName), credentials: 'include'})
             .then(response => {
                 if (response.ok) {
-                    console.log("login success");
-                    this.setState(() => ({errMessage: ""}));
-                    this.props.loginSuccessHandler();
+                    return response.json();
                 } else {
                     if (response.status === 403) {
-                        this.setState(() => ({errMessage: "user name already exist, please try another one"}));
+                        this.setState({errMessage: "User name already exist, please try another one"});
                     }
                     this.props.loginErrorHandler();
+                    return null;
+                }
+            })
+            .then(player => {
+                if (player !== null) {
+                    console.log("\"" + player._playerName + "\" has logged in and was added to the players list");
+                    this.setState({errMessage: null});
+                    this.props.loginSuccessHandler();
                 }
             });
         return false;

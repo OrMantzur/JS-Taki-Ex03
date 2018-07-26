@@ -9,12 +9,14 @@ const GameType = {
     ADVANCED: "advanced"
 };
 
+
 const GameState = {
+    WAITING_FOR_PLAYERS: "waiting for players to join",
+    GAME_STARTED: "gameStarted",
+    GAME_ENDED: "gameEnded - Player won",
     OPEN_TAKI: "openTaki",
     OPEN_PLUS: "openPlus",
     CHANGE_COLOR: "changeColor",
-    GAME_STARTED: "gameStarted",
-    GAME_ENDED: "gameEnded - Player won",
     SUPER_TAKI: "superTaki",
     CLOSE_TAKI: "closeTaki",
     CLOSE_PLUS: "closePlus",
@@ -22,6 +24,10 @@ const GameState = {
     CLOSE_PLUS_2: "closePlus2"
 };
 
+const Direction = {
+    RIGHT: 1,
+    LEFT: -1
+};
 // ================================= Cards =================================
 const NumberCard = ["1", "3", "4", "5", "6", "7", "8", "9"];
 
@@ -34,4 +40,4 @@ const SpecialCard = {
     SUPER_TAKI: "super taki"
 };
 
-module.exports = {GameType, GameState, NumberCard, SpecialCard };
+module.exports = {GameType, GameState, Direction, NumberCard, SpecialCard };

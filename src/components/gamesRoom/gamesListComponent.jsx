@@ -30,17 +30,22 @@ export default class GamesListComponent extends React.Component {
                 if (!response.ok) {
                     throw response;
                 }
-                setTimeout(this.getAllGames, GAMES_REFRESH_INTERVAL);
+                this.timeoutId = setTimeout(this.getAllGames, GAMES_REFRESH_INTERVAL);
                 return response.json();
             })
             .then(allGames => {
-                this.setState(() => ({allGames}));
+                this.setState({allGames: allGames});
             })
             .catch(err => {
                 throw err
             });
     }
 
+    componentWillUnmount() {
+        if (this.timeoutId) {
+            clearTimeout(this.timeoutId);
+        }
+    }
     render() {
         return (
             <div>

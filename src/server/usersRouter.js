@@ -9,40 +9,27 @@
  */
 
 const express = require('express');
-const gameManager = require('./logic/gameManager.js');
 const usersRouter = express.Router();
-const userAuth = require('./userAuth');
+const playersManager = require('./logic/playersManager');
 
-usersRouter.post('/addUser', userAuth.addUser, (req, res) => {
-    const userName = res.addedUserName;
-    if (userName !== undefined) {
-        gameManager.addPlayer(userName);
-    }
-    res.sendStatus(200);
-});
+usersRouter.post('/addPlayer', playersManager.addPlayer);
 
-usersRouter.get('/allUsers', userAuth.checkUserAuth, (req, res) => {
+usersRouter.get('/allUsers', playersManager.getLoggedInPlayer, (req, res) => {
     let usersMap = Object
-        .keys(userAuth.users)
+        .keys(playersManager.players)
         .map(key => {
             const keyValue = {};
             keyValue["sessionId"] = key;
-            keyValue["userName"] = userAuth.users[key];
+            keyValue["playerName"] = playersManager.players[key].getName();
             return keyValue;
         });
     res.json(usersMap);
 });
 
-usersRouter.get('/activeUserName', userAuth.checkUserAuth, (req, res) => {
-    res.json(userAuth.getUserName(req.session.id));
+usersRouter.get('/activePlayer', playersManager.getLoggedInPlayer, (req, res) => {
+    res.json(req.session.loggedInPlayer);
 });
 
-usersRouter.get('/logout', userAuth.removeUser, (req, res) => {
-    const userName = res.deletedUserName;
-    if (userName !== undefined) {
-        gameManager.removePlayer(userName);
-    }
-    res.sendStatus(200);
-});
+usersRouter.get('/logout', playersManager.removePlayer);
 
 module.exports = usersRouter;

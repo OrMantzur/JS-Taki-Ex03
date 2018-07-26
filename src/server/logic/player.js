@@ -16,8 +16,8 @@ const SpecialCard = require("./card").SpecialCard;
 class Player {
 
     // TODO delete all computer player
-    constructor(playerName, isComputer) {
-        this._playerId = Player.nextFreePlayerId++;
+    constructor(playerId, playerName, isComputer) {
+        this._playerId = playerId;
         this._playerName = playerName;
         this._cards = [];
         this._isComputer = isComputer;

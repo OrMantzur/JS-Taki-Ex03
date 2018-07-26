@@ -5,49 +5,49 @@
 
 // const CardOnTable = require("./cardsOnTable");
 const Game = require("./game");
-// const Deck = require("./deck");
 const Player = require("./player");
+// const Deck = require("./deck");
 const enums = require("./enums");
 
 const MIN_PLAYER_PER_GAME = 2;
 const MAX_PLAYER_PER_GAME = 4;
 
-class GameManager {
+class GamesManager {
 
     constructor() {
-        this._players = [];
         this._games = {};
-        // this._notifyOnPlayerAdded = null;
-    }
-
-    // player name is unique
-    getPlayer(playerName) {
-        return this._players[playerName];
+        this._playerToGameIdMap = {};
     }
 
     getGame(gameId) {
         return this._games[gameId];
     }
 
-    getGameState(gameId, playerId){
+    getGameState(gameId, playerId) {
         this._games[gameId].getActivePlayer()
     }
 
-    // setNotifyOnPlayerAdded(callback) {
-    //     this._notifyOnPlayerAdded = callback;
-    // }
+    getGameByPlayerId(playerId) {
+        return this._playerToGameIdMap[playerId];
+    }
 
     /**
      * @param playerName suppose to be unique
      */
-    addPlayer(playerName) {
-        this._players[playerName]= new Player(playerName, false);
-    }
+    // addPlayer(playerName, playerId) {
+    //     if (this._players[playerId] !== undefined) {
+    //         return false;
+    //     }
+    //
+    //     this._players[playerId] = new Player(playerId, playerName, false);
+    // }
 
-    removePlayer(playerNameToDelete) {
-        // TODO add validations
-        delete this._players[playerNameToDelete];
-    }
+    // removePlayer(playerId) {
+    //     // TODO add validations
+    //     if (this._players[playerId] !== undefined) {
+    //         delete this._players[playerId];
+    //     }
+    // }
 
     getAllGames() {
         return this._games;
@@ -67,7 +67,23 @@ class GameManager {
 
     removeGame(gameId) {
         // TODO add validations
-        delete this._games[gameId];
+        let gameToRemove = this._games[gameId];
+        // only delete game if it exists, it hasn't started yet, and no players are waiting for it to start
+        if (gameToRemove !== undefined &&
+            gameToRemove.getGameState().gameState === enums.GameState.WAITING_FOR_PLAYERS &&
+            gameToRemove.getNumPlayersInGame() === 0
+        ) {
+            delete this._games[gameId];
+        }
+    }
+
+    addPlayerToGame(gameId, player) {
+        let playerAddedSuccessfully = false;
+        if (player instanceof Player && this._games[gameId] !== null) {
+            playerAddedSuccessfully = this._games[gameId].addPlayerToGame(player);
+            this._playerToGameIdMap[player.getId()] = gameId;
+        }
+        return playerAddedSuccessfully;
     }
 }
 
@@ -76,7 +92,7 @@ let gameManager = (function () {
     let instance;
 
     function createInstance() {
-        return new GameManager();
+        return new GamesManager();
     }
 
     return {

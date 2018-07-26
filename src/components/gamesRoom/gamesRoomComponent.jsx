@@ -10,7 +10,7 @@ export default class GamesRoomComponent extends React.Component {
     constructor() {
         super();
         this.addGame = this.addGame.bind(this);
-        this.startGame = this.startGame.bind(this);
+        this.joinGame = this.joinGame.bind(this);
         this.logout = this.logout.bind(this);
     }
 
@@ -40,7 +40,7 @@ export default class GamesRoomComponent extends React.Component {
                 {/*<input type="submit" className="addGame btn" onClick={this.addGame}>Add Game</input>*/}
                 {/*</form>*/}
 
-                <form onSubmit={this.startGame}>
+                <form onSubmit={this.joinGame}>
                     <label className="gameId" htmlFor="gameId">gameId: </label>
                     <input className="gameId-input" name="gameId"/>
                     <input className="submit-btn btn" type="submit" value="Start Game"/>
@@ -64,19 +64,16 @@ export default class GamesRoomComponent extends React.Component {
                 if (response.ok) {
                     this.setState(() => ({errMessage: ""}));
                     // alert("Game added");
+                    console.log("game " + body.gameTitle + " was added successfully");
                     return true;
                 } else {
-                    if (response.status === 403) {
+                    if (response.status === 401) {
                         alert("Error - game was not added");
                     }
                     return false;
                 }
-            }).then(gameAdded => {
-            if (gameAdded){
-                // TODO its throw an exception
-                formEvent.target.reset();
-            }
-        });
+            });
+        formEvent.target.reset();
     }
 
     // getAllGames() {
@@ -84,14 +81,14 @@ export default class GamesRoomComponent extends React.Component {
     //     return null;
     // }
 
-    startGame(formEvent) {
+    joinGame(formEvent) {
         formEvent.preventDefault();
         let gameIdToStart = formEvent.target.elements.gameId.value;
 
         // start game
-        let activeGame = fetch('/games/startGame', {
-            method: 'POST',
-            body: JSON.stringify({gameId: gameIdToStart}),
+        let activeGame = fetch('/games/joinGame', {
+            method: 'GET',
+            body: {gameId: gameIdToStart},
             credentials: 'include'
         }).then(response => {
             return response.json();
@@ -105,9 +102,9 @@ export default class GamesRoomComponent extends React.Component {
         fetch('/users/logout', {method: 'GET', credentials: 'include'})
             .then(response => {
                 if (!response.ok) {
-                    console.log(`failed to logout user ${this.state.userName}`, response);
+                    console.log(`failed to logout user ${this.state.playerName}`, response);
                 }
-                this.props.initLoginState();
+                this.props.handleLogout();
             })
     }
 

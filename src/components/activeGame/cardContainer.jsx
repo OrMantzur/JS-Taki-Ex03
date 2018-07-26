@@ -4,7 +4,7 @@
  */
 
 import React from "react";
-import {SpecialCard} from "../card";
+import {SpecialCard} from "../../server/logic/enums";
 
 export default class CardContainer extends React.Component {
     constructor(args) {
