@@ -19,12 +19,11 @@ const GAME_STATE_REFRESH_INTERVAL = 2 * 1000;
 export default class ActiveGameBaseContainer extends React.Component {
     constructor(args) {
         super(...args);
-        this.updateUIGameState = this.updateUIGameState.bind(this);
-        this.state = {};
+        // this.state = {};
         this.restartGame = this.restartGame.bind(this);
         this.callSetState = this.callSetState.bind(this);
         this.exitGameClicked = this.exitGameClicked.bind(this);
-        this.updateUIGameState();
+        this.updateUIGameState = this.updateUIGameState.bind(this);
     }
 
     /**
@@ -35,7 +34,12 @@ export default class ActiveGameBaseContainer extends React.Component {
         this.updateUIGameState();
     }
 
+    // componentWillMount() {
+    //     this.updateUIGameState();
+    // }
+
     updateUIGameState() {
+        this.setState({test: "test"});
         fetch('/activeGame/gameState', {method: 'GET', credentials: 'include'})
             .then((response) => {
                 if (!response.ok) {
@@ -91,6 +95,10 @@ export default class ActiveGameBaseContainer extends React.Component {
             height: 'fit-content',
             alignSelf: 'center'
         };
+        if (!this.state)
+            return <div><h1>gameState has not bee set yet</h1></div>;
+
+        console.log(this.state);
         return (
             <div id="main-container">
                 <div id="play-area-div">`
@@ -110,14 +118,15 @@ export default class ActiveGameBaseContainer extends React.Component {
                         />
                     </div>
                     <PlayerContainer gameControlsLocked={this.state.gameControlsLocked}
-                                     gameState={this.state.currentGameState}
-                                     cards={this.state.regularPlayerCards}
+                                     currentGameState={this.state.currentGameState}
+                                     cards={this.state.playerCards}
                                      movePlayed={this.updateUIGameState}/>
                 </div>
 
                 <div id="statistics-div">
                     <img src={takiLogo} alt="Taki Logo" style={imgStyle}/>
                     <StatisticsContainer statistics={this.state.statistics}
+                                         gameControlsLocked={this.state.gameControlsLocked}
                                          activePlayer={this.state.activePlayer}
                                          exitGame={this.exitGameClicked}
                                          gameEnded={this.state.currentGameState && this.state.currentGameState.gameState === enums.GameState.GAME_ENDED}

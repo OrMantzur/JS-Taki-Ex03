@@ -4,6 +4,8 @@
  */
 
 
+const SpecialCard = require("./enums").SpecialCard;
+
 //TODO separate to module
 const Color = {
     allColors: ["red", "green", "blue", "yellow"],

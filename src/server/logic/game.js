@@ -66,7 +66,8 @@ class Game {
     }
 
     getPlayer(playerId) {
-        return this._players[playerId];
+        let playerIndex = this.getPlayerIndexById(playerId);
+        return this._players[playerIndex];
     }
 
     getPlayerNameList() {
@@ -231,7 +232,9 @@ class Game {
     _isValidMove(cardPlaced) {
         let isValid = true;
         let topCardOnTable = this._cardsOnTable.viewTopCard();
-        if (this._gameState.gameState === GameState.OPEN_TAKI) {
+        if (topCardOnTable === null) {
+            isValid = false;
+        } else if (this._gameState.gameState === GameState.OPEN_TAKI) {
             isValid = topCardOnTable.getColor() === cardPlaced.getColor() || cardPlaced.getValue() === SpecialCard.SUPER_TAKI;
         } else if (cardPlaced.getValue() === SpecialCard.CHANGE_COLOR && this._gameState.gameState !== GameState.OPEN_PLUS_2) {
             // do nothing
@@ -455,13 +458,15 @@ class Game {
 
     getPlayerIndexById(playerId) {
         let index = 0;
+        let playerIdFound = false;
         this._players.forEach(function (player) {
             if (player.getId() === playerId) {
+                playerIdFound = true;
                 return index;
             }
             index++;
         });
-        return -1;
+        return playerIdFound ? index : -1;
     }
 
     makeComputerMove() {

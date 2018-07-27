@@ -49,7 +49,6 @@ export default class GamesListComponent extends React.Component {
     }
 
     gameSelected(gameId) {
-        alert("clicked game " + gameId);
         this.props.gameSelected(gameId);
     }
 

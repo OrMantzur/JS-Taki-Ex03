@@ -13,7 +13,9 @@ export default class StatisticsContainer extends React.Component {
             timerValueStr: "00:00",
             restartTimer: false
         };
+    }
 
+    componentDidMount(){
         setInterval(() => {
             if (this.props.gameEnded) {
                 this.setState({restartTimer: true});
@@ -41,25 +43,15 @@ export default class StatisticsContainer extends React.Component {
             height: '50px',
             alignSelf: 'center'
         };
+        if (!this.props.statistics)
+            return null;
 
         return (
             <div id="statistics-container">
-                <div>{this.props.inReplayMode ? "Replay mode - paused" : ("Game timer: " + this.state.timerValueStr)}</div>
-                <div className={"replay-controls-div"}>
-                    <img src={button_prev} alt="prev" className={"replay-button"} style={imgStyle}
-                         hidden={!this.props.inReplayMode} onClick={this.props.replayControls.prev}/>
-                    <img src={button_pause} alt="pause"
-                         className={(this.props.activePlayer.isComputerPlayer() ? 'disabled-button ' : ' ') + "replay-button"}
-                         style={imgStyle}
-                         hidden={this.props.inReplayMode} onClick={this.props.replayControls.pause}/>
-                    <img src={button_play} alt="play" className={"replay-button"} style={imgStyle}
-                         hidden={!this.props.inReplayMode} onClick={this.props.replayControls.resume}/>
-                    <img src={button_next} alt="next" className={"replay-button"} style={imgStyle}
-                         hidden={!this.props.inReplayMode} onClick={this.props.replayControls.next}/>
-                </div>
+                <div>{"Game timer: " + this.state.timerValueStr}</div>
                 <button type="button"
                         onClick={this.props.exitGame}
-                        className={(this.props.activePlayer.isComputerPlayer() || this.props.inReplayMode ? 'disabled-button ' : ' ') + "red "}>
+                        className={(this.props.gameControlsLocked ? 'disabled-button ' : ' ') + "red "}>
                     End game
                 </button>
 
@@ -89,7 +81,7 @@ export default class StatisticsContainer extends React.Component {
                     </tbody>
                 </table>
                 <h5>Total turns played: {this.props.statistics.gameStatistics.totalTurnsPlayed}</h5>
-                <h5>Active player: {this.props.activePlayer !== undefined ? this.props.activePlayer.getName() : ""}
+                <h5>Active player: {this.props.activePlayer !== undefined ? this.props.activePlayer._playerName : ""}
                 </h5>
             </div>
         );

@@ -2,3 +2,396 @@
     display: flex;
     justify-content: center;
 }
+
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+/*======================================================================================*/
+/*===================================== Containers =====================================*/
+/*======================================================================================*/
+#main-container {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    position: absolute;
+    background-image: url("./server/takiImages/bg.jpg");
+    background-size: cover;
+}
+
+#play-area-div {
+    width: 70%;
+}
+
+#statistics-div {
+    height: 100%;
+    width: 30%;
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+    overflow-y: auto;
+}
+
+#statistics-container {
+    z-index: 2;
+    float: right;
+    height: fit-content;
+    width: 80%;
+    align-self: center;
+    margin: 5% 0 50% 0;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    background: rgba(200, 200, 200, 0.6);
+    border-radius: 15px;
+    border: black groove thin;
+    box-shadow: 5px 5px 30px black;
+    font-size: 2vw;
+    min-height: fit-content;
+    min-width: fit-content;
+}
+
+#statistics-container > h5 {
+    margin: 15px 0 0 0;
+}
+
+#playing_table_container {
+    height: 70%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#computer-player-and-table-container {
+    height: 70%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#player-container {
+    height: 30%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    overflow: auto;
+}
+
+#computer-player-container {
+    height: 30%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    overflow: hidden;
+}
+
+/*======================================================================================*/
+/*====================================== Overlays ======================================*/
+/*======================================================================================*/
+
+#colorPicker {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    background: rgba(200, 200, 200, 0.9);
+}
+
+.screen-overlay {
+    z-index: 9999;
+    position: absolute;
+    top: 70%;
+    width: 70%;
+    height: 30%;
+    display: none;
+    text-align: center;
+    flex-direction: column;
+    justify-content: flex-start;
+    background: rgba(200, 200, 200, 0.7);
+}
+
+.screen-overlay > h1 {
+    text-shadow: 0 0 10px whitesmoke;
+    font-weight: bolder;
+    width: fit-content;
+    align-self: center;
+    background-color: rgba(201, 200, 245, 0.9);
+    border-radius: 10px;
+    padding: 5px 15px;
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.8);
+}
+
+#playerWonScreen {
+    z-index: 999;
+    display: flex;
+    position: absolute;
+    width: 70%;
+    height: 70%;
+    background: rgba(200, 200, 200, 0.9);
+    align-items: center;
+    justify-content: flex-start;
+    flex-direction: column;
+    overflow: auto;
+}
+
+#playerWonScreen > button {
+    flex-shrink: 0
+}
+
+/*======================================================================================*/
+/*=================================== Game Elements ====================================*/
+/*======================================================================================*/
+
+#deck {
+    alignment: right;
+}
+
+.card {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    transition: 0.3s;
+    width: 7vw;
+    border: black groove thin;
+    border-radius: 5px;
+    font-size: 4vw;
+    font-weight: bolder;
+    text-shadow: 2px 2px 3px #9c9c9c;
+    text-align: center;
+    margin: 10px 5px;
+    flex-shrink: 0;
+    position: relative;
+}
+
+.card:before{
+    content: "";
+    display: block;
+    padding-top: 150%;
+}
+
+.textCard {
+    font-size: 1.8vw !important;
+}
+
+.noColor {
+    color: GrayText;
+    background: #f5f5f5;
+}
+
+.red {
+    color: red;
+    background-color: #f5c8c8;
+}
+
+.blue {
+    color: blue;
+    background-color: #c9c8f5;
+}
+
+.yellow {
+    color: orange;
+    background-color: #f4f5c8;
+}
+
+.green {
+    color: green;
+    background-color: #c8f5c8;
+}
+
+.clickable-card:hover {
+    cursor: pointer;
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+    transform: scale(1.15);
+}
+
+.replay-button:hover {
+    cursor: pointer;
+    transform: scale(1.1);
+}
+
+.replay-controls-div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: 20px;
+}
+
+.backOfCard {
+    background-image: url("./server/takiImages/backOfCard.jpg");
+    background-size: cover;
+}
+
+.deckCard {
+    transform: rotate(-45deg);
+}
+
+.highlightDeck {
+    transform: scale(1.2);
+    box-shadow: 0 16px 32px 0 rgba(0, 0, 0, 0.2);
+}
+
+/*======================================================================================*/
+/*===================================== Statistics =====================================*/
+/*======================================================================================*/
+
+#cardsRemainingTable {
+    width: 96%;
+    margin: 2%;
+}
+
+#cardsRemainingTable, th, td {
+    border-collapse: collapse;
+    border: 1px solid black;
+    white-space: nowrap;
+    text-align: center;
+    font-size: 1.5vw;
+}
+
+td {
+    padding: 5px;
+}
+
+.bold {
+    font-weight: bold;
+    text-shadow: 1px 1px rgba(200, 200, 200, 0.3);
+}
+
+/*======================================================================================*/
+/*======================================= General ======================================*/
+/*======================================================================================*/
+
+.disabled-button {
+    pointer-events: none;
+    opacity: 0.6;
+}
+
+button {
+    border-radius: 4px;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+    border: none;
+    padding: 5px 10px;
+    flex-shrink: unset;
+    min-height: fit-content;
+    min-width: fit-content;
+}
+
+button:hover {
+    transform: scale(1.05);
+}
+
+button:active {
+    transform: scale(1);
+}
+
+/*======================================================================================*/
+/*===================================== Animations =====================================*/
+/*======================================================================================*/
+/* The animation code */
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    15%{
+        opacity: 100;
+    }
+    100% {
+        opacity: 100;
+    }
+}
+
+.fadeIn{
+    animation: fadeIn 2s;
+}
+
+.fadeOut{
+    animation: fadeIn 0.1s;
+    animation-direction: reverse;
+    opacity: 0;
+}
+
+#notificationDiv {
+    width: fit-content;
+    height: fit-content;
+    padding: 0.3em 1em;
+    align-self: center;
+    background: rgba(200, 200, 200, 0.9);
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    border: black groove thin;
+    border-radius: 3px;
+}
+
+@keyframes change-to-red {
+    0%  {background:  radial-gradient(#f5f5f5 100%,#f5c8c8);}
+    10% {background:  radial-gradient(#f5f5f5 90%, #f5c8c8);}
+    20% {background:  radial-gradient(#f5f5f5 80%, #f5c8c8);}
+    30% {background:  radial-gradient(#f5f5f5 70%, #f5c8c8);}
+    40% {background:  radial-gradient(#f5f5f5 60%, #f5c8c8);}
+    50% {background:  radial-gradient(#f5f5f5 50%, #f5c8c8);}
+    60% {background:  radial-gradient(#f5f5f5 40%, #f5c8c8);}
+    70% {background:  radial-gradient(#f5f5f5 30%, #f5c8c8);}
+    80% {background:  radial-gradient(#f5f5f5 20%, #f5c8c8);}
+    90% {background:  radial-gradient(#f5f5f5 10%, #f5c8c8);}
+    100% {background: radial-gradient(#f5f5f5 0%,  #f5c8c8);}
+}
+
+@keyframes change-to-green {
+    0%  {background:  radial-gradient(#f5f5f5 100%, #64ff64);}
+    10% {background:  radial-gradient(#f5f5f5 90%, #64ff64);}
+    20% {background:  radial-gradient(#f5f5f5 80%, #64ff64);}
+    30% {background:  radial-gradient(#f5f5f5 70%, #64ff64);}
+    40% {background:  radial-gradient(#f5f5f5 60%, #64ff64);}
+    50% {background:  radial-gradient(#f5f5f5 50%, #64ff64);}
+    60% {background:  radial-gradient(#f5f5f5 40%, #64ff64);}
+    70% {background:  radial-gradient(#f5f5f5 30%, #64ff64);}
+    80% {background:  radial-gradient(#f5f5f5 20%, #64ff64);}
+    90% {background:  radial-gradient(#f5f5f5 10%, #64ff64);}
+    100% {background: radial-gradient(#f5f5f5 0%,  #64ff64);}
+}
+
+@keyframes change-to-blue {
+    0%  {background:  radial-gradient(#f5f5f5 100%,#6464ff);}
+    10% {background:  radial-gradient(#f5f5f5 90%, #6464ff);}
+    20% {background:  radial-gradient(#f5f5f5 80%, #6464ff);}
+    30% {background:  radial-gradient(#f5f5f5 70%, #6464ff);}
+    40% {background:  radial-gradient(#f5f5f5 60%, #6464ff);}
+    50% {background:  radial-gradient(#f5f5f5 50%, #6464ff);}
+    60% {background:  radial-gradient(#f5f5f5 40%, #6464ff);}
+    70% {background:  radial-gradient(#f5f5f5 30%, #6464ff);}
+    80% {background:  radial-gradient(#f5f5f5 20%, #6464ff);}
+    90% {background:  radial-gradient(#f5f5f5 10%, #6464ff);}
+    100% {background: radial-gradient(#f5f5f5 0%,  #6464ff);}
+}
+
+@keyframes change-to-yellow {
+    0%  {background:  radial-gradient(#f5f5f5 100%,#ffff64);}
+    10% {background:  radial-gradient(#f5f5f5 90%, #ffff64);}
+    20% {background:  radial-gradient(#f5f5f5 80%, #ffff64);}
+    30% {background:  radial-gradient(#f5f5f5 70%, #ffff64);}
+    40% {background:  radial-gradient(#f5f5f5 60%, #ffff64);}
+    50% {background:  radial-gradient(#f5f5f5 50%, #ffff64);}
+    60% {background:  radial-gradient(#f5f5f5 40%, #ffff64);}
+    70% {background:  radial-gradient(#f5f5f5 30%, #ffff64);}
+    80% {background:  radial-gradient(#f5f5f5 20%, #ffff64);}
+    90% {background:  radial-gradient(#f5f5f5 10%, #ffff64);}
+    100% {background: radial-gradient(#f5f5f5 0%,  #ffff64);}
+}
+
+.change-to-red{
+    animation: change-to-red 800ms;
+}
+
+.change-to-green{
+    animation: change-to-green 800ms;
+}
+
+.change-to-blue{
+    animation: change-to-blue 800ms;
+}
+
+.change-to-yellow{
+    animation: change-to-yellow 800ms;
+}
