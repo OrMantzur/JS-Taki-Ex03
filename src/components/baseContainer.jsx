@@ -3,8 +3,6 @@ import LoginContainer from "./login/loginContainer.jsx";
 import GamesRoomComponent from "./gamesRoom/gamesRoomComponent.jsx";
 import ActiveGameBaseContainer from "./activeGame/activeGameBaseContainer.jsx";
 
-const Game = require("../server/logic/game.js").Game;
-
 const DisplayScreen = {
     LOGIN: "login",
     GAMES_ROOM: "GamesRoom",
@@ -27,7 +25,6 @@ export default class BaseContainer extends React.Component {
         this.getPlayerNameForThisSession = this.getPlayerNameForThisSession.bind(this);
         this.logoutHandler = this.logoutHandler.bind(this);
         this.initActiveGameState = this.initActiveGameState.bind(this);
-        this.initGame = this.initGame.bind(this);
         this.gameSelectedHandler = this.gameSelectedHandler.bind(this);
         this.getActiveGameForThisSession = this.getActiveGameForThisSession.bind(this);
         this.getPlayerNameForThisSession();
@@ -133,19 +130,6 @@ export default class BaseContainer extends React.Component {
     // ================================================================================================
     // ====================================== ActiveGame Methods ======================================
     // ================================================================================================
-
-    initGame() {
-        this.game = new Game(GameType.ADVANCED, 2, "Taki Man", "ex2");
-        this.game.setNotifyOnMakeMove(this.updateUIGameState);
-        this.regularPlayer = new Player("Human player", false);
-        this.computerPlayer = new Player("Computer player", true);
-        this.game.addPlayerToGame(this.regularPlayer);
-        this.game.addPlayerToGame(this.computerPlayer);
-        this.uiGameStatesArray = [];
-        console.log("Game started - top card is: ");
-        this.game.viewTopCardOnTable().printCardToConsole();
-        this.uiGameStatesArray.push(this.generateGameState())
-    }
 
     logoutHandler() {
         this.getPlayerNameForThisSession();

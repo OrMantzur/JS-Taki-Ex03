@@ -460,6 +460,6 @@ class Game {
 
 }
 
-Game.nextFreeGameId = 0;
+Game.nextFreeGameId = 1;
 
 module.exports = {Game};

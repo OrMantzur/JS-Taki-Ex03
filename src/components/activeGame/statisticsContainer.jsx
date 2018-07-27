@@ -4,10 +4,6 @@
  */
 
 import React from "react";
-import button_pause from "../../server/takiImages/button_pause.png";
-import button_play from "../../server/takiImages/button_play.png";
-import button_prev from "../../server/takiImages/button_prev.png";
-import button_next from "../../server/takiImages/button_next.png";
 
 export default class StatisticsContainer extends React.Component {
     constructor(args) {

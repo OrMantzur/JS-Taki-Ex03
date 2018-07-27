@@ -6,10 +6,11 @@ export default class GamesListComponent extends React.Component {
     constructor() {
         super();
         this.state = {
-            allGames: []
+            allGames: {}
         };
 
         this.getAllGames = this.getAllGames.bind(this);
+        this.gameSelected = this.gameSelected.bind(this);
     }
 
     /**
@@ -46,12 +47,24 @@ export default class GamesListComponent extends React.Component {
             clearTimeout(this.timeoutId);
         }
     }
+
+    gameSelected(gameId) {
+        alert("clicked game " + gameId);
+        this.props.gameSelected(gameId);
+    }
+
     render() {
         return (
             <div>
                 list of all games:
-                {/*{this.state.allGames.map((entry, index) => (*/}
-                    {/*<p key={entry.gameId + index} onClick={alert("clicked game " + index)}>{entry.gameId}</p>))}*/}
+                {Object.values(this.state.allGames).map(game => (
+                    <div key={game._gameId}>
+                        <p> game ID: {game._gameId}, game name: {game._gameName} <a href={''}
+                                                                                    onClick={this.gameSelected.bind(this, game._gameId)}>select</a>
+                        </p>
+                    </div>
+                ))}
+                <br/>
             </div>
         )
     }

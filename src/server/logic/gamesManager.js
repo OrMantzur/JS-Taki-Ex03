@@ -16,38 +16,22 @@ class GamesManager {
 
     constructor() {
         this._games = {};
-        this._playerToGameIdMap = {};
+        this._playerIdToGameIdMap = {};
+        // this.getGameState = this.getGameState.bind(this);
     }
 
     getGame(gameId) {
         return this._games[gameId];
     }
 
-    getGameState(gameId, playerId) {
-        this._games[gameId].getActivePlayer()
+    getGameIdByPlayerId(playerId) {
+        return this._playerIdToGameIdMap[playerId];
     }
 
-    getGameByPlayerId(playerId) {
-        return this._playerToGameIdMap[playerId];
+    getGameObjectByPlayerId(playerId) {
+        let gameId = this._playerIdToGameIdMap[playerId];
+        return this._games[gameId];
     }
-
-    /**
-     * @param playerName suppose to be unique
-     */
-    // addPlayer(playerName, playerId) {
-    //     if (this._players[playerId] !== undefined) {
-    //         return false;
-    //     }
-    //
-    //     this._players[playerId] = new Player(playerId, playerName, false);
-    // }
-
-    // removePlayer(playerId) {
-    //     // TODO add validations
-    //     if (this._players[playerId] !== undefined) {
-    //         delete this._players[playerId];
-    //     }
-    // }
 
     getAllGames() {
         return this._games;
@@ -81,9 +65,37 @@ class GamesManager {
         let playerAddedSuccessfully = false;
         if (player instanceof Player && this._games[gameId] !== null) {
             playerAddedSuccessfully = this._games[gameId].addPlayerToGame(player);
-            this._playerToGameIdMap[player.getId()] = gameId;
+            this._playerIdToGameIdMap[player.getId()] = gameId;
         }
         return playerAddedSuccessfully;
+    }
+
+    takeCardsFromDeck(playerId){
+        let game = this.getGameObjectByPlayerId(playerId);
+        return game.takeCardsFromDeck();
+    }
+
+    getGameState(playerId) {
+    try {
+        let game = this.getGameObjectByPlayerId(playerId);
+        let userMessage = game.viewTopCardOnTable().getUserMessage();
+        return {
+            playerWon: game.getGameState().gameState === enums.GameState.GAME_ENDED,
+            activePlayer: game.getActivePlayer(),
+            regularPlayerCards: game.getFirstHumanPlayer().getCards().slice(),
+            computerPlayerCards: game.getFirstComputerPlayer().getCards().slice(),
+            topCardOnTable: game.viewTopCardOnTable(),
+            currentGameState: game.getGameState(),
+            userMessage: userMessage !== null ? userMessage : null,
+            statistics: {
+                gameStatistics: game.getStatistics(),
+                regularPlayerStats: game.getFirstHumanPlayer().getStatistics(),
+                computerPlayerStats: game.getFirstComputerPlayer().getStatistics(),
+            }
+        };
+    } catch (e) {
+        throw new Error("error while trying to get game state for playerID: " + playerId + "\ninner exception: " + e);
+    }
     }
 }
 

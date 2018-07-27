@@ -11,10 +11,7 @@ const Game = require("./logic/game.js").Game;
 
 gamesRouter.get('/activeGameId', playersManager.getLoggedInPlayer, (req, res) => {
     let loggedInPlayer = req.session.loggedInPlayer;
-    let activeGameId = null;
-    // if (loggedInPlayer !== null) {
-        activeGameId = gameManager.getGameByPlayerId(loggedInPlayer.getId())
-    // }
+    activeGameId = gameManager.getGameIdByPlayerId(loggedInPlayer.getId());
     res.json({activeGameId: activeGameId});
 });
 
@@ -40,19 +37,12 @@ gamesRouter.get('/allGames', playersManager.getLoggedInPlayer, (req, res) => {
 });
 
 // get in the request gameId
-gamesRouter.get('/joinGame', playersManager.getLoggedInPlayer, (req, res) => {
+gamesRouter.post('/joinGame', playersManager.getLoggedInPlayer, (req, res) => {
     let loggedInPlayer = req.session.loggedInPlayer;
     let gameId = JSON.parse(req.body).gameId;
-    let gameToJoin = gameManager.getGame(gameId);
-
-
     req.session.activeGameId = gameId;
-    gameToJoin.addPlayerToGame(loggedInPlayer);
-    // return active game state
-    res.json({
-        gameName: gameToJoin.getGameName(),
-        playersName: gameToJoin.getPlayerNameList(),
-    });
+    gameManager.addPlayerToGame(gameId, loggedInPlayer)
+    res.sendStatus(200);
 });
 
 module.exports = gamesRouter;

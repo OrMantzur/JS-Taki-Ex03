@@ -15,9 +15,7 @@ export default class PlayingTableContainer extends React.Component {
     render() {
         return (
             <div id='playing_table_container'>
-                <DeckContainer game={this.props.game}
-                               regularPlayer={this.props.regularPlayer}
-                               pickedUpCardFromDeck={this.props.pickedUpCardFromDeck}
+                <DeckContainer pickedUpCardFromDeck={this.props.pickedUpCardFromDeck}
                                deckDisabled={this.props.deckDisabled}
                                highlightDeck={this.props.highlightDeck}/>
                 <div align="center">

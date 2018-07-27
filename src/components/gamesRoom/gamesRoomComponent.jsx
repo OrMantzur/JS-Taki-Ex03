@@ -1,9 +1,7 @@
 import React from 'react';
 import UsersListComponent from "./usersListComponent.jsx";
 import GamesListComponent from "./gamesListComponent.jsx";
-
 var enums = require('../../server/logic/enums');
-var bodyParser = require('body-parser');
 
 export default class GamesRoomComponent extends React.Component {
 
@@ -21,7 +19,7 @@ export default class GamesRoomComponent extends React.Component {
 
                 {/*TODO delete */}
                 <UsersListComponent/>
-                <GamesListComponent/>
+                <GamesListComponent gameSelected={this.joinGame}/>
                 <form onSubmit={this.addGame}>
                     <label className="gameTitle-label" htmlFor="gameTitle"> title: </label>
                     <input className="gameTitle-input" name="gameTitle"/>
@@ -81,22 +79,38 @@ export default class GamesRoomComponent extends React.Component {
     //     return null;
     // }
 
-    joinGame(formEvent) {
-        formEvent.preventDefault();
-        let gameIdToStart = formEvent.target.elements.gameId.value;
-
+    joinGame(gameIdSelected) {
+        let body = {gameId: gameIdSelected};
         // start game
-        let activeGame = fetch('/games/joinGame', {
-            method: 'GET',
-            body: {gameId: gameIdToStart},
+        fetch('/games/joinGame', {
+            method: 'POST',
+            body: JSON.stringify(body),
             credentials: 'include'
         }).then(response => {
+            if (response.ok) {
+                this.props.gameSelected(gameIdSelected);
+            }
             return response.json();
-        }).then(activeGameState => {
-            // render base container to active game component
-            this.props.initActiveGameState(activeGameState);
         });
     }
+
+    // joinGame(formEvent) {
+    //     formEvent.preventDefault();
+    //     let gameIdToStart = formEvent.target.elements.gameId.value;
+    //
+    //     // start game
+    //     let activeGame = fetch('/games/joinGame', {
+    //         method: 'GET',
+    //         body: {gameId: gameIdToStart},
+    //         credentials: 'include'
+    //     }).then(response => {
+    //         return response.json();
+    //     }).then(activeGameState => {
+    //         // render base container to active game component
+    //         // this.props.initActiveGameState(activeGameState);
+    //         this.props.gameSelected(gameIdToStart);
+    //     });
+    // }
 
     logout() {
         fetch('/users/logout', {method: 'GET', credentials: 'include'})
