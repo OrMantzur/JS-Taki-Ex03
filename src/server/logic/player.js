@@ -3,7 +3,7 @@
  * Or Mantzur - 204311997
  */
 
-const SpecialCard = require("./card").SpecialCard;
+const SpecialCard = require("./enums").SpecialCard;
 
 /**
  * can be human/computer player
@@ -162,7 +162,7 @@ class Player {
     removeCardFromHand(cardToRemove) {
         let cardRemoved = null;
         let indexToRemove = this._cards.findIndex(function (card) {
-            return card === cardToRemove;
+            return card._value === cardToRemove._value && card._color === cardToRemove._color && card._id === cardToRemove._id;
         });
         if (indexToRemove >= 0 && indexToRemove < this._cards.length) {
             cardRemoved = this._cards.splice(indexToRemove, 1);

@@ -14,12 +14,12 @@ import takiLogo from "../../server/takiImages/TAKI_logo.png";
 import * as enums from "../../server/logic/enums";
 
 const COMPUTER_DELAY = 1.5 * 1000;
-const GAME_STATE_REFRESH_INTERVAL = 2 * 1000;
+const GAME_STATE_REFRESH_INTERVAL = 0.5 * 1000;
 
 export default class ActiveGameBaseContainer extends React.Component {
     constructor(args) {
         super(...args);
-        // this.state = {};
+        this.state = {refreshFlag: 0};
         this.restartGame = this.restartGame.bind(this);
         this.callSetState = this.callSetState.bind(this);
         this.exitGameClicked = this.exitGameClicked.bind(this);
@@ -39,7 +39,6 @@ export default class ActiveGameBaseContainer extends React.Component {
     // }
 
     updateUIGameState() {
-        this.setState({test: "test"});
         fetch('/activeGame/gameState', {method: 'GET', credentials: 'include'})
             .then((response) => {
                 if (!response.ok) {
@@ -118,6 +117,7 @@ export default class ActiveGameBaseContainer extends React.Component {
                         />
                     </div>
                     <PlayerContainer gameControlsLocked={this.state.gameControlsLocked}
+                                     topCardOnTable={this.state.topCardOnTable}
                                      currentGameState={this.state.currentGameState}
                                      cards={this.state.playerCards}
                                      movePlayed={this.updateUIGameState}/>

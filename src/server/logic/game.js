@@ -7,9 +7,8 @@ const Color = require("./card").Color;
 const SpecialCard = require("./card").SpecialCard;
 const CardsOnTable = require("./cardsOnTable");
 const Deck = require("./deck");
-const Player = require("./player");
+const Card = require("./card").Card;
 const enums = require("./enums");
-const _ = require("lodash");
 
 const NUM_STARTING_CARDS = 8;
 
@@ -145,7 +144,7 @@ class Game {
             playerToAdd.addCardsToHand(this._deck.drawCards(NUM_STARTING_CARDS));
             console.log("GameID (" + this._gameId + "): " + playerToAdd.getName() + " has joined the game");
             playerAddedSuccessfully = true;
-            if (this._players.length === this._numPlayersToStartGame) {
+            if (this._players.length == this._numPlayersToStartGame) {
                 this._startGame();
             }
         }
@@ -163,7 +162,7 @@ class Game {
         let cardDrawnFromDeck;
         do {
             cardDrawnFromDeck = this._deck.drawCards(1)[0];
-        } while (cardDrawnFromDeck.getValue() === SpecialCard.CHANGE_COLOR || cardDrawnFromDeck.getValue() === SpecialCard.SUPER_TAKI || cardDrawnFromDeck.getValue() === SpecialCard.PLUS_2);
+        } while (cardDrawnFromDeck.getValue() === enums.SpecialCard.CHANGE_COLOR || cardDrawnFromDeck.getValue() === enums.SpecialCard.SUPER_TAKI || cardDrawnFromDeck.getValue() === enums.SpecialCard.PLUS_2);
 
         this._cardsOnTable.putCardOnTable(cardDrawnFromDeck);
         this._players[this._activePlayerIndex].startTurn();
@@ -200,18 +199,18 @@ class Game {
         }
 
         // check if after the move there are more valid moves
-        if (this._gameState.gameState === GameState.OPEN_TAKI &&
-            activePlayer.getCardOfColor(cardPlaced.getColor()) !== undefined &&
+        if (this._gameState.gameState === enums.GameState.OPEN_TAKI &&
+            activePlayer.getCardOfColor(cardPlaced._color) !== undefined &&
             // in order to set the color of super taki in _afterMoveOfSpecialCard()
-            cardPlaced.getValue() !== SpecialCard.SUPER_TAKI) {
+            cardPlaced._value !== enums.SpecialCard.SUPER_TAKI) {
             // taki open + player has more cards of the same color = player gets another turn;
         } else {
-            if (this._gameState.gameState === GameState.OPEN_TAKI) {
+            if (this._gameState.gameState === enums.GameState.OPEN_TAKI) {
                 // taki open + player has no more cards of the same color = return to normal state
                 this._gameState.gameState = undefined;
                 this._gameState.additionalInfo = null;
             }
-            if (cardPlaced.isSpecialCard()) {
+            if (Card.isSpecialCard(cardPlaced._value)) {
                 // make changes to game state according to placed card
                 this._afterMoveOfSpecialCard(cardPlaced, additionalData);
             } else {
@@ -223,9 +222,9 @@ class Game {
 
         // for debugging
         console.log("Player \"" + activePlayer.getName() + "\" placed the following card on the table:");
-        cardPlaced.printCardToConsole();
-
-        this._notifyOnMakeMove();
+        let cardCopy = new Card(cardPlaced._value, cardPlaced._value);
+        cardCopy.printCardToConsole();
+        // this._notifyOnMakeMove();
         return true;
     }
 
@@ -234,14 +233,14 @@ class Game {
         let topCardOnTable = this._cardsOnTable.viewTopCard();
         if (topCardOnTable === null) {
             isValid = false;
-        } else if (this._gameState.gameState === GameState.OPEN_TAKI) {
-            isValid = topCardOnTable.getColor() === cardPlaced.getColor() || cardPlaced.getValue() === SpecialCard.SUPER_TAKI;
-        } else if (cardPlaced.getValue() === SpecialCard.CHANGE_COLOR && this._gameState.gameState !== GameState.OPEN_PLUS_2) {
+        } else if (this._gameState.gameState === enums.GameState.OPEN_TAKI) {
+            isValid = topCardOnTable._color === cardPlaced._color || cardPlaced._value === enums.SpecialCard.SUPER_TAKI;
+        } else if (cardPlaced._value === enums.SpecialCard.CHANGE_COLOR && this._gameState.gameState !== enums.GameState.OPEN_PLUS_2) {
             // do nothing
-        } else if (this._gameState.gameState === GameState.OPEN_PLUS_2) {
-            isValid = cardPlaced.getValue() === SpecialCard.PLUS_2;
+        } else if (this._gameState.gameState === enums.GameState.OPEN_PLUS_2) {
+            isValid = cardPlaced._value === enums.SpecialCard.PLUS_2;
         } else {
-            isValid = topCardOnTable.getColor() === cardPlaced.getColor() || topCardOnTable.getValue() === cardPlaced.getValue() || cardPlaced.getValue() === SpecialCard.CHANGE_COLOR || cardPlaced.getValue() === SpecialCard.SUPER_TAKI;
+            isValid = topCardOnTable._color === cardPlaced._color || topCardOnTable._value === cardPlaced._value || cardPlaced._value === enums.SpecialCard.CHANGE_COLOR || cardPlaced._value === enums.SpecialCard.SUPER_TAKI;
         }
 
         return isValid;
@@ -261,20 +260,20 @@ class Game {
     }
 
     _afterMoveOfSpecialCard(card, additionalData) {
-        let cardValue = card.getValue();
+        let cardValue = card._value;
         switch (cardValue) {
-            case SpecialCard.STOP:
+            case enums.SpecialCard.STOP:
                 // two calls to skip the next player
                 let skipOnePlayer = true;
                 this._moveToNextPlayer(skipOnePlayer);
                 console.log("in case - Stop");
                 break;
-            case SpecialCard.SUPER_TAKI:
-                card.setColor(additionalData);
-            case SpecialCard.TAKI:
+            case enums.SpecialCard.SUPER_TAKI:
+                card._color = additionalData;
+            case enums.SpecialCard.TAKI:
                 // if the player put down a "taki" card and has more cards to put then set state to "openTaki"
-                if (this._players[this._activePlayerIndex].getCardOfColor(card.getColor()) !== undefined) {
-                    this._gameState.gameState = GameState.OPEN_TAKI;
+                if (this._players[this._activePlayerIndex].getCardOfColor(card._color) !== undefined) {
+                    this._gameState.gameState = enums.GameState.OPEN_TAKI;
                 } else {
                     // the player doesn't have more cards to place, so no need to change state to "openTaki"
                     this._gameState.gameState = undefined;
@@ -282,26 +281,26 @@ class Game {
                 }
                 console.log("in case - Taki");
                 break;
-            case SpecialCard.CHANGE_COLOR:
+            case enums.SpecialCard.CHANGE_COLOR:
                 if (additionalData === undefined) {
                     additionalData = Color.getRandomColor();
                 }
-                card.setColor(additionalData);
+                card._color = additionalData;
                 console.log("change color to " + additionalData);
                 this._moveToNextPlayer();
                 console.log("in case - Change Color");
                 break;
-            case SpecialCard.PLUS_2:
-                if (this._gameState.gameState === GameState.OPEN_PLUS_2)
+            case enums.SpecialCard.PLUS_2:
+                if (this._gameState.gameState === enums.GameState.OPEN_PLUS_2)
                     this._gameState.additionalInfo += 2;
                 else {
-                    this._gameState.gameState = GameState.OPEN_PLUS_2;
+                    this._gameState.gameState = enums.GameState.OPEN_PLUS_2;
                     this._gameState.additionalInfo = 2;
                 }
                 this._moveToNextPlayer();
                 console.log("in case - PLUS_2");
                 break;
-            case SpecialCard.PLUS:
+            case enums.SpecialCard.PLUS:
                 // do nothing, the player gets another turn
                 console.log("in case - PLUS");
                 break;
@@ -344,12 +343,12 @@ class Game {
 
         // check that there are enough cards in the deck, if not add the cards from the table to the deck so the deck won't remain empty
         if ((this._deck.getSize() <= 1) ||
-            (this._gameState.gameState === GameState.OPEN_PLUS_2 && this._deck.getSize() <= this._gameState.additionalInfo + 1)) {
+            (this._gameState.gameState === enums.GameState.OPEN_PLUS_2 && this._deck.getSize() <= this._gameState.additionalInfo + 1)) {
             this._moveCardsFromTableToDeck();
         }
 
         let numCardsToTake = 1;
-        if (this._gameState.gameState === GameState.OPEN_PLUS_2) {
+        if (this._gameState.gameState === enums.GameState.OPEN_PLUS_2) {
             numCardsToTake = this._gameState.additionalInfo;
             cardsTaken = this._deck.drawCards(numCardsToTake);
             this._gameState.gameState = undefined;
@@ -362,7 +361,7 @@ class Game {
         console.log("player: " + activePlayer.getName() + " took " + numCardsToTake + " cards from the deck");
         activePlayer.addCardsToHand(cardsTaken);
         this._moveToNextPlayer();
-        this._notifyOnMakeMove();
+        // this._notifyOnMakeMove();
         return cardsTaken;
     }
 
@@ -458,15 +457,14 @@ class Game {
 
     getPlayerIndexById(playerId) {
         let index = 0;
-        let playerIdFound = false;
-        this._players.forEach(function (player) {
+        let playerIndex = -1;
+        this._players.forEach((player) => {
             if (player.getId() === playerId) {
-                playerIdFound = true;
-                return index;
+                playerIndex = index;
             }
             index++;
         });
-        return playerIdFound ? index : -1;
+        return playerIndex;
     }
 
     makeComputerMove() {

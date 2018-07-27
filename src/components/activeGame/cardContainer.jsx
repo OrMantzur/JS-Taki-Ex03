@@ -36,7 +36,7 @@ export default class CardContainer extends React.Component {
                 <div
                     className={this.generateClassName()}
                     cardvalue={this.props.card} id={this.props.card._id}
-                    onClick={(this.props.cardClicked !== undefined) ? this.props.cardClicked.bind(this, this.props.card) : null}>
+                    onClick={(this.props.cardClicked !== undefined) ? this.props.cardClicked.bind(this, this.props.card, null) : null}>
                     {this.props.card._value}
                 </div>
             );

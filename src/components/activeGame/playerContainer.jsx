@@ -20,34 +20,26 @@ export default class PlayerContainer extends React.Component {
 
     cardClicked(i_Card, additionalData) {
         let body = {cardClicked: i_Card, additionalData: additionalData};
-        fetch('/activeGame/gameState', {method: 'get', credentials: 'include'})
-            .then((response) => {
-                if (!response.ok) {
-                    throw response;
-                }
-                return response.json();
-            })
-            .then((currGameState) => {
-                if (i_Card.getValue() === SpecialCard.CHANGE_COLOR && currGameState !== GameState.OPEN_TAKI && currGameState !== GameState.OPEN_PLUS_2) {
-                    if (this.state.colorPickerVisible === false) {
-                        this.setState({
-                            colorPickerVisible: true,
-                            changeColorCardSelected: i_Card
-                        });
-                    } else {
-                        return fetch('/activeGame/makeMove', {method: 'post', body: JSON.stringify(body), credentials: 'include'});
-                    }
-                }
-                else {
-                    if (i_Card.getValue() === SpecialCard.SUPER_TAKI)
-                        additionalData = this.props.game.viewTopCardOnTable().getColor();
-                    return fetch('/activeGame/makeMove', {method: 'post', body: JSON.stringify(body), credentials: 'include'});
-                }
-            })
-            .then(() => {
-                //TODO should we check if the move was played successfully?
-                this.props.movePlayed();
-            })
+        let currGameState = this.props.currentGameState;
+        if (i_Card._value === SpecialCard.CHANGE_COLOR && currGameState !== GameState.OPEN_TAKI && currGameState !== GameState.OPEN_PLUS_2) {
+            if (this.state.colorPickerVisible === false) {
+                this.setState({
+                    colorPickerVisible: true,
+                    changeColorCardSelected: i_Card
+                });
+            } else {
+                fetch('/activeGame/makeMove', {method: 'post', body: JSON.stringify(body), credentials: 'include'})
+                    .then(() => this.props.movePlayed());
+            }
+        }
+        else {
+            if (i_Card._value === SpecialCard.SUPER_TAKI)
+                additionalData = this.state.topCardOnTable._color;
+            fetch('/activeGame/makeMove', {method: 'post', body: JSON.stringify(body), credentials: 'include'})
+                .then(() => this.props.movePlayed());
+        }
+        // //TODO should we check if the move was played successfully?
+        // this.props.movePlayed();
     }
 
     colorPickerClickedCard(color) {

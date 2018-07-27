@@ -17,7 +17,6 @@ const Color = {
 };
 
 class Card {
-
     constructor(value, color) {
         this._id = Card.nextFreeCardId++;
         this._value = value;
@@ -72,21 +71,32 @@ class Card {
         }
     }
 
-    isSpecialCard() {
+    static isSpecialCard(value) {
         let isSpecial = false;
         for (let specialCardKey in SpecialCard) {
-            if (this._value === SpecialCard[specialCardKey]) {
+            if (value === SpecialCard[specialCardKey]) {
                 isSpecial = true;
             }
         }
         return isSpecial;
     }
 
+    // isSpecialCard() {
+    //     let isSpecial = false;
+    //     for (let specialCardKey in SpecialCard) {
+    //         if (this._value === SpecialCard[specialCardKey]) {
+    //             isSpecial = true;
+    //         }
+    //     }
+    //     return isSpecial;
+    // }
+
     toString() {
         return "Color: " + this._color + ", Value: " + this._value;
     }
 
     printCardToConsole() {
+        // console.log(card.toString());
         console.log(this.toString());
     }
 
