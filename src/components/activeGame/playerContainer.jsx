@@ -19,24 +19,35 @@ export default class PlayerContainer extends React.Component {
     }
 
     cardClicked(i_Card, additionalData) {
-        let currGameState = this.props.game.getGameState().gameState;
-        if (i_Card.getValue() === SpecialCard.CHANGE_COLOR && currGameState !== GameState.OPEN_TAKI && currGameState !== GameState.OPEN_PLUS_2) {
-            if (this.state.colorPickerVisible === false) {
-                this.setState({
-                    colorPickerVisible: true,
-                    changeColorCardSelected: i_Card
-                });
-            } else {
-                this.props.game.makeMove(i_Card, additionalData)
-            }
-        }
-        else {
-            if (i_Card.getValue() === SpecialCard.SUPER_TAKI)
-                additionalData = this.props.game.viewTopCardOnTable().getColor();
-            this.props.game.makeMove(i_Card, additionalData)
-        }
-
-        this.props.movePlayed();
+        let body = {cardClicked: i_Card, additionalData: additionalData};
+        fetch('/activeGame/gameState', {method: 'get', credentials: 'include'})
+            .then((response) => {
+                if (!response.ok) {
+                    throw response;
+                }
+                return response.json();
+            })
+            .then((currGameState) => {
+                if (i_Card.getValue() === SpecialCard.CHANGE_COLOR && currGameState !== GameState.OPEN_TAKI && currGameState !== GameState.OPEN_PLUS_2) {
+                    if (this.state.colorPickerVisible === false) {
+                        this.setState({
+                            colorPickerVisible: true,
+                            changeColorCardSelected: i_Card
+                        });
+                    } else {
+                        return fetch('/activeGame/makeMove', {method: 'post', body: JSON.stringify(body), credentials: 'include'});
+                    }
+                }
+                else {
+                    if (i_Card.getValue() === SpecialCard.SUPER_TAKI)
+                        additionalData = this.props.game.viewTopCardOnTable().getColor();
+                    return fetch('/activeGame/makeMove', {method: 'post', body: JSON.stringify(body), credentials: 'include'});
+                }
+            })
+            .then(() => {
+                //TODO should we check if the move was played successfully?
+                this.props.movePlayed();
+            })
     }
 
     colorPickerClickedCard(color) {
@@ -46,18 +57,16 @@ export default class PlayerContainer extends React.Component {
 
     getDisplayOverlayText() {
         let overlayDisplayText = "";
-        if (this.props.game.getActivePlayer() !== this.props.player)
+        if (this.props.gameControlsLocked)
             overlayDisplayText = "Please wait for your turn";
-        else if (this.props.inReplayMode)
-            overlayDisplayText = "Cannot play while in replay mode";
-        else if (this.props.game.getGameState().gameState === GameState.GAME_ENDED)
+        else if (this.props.currentGameState.gameState === GameState.GAME_ENDED)
             overlayDisplayText = "Game ended";
 
         return overlayDisplayText;
     }
 
     displayOverlay() {
-        if (this.props.game.getActivePlayer() !== this.props.player || this.props.game.getGameState().gameState === GameState.GAME_ENDED || this.props.inReplayMode) {
+        if (this.props.gameControlsLocked || this.props.currentGameState.gameState === GameState.GAME_ENDED) {
             return displayOverlayStyle;
         }
         else

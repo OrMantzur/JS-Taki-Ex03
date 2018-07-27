@@ -7,11 +7,10 @@ const express = require('express');
 const gameManager = require('./logic/gamesManager.js');
 const playersManager = require('./logic/playersManager');
 const gamesRouter = express.Router();
-const Game = require("./logic/game.js").Game;
 
 gamesRouter.get('/activeGameId', playersManager.getLoggedInPlayer, (req, res) => {
     let loggedInPlayer = req.session.loggedInPlayer;
-    activeGameId = gameManager.getGameIdByPlayerId(loggedInPlayer.getId());
+    let activeGameId = gameManager.getGameIdByPlayerId(loggedInPlayer.getId());
     res.json({activeGameId: activeGameId});
 });
 

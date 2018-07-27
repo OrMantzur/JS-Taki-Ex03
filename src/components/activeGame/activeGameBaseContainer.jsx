@@ -11,6 +11,7 @@ import PlayerWonContainer from "./playerWonContainer.jsx";
 // import Game, {GameState, GameType} from "../../server/logic/game";
 // import Player from "../../server/logic/player";
 import takiLogo from "../../server/takiImages/TAKI_logo.png";
+import * as enums from "../../server/logic/enums";
 
 const COMPUTER_DELAY = 1.5 * 1000;
 const GAME_STATE_REFRESH_INTERVAL = 2 * 1000;
@@ -20,10 +21,10 @@ export default class ActiveGameBaseContainer extends React.Component {
         super(...args);
         this.updateUIGameState = this.updateUIGameState.bind(this);
         this.state = {};
-        this.movePlayed = this.movePlayed.bind(this);
         this.restartGame = this.restartGame.bind(this);
         this.callSetState = this.callSetState.bind(this);
         this.exitGameClicked = this.exitGameClicked.bind(this);
+        this.updateUIGameState();
     }
 
     /**
@@ -35,7 +36,7 @@ export default class ActiveGameBaseContainer extends React.Component {
     }
 
     updateUIGameState() {
-        fetch('/games/activeGameState', {method: 'GET', credentials: 'include'})
+        fetch('/activeGame/gameState', {method: 'GET', credentials: 'include'})
             .then((response) => {
                 if (!response.ok) {
                     throw response;
@@ -108,8 +109,10 @@ export default class ActiveGameBaseContainer extends React.Component {
                                             restartGameClick={this.restartGame}
                         />
                     </div>
-                    <PlayerContainer cards={this.state.regularPlayerCards}
-                                     movePlayed={this.movePlayed}/>
+                    <PlayerContainer gameControlsLocked={this.state.gameControlsLocked}
+                                     gameState={this.state.currentGameState}
+                                     cards={this.state.regularPlayerCards}
+                                     movePlayed={this.updateUIGameState}/>
                 </div>
 
                 <div id="statistics-div">
@@ -117,7 +120,7 @@ export default class ActiveGameBaseContainer extends React.Component {
                     <StatisticsContainer statistics={this.state.statistics}
                                          activePlayer={this.state.activePlayer}
                                          exitGame={this.exitGameClicked}
-                                         gameEnded={this.game.getGameState().gameState === GameState.GAME_ENDED}
+                                         gameEnded={this.state.currentGameState && this.state.currentGameState.gameState === enums.GameState.GAME_ENDED}
                     />
                 </div>
             </div>

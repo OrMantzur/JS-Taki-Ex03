@@ -49,7 +49,7 @@ class Game {
         return this._gameType;
     }
 
-    getNumPlayersInGame(){
+    getNumPlayersInGame() {
         return this._players.length;
     }
 
@@ -95,6 +95,16 @@ class Game {
 
     getCardsOnTableCount() {
         return this._cardsOnTable.getSize();
+    }
+
+    getOtherPlayersCards(playerId) {
+        let otherPlayersCards = {};
+        this._players.forEach((player) => {
+            if (player.getId() !== playerId) {
+                otherPlayersCards[player.getId()] = player.getCards();
+            }
+        });
+        return otherPlayersCards;
     }
 
     getGameState() {
@@ -305,7 +315,7 @@ class Game {
     // TODO debug and verify this works in both directions with and without skipping
     _moveToNextPlayer(skipOnePlayer) {
         this._players[this._activePlayerIndex].endTurn();
-        let newIndex = this._activePlayerIndex + (this._gameDirection*(skipOnePlayer === true ? 2 : 1));
+        let newIndex = this._activePlayerIndex + (this._gameDirection * (skipOnePlayer === true ? 2 : 1));
         if (newIndex < 0)
             newIndex += this._players.length;
         this._activePlayerIndex = newIndex % this._players.length;
@@ -353,7 +363,7 @@ class Game {
         return cardsTaken;
     }
 
-    switchGameDirection(){
+    switchGameDirection() {
         this._gameDirection = this._gameDirection === enums.Direction.RIGHT ? enums.Direction.LEFT : enums.Direction.RIGHT;
     }
 
@@ -432,18 +442,18 @@ class Game {
     removePlayerFromGame(playerId) {
         let playerIndex = this.getPlayerIndexById(playerId);
 
-        if (playerIndex < 0 || this._gameState.gameState !== enums.GameState.WAITING_FOR_PLAYERS){
-            console.log("error while trying to remove playerId " + playerId+ " from gameId " + this._gameId + " \n.Player isn't in the game/less than two players are active/game has already started");
+        if (playerIndex < 0 || this._gameState.gameState !== enums.GameState.WAITING_FOR_PLAYERS) {
+            console.log("error while trying to remove playerId " + playerId + " from gameId " + this._gameId + " \n.Player isn't in the game/less than two players are active/game has already started");
             return false;
         }
 
-        let playerRemoved = this._players.splice(playerIndex,1);
+        let playerRemoved = this._players.splice(playerIndex, 1);
         playerRemoved.leave();
         console.log("player " + playerRemoved.getName() + " has left the game");
         // this._notifyOnMakeMove();
     }
 
-    getPlayerIndexById(playerId){
+    getPlayerIndexById(playerId) {
         let index = 0;
         this._players.forEach(function (player) {
             if (player.getId() === playerId) {
