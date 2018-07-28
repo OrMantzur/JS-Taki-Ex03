@@ -442,7 +442,7 @@ class Game {
 
     _gameEnded(playerWhoWon) {
         this._active = false;
-        this._gameState.gameState = GameState.GAME_ENDED;
+        this._gameState.gameState = enums.GameState.GAME_ENDED;
         this._gameState.additionalInfo = playerWhoWon;
         this._gameEndTime = new Date();
         console.log("game ended");
