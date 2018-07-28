@@ -69,7 +69,6 @@ export default class PlayerContainer extends React.Component {
         if (!this.props.cards)
             return null;
 
-        console.log(this.props);
         return (
             <div id="player-container">
                 {this.props.cards.map((card) => (

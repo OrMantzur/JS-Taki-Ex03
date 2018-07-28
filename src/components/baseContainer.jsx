@@ -13,6 +13,7 @@ const DisplayScreen = {
  * kind of entry point of all components
  */
 export default class BaseContainer extends React.Component {
+
     constructor() {
         super();
         this.state = {
@@ -54,9 +55,6 @@ export default class BaseContainer extends React.Component {
                         <ActiveGameBaseContainer gameId={this.state.activeGameId}
                                                  playerName={this.state.playerName}
                         />
-                        playerList:
-                        {/*{this.state.gameState.playersName.map((playerName, index) => (*/}
-                            {/*<p key={playerName + index}>playName: {playerName.toString()}</p>))}*/}
                     </div>
                 </div>
             );
@@ -66,7 +64,6 @@ export default class BaseContainer extends React.Component {
     // ================================================================================================
     // ======================================== Player Methods ========================================
     // ================================================================================================
-
     handleSuccessLogin() {
         this.getPlayerNameForThisSession();
     }
@@ -127,10 +124,10 @@ export default class BaseContainer extends React.Component {
                 }
             });
     }
+
     // ================================================================================================
     // ====================================== ActiveGame Methods ======================================
     // ================================================================================================
-
     logoutHandler() {
         this.getPlayerNameForThisSession();
         this.getActiveGameForThisSession();

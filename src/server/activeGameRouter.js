@@ -35,7 +35,7 @@ activeGameRouter.get('/gameState', playersManager.getLoggedInPlayer, (req, res) 
             // TODO get other players statistics
             computerPlayerStats: activeGame.getPlayer(loggedInPlayerId).getStatistics(),
         }
-    }
+    };
 
     res.json(gameState);
 });

@@ -16,6 +16,7 @@ import * as enums from "../../server/logic/enums";
 const GAME_STATE_REFRESH_INTERVAL = 0.5 * 1000;
 
 export default class ActiveGameBaseContainer extends React.Component {
+
     constructor(args) {
         super(...args);
         this.state = {refreshFlag: 0};
@@ -96,13 +97,12 @@ export default class ActiveGameBaseContainer extends React.Component {
         if (!this.state)
             return <div><h1>gameState has not bee set yet</h1></div>;
 
-        console.log(this.state);
         return (
             <div id="main-container">
                 <div id="play-area-div">`
                     <div id="other-players-and-table-container">
                         {/*//TODO change to "other players' cards*/}
-                        <OtherPlayersContainer playersToCardsMap={this.state.otherPlayersCards}/>
+                        {/*<OtherPlayersContainer playersToCardsMap={this.state.otherPlayersCards}/>*/}
                         <PlayingTableContainer topCardOnTable={this.state.topCardOnTable}
                                                pickedUpCardFromDeck={this.updateUIGameState}
                                                deckDisabled={this.state.gameControlsLocked}

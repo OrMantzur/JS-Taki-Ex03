@@ -40,7 +40,7 @@ gamesRouter.post('/joinGame', playersManager.getLoggedInPlayer, (req, res) => {
     let loggedInPlayer = req.session.loggedInPlayer;
     let gameId = JSON.parse(req.body).gameId;
     req.session.activeGameId = gameId;
-    gameManager.addPlayerToGame(gameId, loggedInPlayer)
+    gameManager.addPlayerToGame(gameId, loggedInPlayer);
     res.sendStatus(200);
 });
 

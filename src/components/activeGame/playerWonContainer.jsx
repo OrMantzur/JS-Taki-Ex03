@@ -14,7 +14,6 @@ export default class PlayerWonContainer extends React.Component {
         if (this.props.playerWon) {
             //TODO delete
             console.log("in player won container");
-            console.log(this.props);
             let stats = this.props.statistics;
             return (
                 <div id="playerWonScreen">
