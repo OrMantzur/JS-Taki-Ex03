@@ -49,14 +49,9 @@ export default class BaseContainer extends React.Component {
         }
         else {
             return (
-                <div>
-                    <h1>Active Game ID: {this.state.activeGameId}</h1>
-                    <div>
-                        <ActiveGameBaseContainer gameId={this.state.activeGameId}
-                                                 playerName={this.state.playerName}
-                        />
-                    </div>
-                </div>
+                <ActiveGameBaseContainer gameId={this.state.activeGameId}
+                                         playerName={this.state.playerName}
+                />
             );
         }
     }
@@ -98,11 +93,11 @@ export default class BaseContainer extends React.Component {
     // ================================================================================================
     // ========================================= Game Methods =========================================
     // ================================================================================================
-    gameSelectedHandler(selectedGameId){
+    gameSelectedHandler(selectedGameId) {
         this.setState({activeGameId: selectedGameId});
     }
 
-    getActiveGameForThisSession(){
+    getActiveGameForThisSession() {
         fetch('/games/activeGameId', {method: 'GET', credentials: 'include'})
             .then(response => {
                 if (!response.ok) {
@@ -128,6 +123,7 @@ export default class BaseContainer extends React.Component {
     // ================================================================================================
     // ====================================== ActiveGame Methods ======================================
     // ================================================================================================
+
     logoutHandler() {
         this.getPlayerNameForThisSession();
         this.getActiveGameForThisSession();
