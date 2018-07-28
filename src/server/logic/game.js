@@ -230,7 +230,7 @@ class Game {
 
         // for debugging
         console.log("Player \"" + activePlayer.getName() + "\" placed the following card on the table:");
-        let cardCopy = new Card(cardPlaced._value, cardPlaced._value);
+        let cardCopy = new Card(cardPlaced._value, cardPlaced._color);
         cardCopy.printCardToConsole();
         // this._notifyOnMakeMove();
         return true;

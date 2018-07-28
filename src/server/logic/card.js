@@ -92,7 +92,7 @@ class Card {
     // }
 
     toString() {
-        return "Color: " + this._color + ", Value: " + this._value;
+        return "Color: " + this._color + ", Value: " + this._value + ", ID: " + this._id;
     }
 
     printCardToConsole() {

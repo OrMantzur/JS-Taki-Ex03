@@ -96,7 +96,6 @@ export default class ActiveGameBaseContainer extends React.Component {
         if (!this.state)
             return <div><h1>gameState has not bee set yet</h1></div>;
 
-        console.log(this.state);
         return (
             <div id="main-container">
                 <div id="play-area-div">`

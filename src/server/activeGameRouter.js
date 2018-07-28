@@ -44,7 +44,8 @@ activeGameRouter.post('/makeMove', playersManager.getLoggedInPlayer, (req, res) 
     let loggedInPlayer = req.session.loggedInPlayer;
     let activeGame = gameManager.getGameObjectByPlayerId(loggedInPlayer.getId());
     let body = JSON.parse(req.body);
-    activeGame.makeMove(body.cardClicked, body.additionalData)
+    let makeMoveReturnedTrue = activeGame.makeMove(body.cardClicked, body.additionalData);
+    makeMoveReturnedTrue ? res.sendStatus(202) : res.sendStatus(400);
     // TODO what should we return?
 });
 
