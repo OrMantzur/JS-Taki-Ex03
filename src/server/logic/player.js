@@ -126,6 +126,7 @@ class Player {
 
     getStatistics() {
         return {
+            playerName: this._playerName,
             avgTurnTime: this.getAverageTurnTime(),
             totalTurnsPlayed: this._turnsPlayed,
             timesReachedSingleCard: this._timesReachedSingleCard,

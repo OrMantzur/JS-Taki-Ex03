@@ -138,6 +138,14 @@ class Game {
         };
     }
 
+    getAllPlayersStatistics(){
+        let playerStatistics = {};
+        this._players.forEach((player) => {
+            playerStatistics[player.getId()] = player.getStatistics();
+        });
+        return playerStatistics;
+    }
+
     isGameStart(){
         return this._gameState.gameState &&this._gameState.gameState !== enums.GameState.WAITING_FOR_PLAYERS;
     }

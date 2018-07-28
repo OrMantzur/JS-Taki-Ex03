@@ -63,6 +63,7 @@ export default class ActiveGameBaseContainer extends React.Component {
 
     callSetState(gameStateUI) {
         this.setState({
+            loggedInPlayerName: gameStateUI.loggedInPlayerName,
             playerWon: gameStateUI.playerWon,
             activePlayer: gameStateUI.activePlayer,
             playerCards: gameStateUI.playerCards,
@@ -75,7 +76,7 @@ export default class ActiveGameBaseContainer extends React.Component {
             statistics: {
                 gameStatistics: gameStateUI.statistics.gameStatistics,
                 regularPlayerStats: gameStateUI.statistics.regularPlayerStats,
-                computerPlayerStats: gameStateUI.statistics.computerPlayerStats,
+                allPlayerStats: gameStateUI.statistics.allPlayerStats,
             }
         });
     }
@@ -109,6 +110,7 @@ export default class ActiveGameBaseContainer extends React.Component {
                                                userMessage={this.state.userMessage}
                         />
                         <PlayerWonContainer playerWon={this.state.playerWon}
+                                            loggedInPlayerName={this.state.loggedInPlayerName}
                                             gameState={this.state.currentGameState}
                                             statistics={this.state.statistics}
                                             restartGameClick={this.restartGame}

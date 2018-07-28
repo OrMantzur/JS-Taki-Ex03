@@ -13,6 +13,8 @@ export default class PlayerWonContainer extends React.Component {
     render() {
         if (this.props.playerWon) {
             let stats = this.props.statistics;
+            console.log("in player won screen");
+            console.log(this.props);
             return (
                 <div id="playerWonScreen">
                     <h1>{this.props.gameState.additionalInfo._playerName} has won the game!</h1>
@@ -23,18 +25,26 @@ export default class PlayerWonContainer extends React.Component {
                         Total turns played: {stats.gameStatistics.totalTurnsPlayed}<br/>
                         Total game duration (including replays): {stats.gameStatistics.gameDuration}
                     </p>
-                    <h3><u>Human player:</u></h3>
-                    <p>
-                        Total turns played: {stats.regularPlayerStats.totalTurnsPlayed} <br/>
-                        Average turn time: {stats.regularPlayerStats.avgTurnTime} <br/>
-                        Times reached last card: {stats.regularPlayerStats.timesReachedSingleCard}
-                    </p>
-                    <h3><u>Computer player:</u></h3>
-                    <p>
-                        Total turns played: {stats.computerPlayerStats.totalTurnsPlayed} <br/>
-                        Average turn time: {stats.computerPlayerStats.avgTurnTime} <br/>
-                        Times reached last card: {stats.computerPlayerStats.timesReachedSingleCard}
-                    </p>
+                    <h3><u>Player Statistics:</u></h3>
+                    <table>
+                        <tr>
+                            <th> Player Name</th>
+                            <th> Turns Played</th>
+                            <th> Avg Turn Time</th>
+                            <th> Time Reached Single Card</th>
+                        </tr>
+                        <tbody>
+                        {Object.values(stats.allPlayerStats).map(playerStats => (
+                            <tr key={playerStats.playerName}
+                                className={this.props.loggedInPlayerName === playerStats.playerName ? 'bold' : ''}>
+                                <td>{playerStats.playerName}</td>
+                                <td>{playerStats.totalTurnsPlayed}</td>
+                                <td>{playerStats.avgTurnTime}</td>
+                                <td>{playerStats.timesReachedSingleCard}</td>
+                            </tr>
+                        ))}
+                        </tbody>
+                    </table>
                 </div>
             )
         }

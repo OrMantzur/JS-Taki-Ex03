@@ -58,9 +58,9 @@ export default class GamesListComponent extends React.Component {
                 list of all games:
                 {Object.values(this.state.allGames).map(game => (
                     <div key={game._gameId}>
-                        <p> game ID: {game._gameId}, game name: {game._gameName} <a href={''}
-                                                                                    onClick={this.gameSelected.bind(this, game._gameId)}>select</a>
-                        </p>
+                    <p> game ID: {game._gameId}, game name: {game._gameName} <a href={''}
+                    onClick={this.gameSelected.bind(this, game._gameId)}>select</a>
+                    </p>
                     </div>
                 ))}
                 <br/>

@@ -39,9 +39,12 @@ export default class StatisticsContainer extends React.Component {
         };
         if (!this.props.statistics)
             return null;
-        let enableExitButton =(this.props.currentGameState !== undefined &&
+        let enableExitButton = (this.props.currentGameState !== undefined &&
             this.props.currentGameState.gameState === GameState.WAITING_FOR_PLAYERS);
 
+
+        console.log("statisticsProps");
+        console.log(this.props);
         return (
             <div id="statistics-container">
                 <div>{"Game timer: " + this.state.timerValueStr}</div>
@@ -66,14 +69,13 @@ export default class StatisticsContainer extends React.Component {
                         <td>Table</td>
                         <td>{this.props.statistics.gameStatistics.cardsOnTable}</td>
                     </tr>
-                    <tr>
-                        <td>Human player</td>
-                        <td>{this.props.statistics.regularPlayerStats.numCardsInHand}</td>
-                    </tr>
-                    <tr>
-                        <td>Computer player</td>
-                        <td>{this.props.statistics.computerPlayerStats.numCardsInHand}</td>
-                    </tr>
+                    {Object.values(this.props.statistics.allPlayerStats).map(playerStats => (
+                        <tr key={playerStats.playerName}
+                            className={this.props.activePlayer._playerName === playerStats.playerName ? 'bold' : ''}>
+                            <td>{playerStats.playerName} {this.props.activePlayer._playerName === playerStats.playerName ? '(playing...)' : ''}</td>
+                            <td>{playerStats.numCardsInHand}</td>
+                        </tr>
+                    ))}
                     </tbody>
                 </table>
                 <h5>Total turns played: {this.props.statistics.gameStatistics.totalTurnsPlayed}</h5>
