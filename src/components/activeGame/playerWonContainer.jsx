@@ -6,6 +6,7 @@
 import React from "react";
 
 export default class PlayerWonContainer extends React.Component {
+
     constructor(args) {
         super(...args);
     }
@@ -14,7 +15,6 @@ export default class PlayerWonContainer extends React.Component {
         if (this.props.playerWon) {
             let stats = this.props.statistics;
             console.log("in player won screen");
-            // console.log(this.props);
             return (
                 <div id="playerWonScreen">
                     <h1>{this.props.gameState.additionalInfo._playerName} has won the game!</h1>
@@ -51,4 +51,5 @@ export default class PlayerWonContainer extends React.Component {
         else
             return null
     };
+
 }

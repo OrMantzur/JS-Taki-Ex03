@@ -3,6 +3,7 @@ import React from 'react';
 const USER_REFRESH_INTERVAL = 2 * 1000;
 
 export default class UsersListComponent extends React.Component {
+
     constructor() {
         super();
         this.state = {
@@ -58,4 +59,5 @@ export default class UsersListComponent extends React.Component {
             </div>
         )
     }
+
 }

@@ -41,4 +41,4 @@ const SpecialCard = {
     CHANGE_DIRECTION: "change direction"
 };
 
-module.exports = {GameType, GameState, Direction, NumberCard, SpecialCard };
+module.exports = {GameType, GameState, Direction, NumberCard, SpecialCard};

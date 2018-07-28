@@ -8,6 +8,7 @@ import CardContainer from "./cardContainer.jsx";
 import DeckContainer from "./deckContainer.jsx";
 
 export default class PlayingTableContainer extends React.Component {
+
     constructor(args) {
         super(...args);
     }
@@ -30,4 +31,5 @@ export default class PlayingTableContainer extends React.Component {
             </div>
         );
     };
+
 }

@@ -8,6 +8,7 @@ import CardContainer from "./cardContainer.jsx";
 import {GameState, SpecialCard} from "../../server/logic/enums";
 
 export default class PlayerContainer extends React.Component {
+
     constructor(args) {
         super(...args);
         this.state = {
@@ -60,10 +61,10 @@ export default class PlayerContainer extends React.Component {
     }
 
     displayOverlay() {
-        if ( this.getDisplayOverlayText() !== null
-            /*this.props.gameControlsLocked ||
-            this.props.currentGameState.gameState === GameState.GAME_ENDED ||
-            this.props.currentGameState.gameState === GameState.WAITING_FOR_PLAYERS*/
+        if (this.getDisplayOverlayText() !== null
+        /*this.props.gameControlsLocked ||
+        this.props.currentGameState.gameState === GameState.GAME_ENDED ||
+        this.props.currentGameState.gameState === GameState.WAITING_FOR_PLAYERS*/
         ) {
             return displayOverlayStyle;
         }
@@ -97,6 +98,7 @@ export default class PlayerContainer extends React.Component {
             </div>
         );
     };
+
 }
 
 const displayOverlayStyle = {

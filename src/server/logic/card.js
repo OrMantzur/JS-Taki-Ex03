@@ -99,7 +99,6 @@ class Card {
     }
 
     printCardToConsole() {
-        // console.log(card.toString());
         console.log(this.toString());
     }
 
