@@ -37,7 +37,8 @@ const SpecialCard = {
     CHANGE_COLOR: "change color",
     PLUS: "plus",
     PLUS_2: "+2",
-    SUPER_TAKI: "super taki"
+    SUPER_TAKI: "super taki",
+    CHANGE_DIRECTION: "change direction"
 };
 
 module.exports = {GameType, GameState, Direction, NumberCard, SpecialCard };

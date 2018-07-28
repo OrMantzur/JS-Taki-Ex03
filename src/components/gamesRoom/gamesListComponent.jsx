@@ -53,17 +53,35 @@ export default class GamesListComponent extends React.Component {
     }
 
     render() {
+        console.log("in gamesList component");
+        console.log(this.state.allGames);
         return (
-            <div>
-                list of all games:
-                {Object.values(this.state.allGames).map(game => (
-                    <div key={game._gameId}>
-                    <p> game ID: {game._gameId}, game name: {game._gameName} <a href={''}
-                    onClick={this.gameSelected.bind(this, game._gameId)}>select</a>
-                    </p>
-                    </div>
-                ))}
-                <br/>
+            <div id='games-list-container'>
+                <button onClick={this.props.addGameClicked.bind(this, true)}>add game</button>
+                <table>
+                    <tr>
+                        <th>Game ID</th>
+                        <th>Game Title</th>
+                        <th>Players in game</th>
+                        <th>Game State</th>
+                        <th></th>
+                    </tr>
+
+                    {Object.values(this.state.allGames).map(game => (
+                        <tr key={game._gameId}>
+                            <td>{game._gameId}</td>
+                            <td>{game._gameName}</td>
+                            <td>{game._players.length}/{game._numPlayersToStartGame}</td>
+                            <td>{game._gameState.gameState}</td>
+                            <td>
+                                <button onClick={this.gameSelected.bind(this, game._gameId)}
+                                        className={game._players.length == game._numPlayersToStartGame ? "disabled-button" : ""}>Join
+                                    Game
+                                </button>
+                            </td>
+                        </tr>
+                    ))}
+                </table>
             </div>
         )
     }

@@ -100,7 +100,7 @@ export default class ActiveGameBaseContainer extends React.Component {
             return <div><h1>gameState has not bee set yet</h1></div>;
 
         return (
-            <div id="main-container">
+            <div id="active-game-container">
                 <div id="play-area-div">
                     <div id="player-and-table-container">
                         <PlayingTableContainer topCardOnTable={this.state.topCardOnTable}
@@ -124,7 +124,7 @@ export default class ActiveGameBaseContainer extends React.Component {
                 </div>
 
                 <div id="statistics-div">
-                    <img src={takiLogo} alt="Taki Logo" style={imgStyle}/>
+                    <img src="/images/taki-logo" alt="Taki Logo" style={imgStyle}/>
                     <StatisticsContainer statistics={this.state.statistics}
                                          gameControlsLocked={this.state.gameControlsLocked}
                                          activePlayer={this.state.activePlayer}

@@ -4,45 +4,61 @@ import GamesListComponent from "./gamesListComponent.jsx";
 
 var enums = require('../../server/logic/enums');
 
+const displayAddGameStyle = {
+    display: "flex"
+};
+
 export default class GamesRoomComponent extends React.Component {
 
     constructor() {
         super();
+        this.state = {
+            showAddGame: false
+        };
         this.addGame = this.addGame.bind(this);
         this.joinGame = this.joinGame.bind(this);
         this.logout = this.logout.bind(this);
+        this.displayAddGame = this.displayAddGame.bind(this);
+        this.setAddGameFormVisibility = this.setAddGameFormVisibility.bind(this);
+    }
+
+    setAddGameFormVisibility(showAddGame) {
+        this.setState({showAddGame: showAddGame});
     }
 
     render() {
         return (
-            <div>
-                hello {this.props.userName}
-
-                {/*TODO delete */}
-                <UsersListComponent/>
-                <GamesListComponent gameSelected={this.joinGame}/>
-                <form onSubmit={this.addGame}>
-                    <label className="gameTitle-label" htmlFor="gameTitle"> title: </label>
-                    <input className="gameTitle-input" name="gameTitle"/>
-                    <label className="gameType-label" htmlFor="gameType"> game type: </label>
-                    <select name="gameType">
-                        <option value={enums.GameType.BASIC}>Basic</option>
-                        <option value={enums.GameType.ADVANCED}>Advanced</option>
-                    </select>
-                    <label className="numPlayers-label" htmlFor="numPlayers"> num players: </label>
-                    <input type="number" name="numPlayers" min="2" max="4" defaultValue="2"/>
-                    <input className="submit-btn btn" type="submit" value="Add Game"/>
-                </form>
-
-                <form onSubmit={this.joinGame}>
-                    <label className="gameId" htmlFor="gameId">gameId: </label>
-                    <input className="gameId-input" name="gameId"/>
-                    <input className="submit-btn btn" type="submit" value="Start Game"/>
-                </form>
-
-                <button className="logout btn" onClick={this.logout}>Logout</button>
+            <div id='games-room-container'>
+                <UsersListComponent userName={this.props.userName}
+                                    logoutClicked={this.logout}
+                />
+                <GamesListComponent gameSelected={this.joinGame}
+                                    addGameClicked={this.setAddGameFormVisibility}
+                />
+                <div id='add-new-game-form-container' style={this.displayAddGame()}>
+                    <form onSubmit={this.addGame}>
+                        <label className="gameTitle-label" htmlFor="gameTitle"> title: </label>
+                        <input className="gameTitle-input" name="gameTitle"/>
+                        <label className="gameType-label" htmlFor="gameType"> game type: </label>
+                        <select name="gameType">
+                            <option value={enums.GameType.BASIC}>Basic</option>
+                            <option value={enums.GameType.ADVANCED}>Advanced</option>
+                        </select>
+                        <label className="numPlayers-label" htmlFor="numPlayers"> num players: </label>
+                        <input type="number" name="numPlayers" min="2" max="4" defaultValue="2"/>
+                        <input className="submit-btn btn" type="submit" value="Add Game"/>
+                    </form>
+                </div>
             </div>
         )
+    }
+
+    displayAddGame() {
+        if (this.state.showAddGame) {
+            return displayAddGameStyle;
+        }
+        else
+            return null;
     }
 
     addGame(formEvent) {
@@ -63,6 +79,9 @@ export default class GamesRoomComponent extends React.Component {
                     console.log("game " + body.gameTitle + " was added successfully");
                 }
             })
+            .then(() =>
+                this.setAddGameFormVisibility(false)
+            )
             .catch(errorMessage => {
                 alert(errorMessage);
             });
@@ -95,3 +114,5 @@ export default class GamesRoomComponent extends React.Component {
     }
 
 }
+
+

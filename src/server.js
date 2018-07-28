@@ -11,6 +11,7 @@ const path = require('path');
 const gameRouter = require('./server/gamesRouter');
 const userRouter = require('./server/usersRouter');
 const activeGameRouter = require('./server/activeGameRouter');
+const imagesRouter = require('./server/imagesRouter');
 
 const PORT = 3000;
 
@@ -25,6 +26,7 @@ app.use(express.static(path.resolve(__dirname, "..", "public")));
 app.use('/users', userRouter);
 app.use('/games', gameRouter);
 app.use('/activeGame', activeGameRouter);
+app.use('/images', imagesRouter);
 
 // run server
 app.listen(PORT, console.log('Taki server listening on port ' + PORT));

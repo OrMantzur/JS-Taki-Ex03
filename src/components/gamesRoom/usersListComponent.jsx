@@ -49,7 +49,9 @@ export default class UsersListComponent extends React.Component {
 
     render() {
         return (
-            <div>
+            <div id='user-list-container'>
+                Hello {this.props.userName}
+                <button className="logout btn" onClick={this.props.logoutClicked}>Logout</button>
                 list of all logged in users:
                 {this.state.userList.map((entry, index) => (
                     <p key={entry.playerName + index}>{entry.playerName + ":" + entry.sessionId}</p>))}

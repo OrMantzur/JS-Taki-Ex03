@@ -56,6 +56,9 @@ class Card {
             case SpecialCard.PLUS:
                 message = "Plus: Player gets another turn";
                 break;
+            case SpecialCard.CHANGE_DIRECTION:
+                message = "Plus: Player gets another turn";
+                break;
             default:
                 break;
         }

@@ -1,4 +1,5 @@
 import React from 'react';
+import takiLogo from "../../server/takiImages/TAKI_logo.png";
 
 export default class LoginContainer extends React.Component {
 
@@ -13,15 +14,29 @@ export default class LoginContainer extends React.Component {
     }
 
     render() {
+        const imgStyle = {
+            width: 'fit-content',
+            height: 'fit-content',
+            alignSelf: 'center'
+        };
+        const loginFormStyle = {
+            width: 'fit-content',
+            alignSelf: 'center',
+            marginTop: '15px'
+        };
         return (
-            <div>
-                <form onSubmit={this.login}>
-                    <label htmlFor="playerName">name: </label>
-                    <input name="playerName"/>
-                    <input type="submit" value="Login"/>
-                </form>
-                <p>{this.state.errMessage}</p>
-                {/*{this.renderLoginErrorMessage()}*/}
+            <div id='login-screen-container'>
+                <div id='login-screen-inner-container'>
+                    <img src="/images/taki-logo" alt="Taki Logo" style={imgStyle}/>
+                    <div style={loginFormStyle}>
+                        <form onSubmit={this.login}>
+                            <label htmlFor="playerName">Name: </label>
+                            <input type="text" name="playerName"/>
+                            <input type="submit" value="Login"/>
+                        </form>
+                        <p className='error'>{this.state.errMessage}</p>
+                    </div>
+                </div>
             </div>
         );
     }

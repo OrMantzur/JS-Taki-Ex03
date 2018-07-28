@@ -321,6 +321,11 @@ class Game {
                 // do nothing, the player gets another turn
                 console.log("in case - PLUS");
                 break;
+            case enums.SpecialCard.CHANGE_DIRECTION:
+                this.switchGameDirection();
+                this._moveToNextPlayer();
+                console.log("in case - CHANGE_DIRECTION");
+                break;
             default:
                 console.log("Error - no matching special card found");
         }
