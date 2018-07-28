@@ -1,6 +1,7 @@
 import React from 'react';
 import UsersListComponent from "./usersListComponent.jsx";
 import GamesListComponent from "./gamesListComponent.jsx";
+
 var enums = require('../../server/logic/enums');
 
 export default class GamesRoomComponent extends React.Component {

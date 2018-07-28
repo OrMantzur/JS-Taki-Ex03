@@ -4,6 +4,7 @@
  */
 
 import React from "react";
+import {GameState} from "../../server/logic/enums";
 
 export default class StatisticsContainer extends React.Component {
     constructor(args) {
@@ -38,13 +39,15 @@ export default class StatisticsContainer extends React.Component {
         };
         if (!this.props.statistics)
             return null;
+        let enableExitButton =(this.props.currentGameState !== undefined &&
+            this.props.currentGameState.gameState === GameState.WAITING_FOR_PLAYERS);
 
         return (
             <div id="statistics-container">
                 <div>{"Game timer: " + this.state.timerValueStr}</div>
                 <button type="button"
                         onClick={this.props.exitGame}
-                        className={(this.props.gameControlsLocked ? 'disabled-button ' : ' ') + "red "}>
+                        className={(this.props.gameControlsLocked || !enableExitButton ? 'disabled-button ' : ' ') + "red "}>
                     End game
                 </button>
 

@@ -6,10 +6,7 @@ import React from 'react';
 import PlayingTableContainer from "./playingTableContainer.jsx";
 import PlayerContainer from "./playerContainer.jsx";
 import StatisticsContainer from "./statisticsContainer.jsx";
-import OtherPlayersContainer from "./otherPlayersContainer.jsx";
 import PlayerWonContainer from "./playerWonContainer.jsx";
-// import Game, {GameState, GameType} from "../../server/logic/game";
-// import Player from "../../server/logic/player";
 import takiLogo from "../../server/takiImages/TAKI_logo.png";
 import * as enums from "../../server/logic/enums";
 
@@ -88,6 +85,7 @@ export default class ActiveGameBaseContainer extends React.Component {
     }
 
     exitGameClicked() {
+        console.log("TEST GAME EXIT");
         //TODO implement (can't exit during game)
     }
 
@@ -128,6 +126,7 @@ export default class ActiveGameBaseContainer extends React.Component {
                     <StatisticsContainer statistics={this.state.statistics}
                                          gameControlsLocked={this.state.gameControlsLocked}
                                          activePlayer={this.state.activePlayer}
+                                         currentGameState={this.state.currentGameState}
                                          exitGame={this.exitGameClicked}
                                          gameEnded={this.state.currentGameState && this.state.currentGameState.gameState === enums.GameState.GAME_ENDED}
                     />
@@ -135,4 +134,5 @@ export default class ActiveGameBaseContainer extends React.Component {
             </div>
         );
     }
+
 }

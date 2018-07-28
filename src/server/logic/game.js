@@ -151,7 +151,7 @@ class Game {
             playerToAdd.addCardsToHand(this._deck.drawCards(NUM_STARTING_CARDS));
             console.log("GameID (" + this._gameId + "): " + playerToAdd.getName() + " has joined the game");
             playerAddedSuccessfully = true;
-            if (this._players.length.toString() == this._numPlayersToStartGame) {
+            if (this._players.length.toString() === this._numPlayersToStartGame) {
                 this._startGame();
             }
         }
@@ -174,6 +174,7 @@ class Game {
         this._cardsOnTable.putCardOnTable(cardDrawnFromDeck);
         this._players[this._activePlayerIndex].startTurn();
         this._gameStartTime = new Date();
+        this._gameState.gameState = enums.GameState.GAME_STARTED;
     }
 
     _moveCardsFromTableToDeck() {

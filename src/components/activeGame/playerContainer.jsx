@@ -5,7 +5,7 @@
 
 import React from "react";
 import CardContainer from "./cardContainer.jsx";
-import {SpecialCard, GameState} from "../../server/logic/enums";
+import {GameState, SpecialCard} from "../../server/logic/enums";
 
 export default class PlayerContainer extends React.Component {
     constructor(args) {
