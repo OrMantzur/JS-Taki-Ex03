@@ -6,7 +6,6 @@ export default class GamesRoomComponent extends React.Component {
 
     constructor() {
         super();
-        this.joinGame = this.joinGame.bind(this);
         this.logout = this.logout.bind(this);
     }
 
@@ -16,24 +15,9 @@ export default class GamesRoomComponent extends React.Component {
                 <UsersListComponent userName={this.props.userName}
                                     logoutClicked={this.logout}
                 />
-                <GamesListComponent gameSelected={this.joinGame}                />
+                <GamesListComponent gameSelected={this.props.gameSelected}/>
             </div>
         )
-    }
-
-    joinGame(gameIdSelected) {
-        let body = {gameId: gameIdSelected};
-        // start game
-        fetch('/games/joinGame', {
-            method: 'POST',
-            body: JSON.stringify(body),
-            credentials: 'include'
-        }).then(response => {
-            if (response.ok) {
-                this.props.gameSelected(gameIdSelected);
-            }
-            return response.json();
-        });
     }
 
     logout() {

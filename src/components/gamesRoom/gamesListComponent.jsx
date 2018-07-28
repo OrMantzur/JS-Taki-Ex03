@@ -13,11 +13,11 @@ export default class GamesListComponent extends React.Component {
             showAddGame: false
         };
         this.getAllGames = this.getAllGames.bind(this);
-        this.gameSelected = this.gameSelected.bind(this);
         this.addGame = this.addGame.bind(this);
         this.deleteGame = this.deleteGame.bind(this);
         this.displayAddGame = this.displayAddGame.bind(this);
         this.setAddGameFormVisibility = this.setAddGameFormVisibility.bind(this);
+        this.joinGame = this.joinGame.bind(this);
     }
 
     /**
@@ -53,10 +53,6 @@ export default class GamesListComponent extends React.Component {
         if (this.timeoutId) {
             clearTimeout(this.timeoutId);
         }
-    }
-
-    gameSelected(gameId) {
-        this.props.gameSelected(gameId);
     }
 
     deleteGame(gameId) {
@@ -117,6 +113,21 @@ export default class GamesListComponent extends React.Component {
         });
     }
 
+    joinGame(gameIdSelected) {
+        let body = {gameId: gameIdSelected};
+        // start game
+        fetch('/games/joinGame', {
+            method: 'POST',
+            body: JSON.stringify(body),
+            credentials: 'include'
+        }).then(response => {
+            if (response.ok) {
+                this.props.gameSelected(gameIdSelected);
+            }
+            return response.json();
+        });
+    }
+
     setAddGameFormVisibility(showAddGame) {
         this.setState({showAddGame: showAddGame});
     }
@@ -141,13 +152,13 @@ export default class GamesListComponent extends React.Component {
                             <td>{game._players.length}/{game._numPlayersToStartGame}</td>
                             <td>{game._gameState.gameState}</td>
                             <td>
-                                <button onClick={this.gameSelected.bind(this, game._gameId)}
-                                        className={game._players.length == game._numPlayersToStartGame ? "disabled-button" : ""}>Join
-                                    Game
+                                <button onClick={this.joinGame.bind(this, game._gameId)}
+                                        className={game._players.length == game._numPlayersToStartGame ? "disabled-button" : ""}>
+                                    Join Game
                                 </button>
                                 <button onClick={this.deleteGame.bind(this, game._gameId)}
-                                        className={game._players.length == game._numPlayersToStartGame ? "disabled-button" : ""}>Delete
-                                    Game
+                                        className={game._players.length == game._numPlayersToStartGame ? "disabled-button" : ""}>
+                                    Delete Game
                                 </button>
                             </td>
                         </tr>
