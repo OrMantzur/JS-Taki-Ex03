@@ -11,6 +11,7 @@ export default class GamesListComponent extends React.Component {
 
         this.getAllGames = this.getAllGames.bind(this);
         this.gameSelected = this.gameSelected.bind(this);
+        this.deleteGame = this.deleteGame.bind(this);
     }
 
     /**
@@ -52,15 +53,20 @@ export default class GamesListComponent extends React.Component {
         this.props.gameSelected(gameId);
     }
 
+    deleteGame(gameId) {
+        this.props.deleteGame(gameId);
+    }
+
     render() {
         return (
             <div>
                 list of all games:
                 {Object.values(this.state.allGames).map(game => (
                     <div key={game._gameId}>
-                    <p> game ID: {game._gameId}, game name: {game._gameName} <a href={''}
-                    onClick={this.gameSelected.bind(this, game._gameId)}>select</a>
-                    </p>
+                        <p> game ID: {game._gameId}, game name: {game._gameName}
+                            <a href={''} onClick={this.gameSelected.bind(this, game._gameId)}>select || </a>
+                            <a href={''} onClick={this.deleteGame.bind(this, game._gameId)}>delete</a>
+                        </p>
                     </div>
                 ))}
                 <br/>

@@ -10,6 +10,7 @@ export default class GamesRoomComponent extends React.Component {
         super();
         this.addGame = this.addGame.bind(this);
         this.joinGame = this.joinGame.bind(this);
+        this.deleteGame = this.deleteGame.bind(this);
         this.logout = this.logout.bind(this);
     }
 
@@ -18,9 +19,8 @@ export default class GamesRoomComponent extends React.Component {
             <div>
                 hello {this.props.userName}
 
-                {/*TODO delete */}
                 <UsersListComponent/>
-                <GamesListComponent gameSelected={this.joinGame}/>
+                <GamesListComponent gameSelected={this.joinGame} deleteGame={this.deleteGame}/>
                 <form onSubmit={this.addGame}>
                     <label className="gameTitle-label" htmlFor="gameTitle"> title: </label>
                     <input className="gameTitle-input" name="gameTitle"/>
@@ -81,6 +81,21 @@ export default class GamesRoomComponent extends React.Component {
                 this.props.gameSelected(gameIdSelected);
             }
             return response.json();
+        });
+    }
+
+    deleteGame(gameIdToDelete) {
+        let body = {gameId: gameIdToDelete};
+        // delete game
+        fetch('/games/deleteGame', {
+            method: 'POST',
+            body: JSON.stringify(body),
+            credentials: 'include'
+        }).then(response => {
+            if (!response.ok) {
+                console.log("Error: delete gameId " + gameIdToDelete + " fail");
+            }
+            console.log("gameId " + gameIdToDelete + " delete successfully");
         });
     }
 

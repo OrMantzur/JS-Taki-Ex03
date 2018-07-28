@@ -37,7 +37,6 @@ class GamesManager {
         return this._games;
     }
 
-
     addGame(gameType, playersNum, gameName, gameCreator) {
         let returnObject = {
             valid: true,
@@ -47,7 +46,7 @@ class GamesManager {
         if (!(gameType === enums.GameType.BASIC || gameType === enums.GameType.ADVANCED) ||
             playersNum > MAX_PLAYER_PER_GAME || playersNum < MIN_PLAYER_PER_GAME ||
             !gameName || !gameCreator) {
-            returnObject.valid =false;
+            returnObject.valid = false;
             returnObject.errorMessage =
                 "please validate that game name isn't empty\n" +
                 "game type select from list\n" +
@@ -57,8 +56,8 @@ class GamesManager {
         // check if name already exists
         for (let gameIndex in this._games) {
             if (gameName === this._games[gameIndex].getGameName()) {
-                returnObject.valid= false;
-                returnObject.errorMessage="name " + gameName + " already exist";
+                returnObject.valid = false;
+                returnObject.errorMessage = "name " + gameName + " already exist";
                 console.log(returnObject.errorMessage);
                 return returnObject;
             }
@@ -71,14 +70,13 @@ class GamesManager {
 
     }
 
-    removeGame(gameId) {
-        // TODO add validations
+    removeGame(gameId, playerWhoDeleteTheGame) {
         let gameToRemove = this._games[gameId];
         // only delete game if it exists, it hasn't started yet, and no players are waiting for it to start
         if (gameToRemove !== undefined &&
             gameToRemove.getGameState().gameState === enums.GameState.WAITING_FOR_PLAYERS &&
-            gameToRemove.getNumPlayersInGame() === 0
-        ) {
+            gameToRemove.getNumPlayersInGame() === 0 &&
+            gameToRemove.getGameCreator().getId() === playerWhoDeleteTheGame.getId()) {
             delete this._games[gameId];
         }
     }
