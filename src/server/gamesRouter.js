@@ -30,10 +30,15 @@ gamesRouter.post('/addGame', playersManager.getLoggedInPlayer, (req, res) => {
 gamesRouter.post('/deleteGame', playersManager.getLoggedInPlayer, (req, res) => {
     let gameId = JSON.parse(req.body).gameId;
     let loggedInPlayer = req.session.loggedInPlayer;
+    let errorMessage;
     if (gameId !== undefined) {
-        gameManager.removeGame(gameId, loggedInPlayer);
+        errorMessage = gameManager.removeGame(gameId, loggedInPlayer);
+        if (errorMessage !== undefined) {
+            res.status(403).json(errorMessage);
+        } else {
+            res.sendStatus(200);
+        }
     }
-    res.sendStatus(200);
 });
 
 gamesRouter.get('/allGames', playersManager.getLoggedInPlayer, (req, res) => {

@@ -93,9 +93,13 @@ export default class GamesRoomComponent extends React.Component {
             credentials: 'include'
         }).then(response => {
             if (!response.ok) {
-                console.log("Error: delete gameId " + gameIdToDelete + " fail");
+                return response.text().then(text => {
+                    throw Error(text)
+                });
             }
             console.log("gameId " + gameIdToDelete + " delete successfully");
+        }).catch(errorMessage => {
+            alert(errorMessage);
         });
     }
 

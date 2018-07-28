@@ -78,6 +78,8 @@ class GamesManager {
             gameToRemove.getNumPlayersInGame() === 0 &&
             gameToRemove.getGameCreator().getId() === playerWhoDeleteTheGame.getId()) {
             delete this._games[gameId];
+        } else {
+            return "game can be delete only if you the creator and there are no body in game";
         }
     }
 
