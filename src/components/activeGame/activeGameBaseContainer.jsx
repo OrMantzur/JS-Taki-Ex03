@@ -39,6 +39,9 @@ export default class ActiveGameBaseContainer extends React.Component {
     // }
 
     updateUIGameState() {
+        if (this.state.playerWon === true)
+            return;
+
         fetch('/activeGame/gameState', {method: 'GET', credentials: 'include'})
             .then((response) => {
                 if (!response.ok) {

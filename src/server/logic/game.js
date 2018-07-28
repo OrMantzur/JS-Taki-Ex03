@@ -384,7 +384,7 @@ class Game {
      * @returns {boolean}
      */
     needToTakeCardFromDeck() {
-        return this._cardsOnTable.viewTopCard().getValue() === SpecialCard.PLUS;
+        return this._cardsOnTable.viewTopCard()._value === enums.SpecialCard.PLUS;
     }
 
     // makeComputerPlayerMove() {

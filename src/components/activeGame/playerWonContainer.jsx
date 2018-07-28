@@ -14,10 +14,11 @@ export default class PlayerWonContainer extends React.Component {
         if (this.props.playerWon) {
             //TODO delete
             console.log("in player won container");
+            console.log(this.props);
             let stats = this.props.statistics;
             return (
                 <div id="playerWonScreen">
-                    <h1>{this.props.gameState.additionalInfo.getName()} has won the game!</h1>
+                    <h1>{this.props.gameState.additionalInfo._playerName} has won the game!</h1>
                     <button className="green" onClick={this.props.restartGameClick}>Play again</button>
                     <br/>
                     <button className="green" onClick={this.props.startReplayClick}>View replay</button>
