@@ -48,17 +48,23 @@ export default class PlayerContainer extends React.Component {
     }
 
     getDisplayOverlayText() {
-        let overlayDisplayText = "";
+        let overlayDisplayText = null;
         if (this.props.gameControlsLocked)
             overlayDisplayText = "Please wait for your turn";
         else if (this.props.currentGameState.gameState === GameState.GAME_ENDED)
             overlayDisplayText = "Game ended";
+        else if (this.props.currentGameState.gameState === GameState.WAITING_FOR_PLAYERS)
+            overlayDisplayText = "Waiting for other players to join";
 
         return overlayDisplayText;
     }
 
     displayOverlay() {
-        if (this.props.gameControlsLocked || this.props.currentGameState.gameState === GameState.GAME_ENDED) {
+        if ( this.getDisplayOverlayText() !== null
+            /*this.props.gameControlsLocked ||
+            this.props.currentGameState.gameState === GameState.GAME_ENDED ||
+            this.props.currentGameState.gameState === GameState.WAITING_FOR_PLAYERS*/
+        ) {
             return displayOverlayStyle;
         }
         else
@@ -74,7 +80,8 @@ export default class PlayerContainer extends React.Component {
                 {this.props.cards.map((card) => (
                     <CardContainer card={card} key={card._id} cardClicked={this.cardClicked}/>))}
                 <div id="player-overlay" className="screen-overlay" style={this.displayOverlay()}>
-                    <h1>{this.getDisplayOverlayText()}</h1></div>
+                    <h1>{this.getDisplayOverlayText()}</h1>
+                </div>
                 <div id="colorPicker" className="screen-overlay"
                      style={this.state.colorPickerVisible ? displayOverlayStyle : null}>
                     <h2>Please choose a color: </h2>

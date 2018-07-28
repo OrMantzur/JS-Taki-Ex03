@@ -101,7 +101,7 @@ export default class ActiveGameBaseContainer extends React.Component {
 
         return (
             <div id="main-container">
-                <div id="play-area-div">`
+                <div id="play-area-div">
                     <div id="player-and-table-container">
                         <PlayingTableContainer topCardOnTable={this.state.topCardOnTable}
                                                pickedUpCardFromDeck={this.updateUIGameState}

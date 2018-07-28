@@ -28,7 +28,7 @@ activeGameRouter.get('/gameState', playersManager.getLoggedInPlayer, (req, res) 
         currentGameState: activeGame.getGameState(),
         //TODO not sure if we need to check for null here
         userMessage: userMessage !== null ? userMessage : null,
-        gameControlsLocked: activeGame.getActivePlayer().getId() !== loggedInPlayerId,
+        gameControlsLocked: activeGame.getActivePlayer().getId() !== loggedInPlayerId || activeGame.getGameState().gameState === enums.GameState.WAITING_FOR_PLAYERS,
         possibleMoveForActivePlayer: activeGame.getPossibleMoveForActivePlayer(),
         statistics: {
             gameStatistics: activeGame.getStatistics(),
