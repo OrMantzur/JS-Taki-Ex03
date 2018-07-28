@@ -13,6 +13,7 @@ const DisplayScreen = {
  * kind of entry point of all components
  */
 export default class BaseContainer extends React.Component {
+
     constructor() {
         super();
         this.state = {
@@ -58,7 +59,6 @@ export default class BaseContainer extends React.Component {
     // ================================================================================================
     // ======================================== Player Methods ========================================
     // ================================================================================================
-
     handleSuccessLogin() {
         this.getPlayerNameForThisSession();
     }

@@ -33,11 +33,6 @@ export default class GamesRoomComponent extends React.Component {
                     <input className="submit-btn btn" type="submit" value="Add Game"/>
                 </form>
 
-                {/*<form method="POST">*/}
-                {/*<input type="text"/>*/}
-                {/*<input type="submit" className="addGame btn" onClick={this.addGame}>Add Game</input>*/}
-                {/*</form>*/}
-
                 <form onSubmit={this.joinGame}>
                     <label className="gameId" htmlFor="gameId">gameId: </label>
                     <input className="gameId-input" name="gameId"/>
@@ -74,11 +69,6 @@ export default class GamesRoomComponent extends React.Component {
         formEvent.target.reset();
     }
 
-    // getAllGames() {
-    //     // TODO
-    //     return null;
-    // }
-
     joinGame(gameIdSelected) {
         let body = {gameId: gameIdSelected};
         // start game
@@ -93,24 +83,6 @@ export default class GamesRoomComponent extends React.Component {
             return response.json();
         });
     }
-
-    // joinGame(formEvent) {
-    //     formEvent.preventDefault();
-    //     let gameIdToStart = formEvent.target.elements.gameId.value;
-    //
-    //     // start game
-    //     let activeGame = fetch('/games/joinGame', {
-    //         method: 'GET',
-    //         body: {gameId: gameIdToStart},
-    //         credentials: 'include'
-    //     }).then(response => {
-    //         return response.json();
-    //     }).then(activeGameState => {
-    //         // render base container to active game component
-    //         // this.props.initActiveGameState(activeGameState);
-    //         this.props.gameSelected(gameIdToStart);
-    //     });
-    // }
 
     logout() {
         fetch('/users/logout', {method: 'GET', credentials: 'include'})

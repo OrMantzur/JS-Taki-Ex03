@@ -345,6 +345,8 @@ class Game {
         // check if there is a possible move that the player can make
         let card = this._players[this._activePlayerIndex].getPossibleMove(this._isValidMove, this, true);
         if (card !== null) {
+
+
             console.log("Cannot take card from deck when there is a possible move. \nThe card that can be places is: " + card.getColor() + ", " + card.getValue());
             return cardsTaken;
         }
@@ -385,60 +387,60 @@ class Game {
         return this._cardsOnTable.viewTopCard().getValue() === SpecialCard.PLUS;
     }
 
-    makeComputerPlayerMove() {
-        let activePlayer = this._players[this._activePlayerIndex];
-        let topCard = this._cardsOnTable.viewTopCard();
-        let cardToPlace;
-        let additionalData;
-        let chooseCardToPlaceFunc = [() => {
-            // anyColorPlus2card
-            cardToPlace = this._gameState.gameState === GameState.OPEN_PLUS_2 ? activePlayer.getCardOfValue(SpecialCard.PLUS_2) : undefined;
-        }, () => {
-            // sameColorPlus2card
-            cardToPlace = activePlayer.getCardOfColorAndValue(topCard.getColor(), SpecialCard.PLUS_2);
-        }, () => {
-            // changeColorCard
-            cardToPlace = activePlayer.getCardOfValue(SpecialCard.CHANGE_COLOR);
-            if (cardToPlace !== undefined) {
-                let i;
-                for (i = 0; Color.allColors[i] !== undefined; i++) {
-                    if (activePlayer.getCardOfColor(Color.allColors[i]) !== undefined) {
-                        break;
-                    }
-                }
-                additionalData = Color.allColors[i] !== undefined ? Color.allColors[i] : Color.getRandomColor();
-            }
-        }, () => {
-            // sameColorStopCard
-            cardToPlace = activePlayer.getCardOfColorAndValue(topCard.getColor(), SpecialCard.STOP);
-        }, () => {
-            // sameColorPlusCard
-            cardToPlace = activePlayer.getCardOfColorAndValue(topCard.getColor(), SpecialCard.PLUS);
-        }, () => {
-            // superTakiCard
-            cardToPlace = activePlayer.getCardOfValue(SpecialCard.SUPER_TAKI);
-            additionalData = topCard.getColor();
-        }, () => {
-            // sameColorTakiCard
-            cardToPlace = activePlayer.getCardOfColorAndValue(topCard.getColor(), SpecialCard.TAKI);
-        }, () => {
-            cardToPlace = activePlayer.getCardOfColor(topCard.getColor());
-        }, () => {
-            if (this._gameState.gameState !== GameState.OPEN_TAKI) {
-                cardToPlace = activePlayer.getCardOfValue(topCard.getValue());
-            }
-        }];
-
-        // iterate through all function until a card is found, if not then draw a card from th deck
-        for (let i = 0; i < chooseCardToPlaceFunc.length && cardToPlace === undefined; i++) {
-            chooseCardToPlaceFunc[i]();
-        }
-
-        if (cardToPlace !== undefined && this._gameState.gameState === GameState.OPEN_PLUS_2 && cardToPlace.getValue() !== SpecialCard.PLUS_2)
-            cardToPlace = undefined;
-
-        return cardToPlace === undefined ? this.takeCardsFromDeck().length > 0 : this.makeMove(cardToPlace, additionalData);
-    }
+    // makeComputerPlayerMove() {
+    //     let activePlayer = this._players[this._activePlayerIndex];
+    //     let topCard = this._cardsOnTable.viewTopCard();
+    //     let cardToPlace;
+    //     let additionalData;
+    //     let chooseCardToPlaceFunc = [() => {
+    //         // anyColorPlus2card
+    //         cardToPlace = this._gameState.gameState === GameState.OPEN_PLUS_2 ? activePlayer.getCardOfValue(SpecialCard.PLUS_2) : undefined;
+    //     }, () => {
+    //         // sameColorPlus2card
+    //         cardToPlace = activePlayer.getCardOfColorAndValue(topCard.getColor(), SpecialCard.PLUS_2);
+    //     }, () => {
+    //         // changeColorCard
+    //         cardToPlace = activePlayer.getCardOfValue(SpecialCard.CHANGE_COLOR);
+    //         if (cardToPlace !== undefined) {
+    //             let i;
+    //             for (i = 0; Color.allColors[i] !== undefined; i++) {
+    //                 if (activePlayer.getCardOfColor(Color.allColors[i]) !== undefined) {
+    //                     break;
+    //                 }
+    //             }
+    //             additionalData = Color.allColors[i] !== undefined ? Color.allColors[i] : Color.getRandomColor();
+    //         }
+    //     }, () => {
+    //         // sameColorStopCard
+    //         cardToPlace = activePlayer.getCardOfColorAndValue(topCard.getColor(), SpecialCard.STOP);
+    //     }, () => {
+    //         // sameColorPlusCard
+    //         cardToPlace = activePlayer.getCardOfColorAndValue(topCard.getColor(), SpecialCard.PLUS);
+    //     }, () => {
+    //         // superTakiCard
+    //         cardToPlace = activePlayer.getCardOfValue(SpecialCard.SUPER_TAKI);
+    //         additionalData = topCard.getColor();
+    //     }, () => {
+    //         // sameColorTakiCard
+    //         cardToPlace = activePlayer.getCardOfColorAndValue(topCard.getColor(), SpecialCard.TAKI);
+    //     }, () => {
+    //         cardToPlace = activePlayer.getCardOfColor(topCard.getColor());
+    //     }, () => {
+    //         if (this._gameState.gameState !== GameState.OPEN_TAKI) {
+    //             cardToPlace = activePlayer.getCardOfValue(topCard.getValue());
+    //         }
+    //     }];
+    //
+    //     // iterate through all function until a card is found, if not then draw a card from th deck
+    //     for (let i = 0; i < chooseCardToPlaceFunc.length && cardToPlace === undefined; i++) {
+    //         chooseCardToPlaceFunc[i]();
+    //     }
+    //
+    //     if (cardToPlace !== undefined && this._gameState.gameState === GameState.OPEN_PLUS_2 && cardToPlace.getValue() !== SpecialCard.PLUS_2)
+    //         cardToPlace = undefined;
+    //
+    //     return cardToPlace === undefined ? this.takeCardsFromDeck().length > 0 : this.makeMove(cardToPlace, additionalData);
+    // }
 
     _gameEnded(playerWhoWon) {
         this._active = false;
@@ -475,9 +477,9 @@ class Game {
         return playerIndex;
     }
 
-    makeComputerMove() {
-        return this.makeComputerPlayerMove.bind(this).apply();
-    }
+    // makeComputerMove() {
+    //     return this.makeComputerPlayerMove.bind(this).apply();
+    // }
 
 }
 

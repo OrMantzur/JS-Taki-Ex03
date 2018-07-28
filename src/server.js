@@ -3,14 +3,6 @@
  * Or Mantzur - 204311997
  */
 
-/** TODO delete
- * npm install
- * npm run build-watch
- * npm install --save express
- * npm install express-session
- * npm install body-parser
- */
-
 const express = require('express');
 const app = express();
 const session = require('express-session');
