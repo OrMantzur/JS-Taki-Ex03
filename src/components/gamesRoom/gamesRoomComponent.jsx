@@ -55,17 +55,16 @@ export default class GamesRoomComponent extends React.Component {
 
         fetch('/games/addGame', {method: 'POST', body: JSON.stringify(body), credentials: 'include'})
             .then(response => {
-                if (response.ok) {
-                    this.setState(() => ({errMessage: ""}));
-                    // alert("Game added");
-                    console.log("game " + body.gameTitle + " was added successfully");
-                    return true;
+                if (!response.ok) {
+                    return response.text().then(text => {
+                        throw Error(text)
+                    });
                 } else {
-                    if (response.status === 401) {
-                        alert("Error - game was not added");
-                    }
-                    return false;
+                    console.log("game " + body.gameTitle + " was added successfully");
                 }
+            })
+            .catch(errorMessage => {
+                alert(errorMessage);
             });
         formEvent.target.reset();
     }

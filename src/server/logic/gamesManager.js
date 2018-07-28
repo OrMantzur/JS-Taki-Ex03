@@ -37,16 +37,38 @@ class GamesManager {
         return this._games;
     }
 
+
     addGame(gameType, playersNum, gameName, gameCreator) {
+        let returnObject = {
+            valid: true,
+            errorMessage: undefined
+        };
         // validate all values
         if (!(gameType === enums.GameType.BASIC || gameType === enums.GameType.ADVANCED) ||
             playersNum > MAX_PLAYER_PER_GAME || playersNum < MIN_PLAYER_PER_GAME ||
-            !gameName || !gameCreator)
-            return false;
+            !gameName || !gameCreator) {
+            returnObject.valid =false;
+            returnObject.errorMessage =
+                "please validate that game name isn't empty\n" +
+                "game type select from list\n" +
+                "num player between " + MIN_PLAYER_PER_GAME + " and " + MAX_PLAYER_PER_GAME;
+            return returnObject;
+        }
+        // check if name already exists
+        for (let gameIndex in this._games) {
+            if (gameName === this._games[gameIndex].getGameName()) {
+                returnObject.valid= false;
+                returnObject.errorMessage="name " + gameName + " already exist";
+                console.log(returnObject.errorMessage);
+                return returnObject;
+            }
+        }
 
+        /* add game */
         let game = new Game.Game(gameType, playersNum, gameName, gameCreator);
         this._games[game.getGameId()] = game;
-        return true;
+        return returnObject;
+
     }
 
     removeGame(gameId) {
@@ -70,32 +92,32 @@ class GamesManager {
         return playerAddedSuccessfully;
     }
 
-    takeCardsFromDeck(playerId){
+    takeCardsFromDeck(playerId) {
         let game = this.getGameObjectByPlayerId(playerId);
         return game.takeCardsFromDeck();
     }
 
     getGameState(playerId) {
-    try {
-        let game = this.getGameObjectByPlayerId(playerId);
-        let userMessage = game.viewTopCardOnTable().getUserMessage();
-        return {
-            playerWon: game.getGameState().gameState === enums.GameState.GAME_ENDED,
-            activePlayer: game.getActivePlayer(),
-            regularPlayerCards: game.getFirstHumanPlayer().getCards().slice(),
-            computerPlayerCards: game.getFirstComputerPlayer().getCards().slice(),
-            topCardOnTable: game.viewTopCardOnTable(),
-            currentGameState: game.getGameState(),
-            userMessage: userMessage !== null ? userMessage : null,
-            statistics: {
-                gameStatistics: game.getStatistics(),
-                regularPlayerStats: game.getFirstHumanPlayer().getStatistics(),
-                computerPlayerStats: game.getFirstComputerPlayer().getStatistics(),
-            }
-        };
-    } catch (e) {
-        throw new Error("error while trying to get game state for playerID: " + playerId + "\ninner exception: " + e);
-    }
+        try {
+            let game = this.getGameObjectByPlayerId(playerId);
+            let userMessage = game.viewTopCardOnTable().getUserMessage();
+            return {
+                playerWon: game.getGameState().gameState === enums.GameState.GAME_ENDED,
+                activePlayer: game.getActivePlayer(),
+                regularPlayerCards: game.getFirstHumanPlayer().getCards().slice(),
+                computerPlayerCards: game.getFirstComputerPlayer().getCards().slice(),
+                topCardOnTable: game.viewTopCardOnTable(),
+                currentGameState: game.getGameState(),
+                userMessage: userMessage !== null ? userMessage : null,
+                statistics: {
+                    gameStatistics: game.getStatistics(),
+                    regularPlayerStats: game.getFirstHumanPlayer().getStatistics(),
+                    computerPlayerStats: game.getFirstComputerPlayer().getStatistics(),
+                }
+            };
+        } catch (e) {
+            throw new Error("error while trying to get game state for playerID: " + playerId + "\ninner exception: " + e);
+        }
     }
 }
 

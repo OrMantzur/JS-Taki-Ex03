@@ -44,7 +44,7 @@ export default class StatisticsContainer extends React.Component {
 
 
         console.log("statisticsProps");
-        console.log(this.props);
+        // console.log(this.props);
         return (
             <div id="statistics-container">
                 <div>{"Game timer: " + this.state.timerValueStr}</div>

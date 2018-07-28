@@ -19,8 +19,12 @@ gamesRouter.post('/addGame', playersManager.getLoggedInPlayer, (req, res) => {
     let gameParams = JSON.parse(req.body);
 
     // addGame returns true if game was successfully added
-    gameManager.addGame(gameParams.gameType, gameParams.numPlayers, gameParams.gameTitle, playerName) ? res.sendStatus(200) : res.sendStatus(403);
-
+    let addGameStatus = gameManager.addGame(gameParams.gameType, gameParams.numPlayers, gameParams.gameTitle, playerName);
+    if (addGameStatus.valid) {
+        res.sendStatus(200);
+    } else {
+        res.status(403).json(addGameStatus.errorMessage);
+    }
 });
 
 gamesRouter.get('/deleteGame', playersManager.removePlayer, (req, res) => {

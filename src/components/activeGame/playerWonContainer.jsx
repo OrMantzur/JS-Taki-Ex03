@@ -14,7 +14,7 @@ export default class PlayerWonContainer extends React.Component {
         if (this.props.playerWon) {
             let stats = this.props.statistics;
             console.log("in player won screen");
-            console.log(this.props);
+            // console.log(this.props);
             return (
                 <div id="playerWonScreen">
                     <h1>{this.props.gameState.additionalInfo._playerName} has won the game!</h1>
