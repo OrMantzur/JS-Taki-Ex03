@@ -25,7 +25,7 @@ class Game {
         this._activeGame = false;
         this._deck = new Deck(gameType);
         this._cardsOnTable = new CardsOnTable();
-        this._gameStartTime = new Date();
+        this._gameStartTime = null;
         this._gameEndTime = null;
         this._gameDirection = enums.Direction.RIGHT;
         this._gameState = {
@@ -112,7 +112,10 @@ class Game {
     }
 
     _getGameDuration() {
-        return (this._gameEndTime === null ? new Date() : this._gameEndTime) - this._gameStartTime;
+        let endTime = this._gameEndTime === null ? new Date() : this._gameEndTime;
+        return this._gameStartTime === null ?
+            0 :
+            endTime - this._gameStartTime;
     }
 
     getGameDuration() {
@@ -135,6 +138,10 @@ class Game {
         };
     }
 
+    isGameStart(){
+        return this._gameState.gameState &&this._gameState.gameState !== enums.GameState.WAITING_FOR_PLAYERS;
+    }
+
     addPlayerToGame(playerToAdd) {
         let playerAddedSuccessfully = false;
         if (this._active || this._players.length >= this._numPlayersToStartGame) {
@@ -144,7 +151,7 @@ class Game {
             playerToAdd.addCardsToHand(this._deck.drawCards(NUM_STARTING_CARDS));
             console.log("GameID (" + this._gameId + "): " + playerToAdd.getName() + " has joined the game");
             playerAddedSuccessfully = true;
-            if (this._players.length == this._numPlayersToStartGame) {
+            if (this._players.length.toString() == this._numPlayersToStartGame) {
                 this._startGame();
             }
         }
@@ -166,6 +173,7 @@ class Game {
 
         this._cardsOnTable.putCardOnTable(cardDrawnFromDeck);
         this._players[this._activePlayerIndex].startTurn();
+        this._gameStartTime = new Date();
     }
 
     _moveCardsFromTableToDeck() {

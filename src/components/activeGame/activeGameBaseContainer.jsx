@@ -13,7 +13,6 @@ import PlayerWonContainer from "./playerWonContainer.jsx";
 import takiLogo from "../../server/takiImages/TAKI_logo.png";
 import * as enums from "../../server/logic/enums";
 
-const COMPUTER_DELAY = 1.5 * 1000;
 const GAME_STATE_REFRESH_INTERVAL = 0.5 * 1000;
 
 export default class ActiveGameBaseContainer extends React.Component {

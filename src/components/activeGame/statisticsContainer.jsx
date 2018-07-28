@@ -15,24 +15,17 @@ export default class StatisticsContainer extends React.Component {
         };
     }
 
-    componentDidMount(){
+    componentDidMount() {
         setInterval(() => {
             if (this.props.gameEnded) {
                 this.setState({restartTimer: true});
-            } else if (!this.props.inReplayMode) {
-                if (this.state.restartTimer) {
-                    this.setState({
-                        timerValueInt: 0,
-                        timerValueStr: "00:00",
-                        restartTimer: false
-                    })
-                } else {
-                    let prevTimerValue = this.state.timerValueInt;
-                    let secondsPlayed = Math.floor(prevTimerValue) % 60;
-                    let minutesPlayed = Math.floor(prevTimerValue / 60);
-                    let newTimerValueStr = (minutesPlayed < 10 ? "0" + minutesPlayed : minutesPlayed) + ":" + (secondsPlayed < 10 ? "0" + secondsPlayed : secondsPlayed);
-                    this.setState({timerValueInt: prevTimerValue + 1, timerValueStr: newTimerValueStr});
-                }
+            } else if (this.state.restartTimer) {
+                this.setState({
+                    timerValueStr: "00:00",
+                    restartTimer: false
+                });
+            } else {
+                this.setState({timerValueStr: this.props.statistics.gameStatistics.gameDuration});
             }
         }, 1000)
     }
@@ -85,5 +78,6 @@ export default class StatisticsContainer extends React.Component {
                 </h5>
             </div>
         );
-    };
+    }
+    ;
 }
