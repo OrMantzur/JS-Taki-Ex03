@@ -1,17 +1,23 @@
 import React from 'react';
 
 const GAMES_REFRESH_INTERVAL = 2000;
-
+const enums = require('../../server/logic/enums');
+const displayAddGameStyle = {
+    display: "flex"
+};
 export default class GamesListComponent extends React.Component {
     constructor() {
         super();
         this.state = {
-            allGames: {}
+            allGames: {},
+            showAddGame: false
         };
-
         this.getAllGames = this.getAllGames.bind(this);
         this.gameSelected = this.gameSelected.bind(this);
+        this.addGame = this.addGame.bind(this);
         this.deleteGame = this.deleteGame.bind(this);
+        this.displayAddGame = this.displayAddGame.bind(this);
+        this.setAddGameFormVisibility = this.setAddGameFormVisibility.bind(this);
     }
 
     /**
@@ -57,10 +63,68 @@ export default class GamesListComponent extends React.Component {
         this.props.deleteGame(gameId);
     }
 
+    displayAddGame() {
+        if (this.state.showAddGame) {
+            return displayAddGameStyle;
+        }
+        else
+            return null;
+    }
+
+    addGame(formEvent) {
+        formEvent.preventDefault();
+        const body = {
+            gameTitle: formEvent.target.elements.gameTitle.value,
+            gameType: formEvent.target.elements.gameType.value,
+            numPlayers: formEvent.target.elements.numPlayers.value
+        };
+
+        fetch('/games/addGame', {method: 'POST', body: JSON.stringify(body), credentials: 'include'})
+            .then(response => {
+                if (!response.ok) {
+                    return response.text().then(text => {
+                        throw Error(text)
+                    });
+                } else {
+                    console.log("game " + body.gameTitle + " was added successfully");
+                }
+            })
+            .then(() =>
+                this.setAddGameFormVisibility(false)
+            )
+            .catch(errorMessage => {
+                alert(errorMessage);
+            });
+        formEvent.target.reset();
+    }
+
+    deleteGame(gameIdToDelete) {
+        let body = {gameId: gameIdToDelete};
+        // delete game
+        fetch('/games/deleteGame', {
+            method: 'POST',
+            body: JSON.stringify(body),
+            credentials: 'include'
+        }).then(response => {
+            if (!response.ok) {
+                return response.text().then(text => {
+                    throw Error(text)
+                });
+            }
+            console.log("gameId " + gameIdToDelete + " delete successfully");
+        }).catch(errorMessage => {
+            alert(errorMessage);
+        });
+    }
+
+    setAddGameFormVisibility(showAddGame) {
+        this.setState({showAddGame: showAddGame});
+    }
+
     render() {
         return (
             <div id='games-list-container'>
-                <button onClick={this.props.addGameClicked.bind(this, true)}>add game</button>
+                <button onClick={this.setAddGameFormVisibility.bind(this, true)}>add game</button>
                 <table>
                     <tr>
                         <th>Game ID</th>
@@ -89,6 +153,20 @@ export default class GamesListComponent extends React.Component {
                         </tr>
                     ))}
                 </table>
+                <div id='add-new-game-form-container' style={this.displayAddGame()}>
+                    <form onSubmit={this.addGame}>
+                        <label className="gameTitle-label" htmlFor="gameTitle"> title: </label>
+                        <input className="gameTitle-input" name="gameTitle"/>
+                        <label className="gameType-label" htmlFor="gameType"> game type: </label>
+                        <select name="gameType">
+                            <option value={enums.GameType.BASIC}>Basic</option>
+                            <option value={enums.GameType.ADVANCED}>Advanced</option>
+                        </select>
+                        <label className="numPlayers-label" htmlFor="numPlayers"> num players: </label>
+                        <input type="number" name="numPlayers" min="2" max="4" defaultValue="2"/>
+                        <input className="submit-btn btn" type="submit" value="Add Game"/>
+                    </form>
+                </div>
             </div>
         )
     }
