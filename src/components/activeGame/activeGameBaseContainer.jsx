@@ -106,7 +106,7 @@ export default class ActiveGameBaseContainer extends React.Component {
                         <PlayingTableContainer topCardOnTable={this.state.topCardOnTable}
                                                pickedUpCardFromDeck={this.updateUIGameState}
                                                deckDisabled={this.state.gameControlsLocked}
-                                               highlightDeck={this.state.possibleMoveForActivePlayer !== null && !this.state.gameControlsLocked}
+                                               highlightDeck={this.state.possibleMoveForActivePlayer === null && !this.state.gameControlsLocked}
                                                userMessage={this.state.userMessage}
                         />
                         <PlayerWonContainer playerWon={this.state.playerWon}
