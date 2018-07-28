@@ -11,6 +11,7 @@ export default class GamesListComponent extends React.Component {
 
         this.getAllGames = this.getAllGames.bind(this);
         this.gameSelected = this.gameSelected.bind(this);
+        this.deleteGame = this.deleteGame.bind(this);
     }
 
     /**
@@ -52,9 +53,11 @@ export default class GamesListComponent extends React.Component {
         this.props.gameSelected(gameId);
     }
 
+    deleteGame(gameId) {
+        this.props.deleteGame(gameId);
+    }
+
     render() {
-        console.log("in gamesList component");
-        console.log(this.state.allGames);
         return (
             <div id='games-list-container'>
                 <button onClick={this.props.addGameClicked.bind(this, true)}>add game</button>
@@ -76,6 +79,10 @@ export default class GamesListComponent extends React.Component {
                             <td>
                                 <button onClick={this.gameSelected.bind(this, game._gameId)}
                                         className={game._players.length == game._numPlayersToStartGame ? "disabled-button" : ""}>Join
+                                    Game
+                                </button>
+                                <button onClick={this.deleteGame.bind(this, game._gameId)}
+                                        className={game._players.length == game._numPlayersToStartGame ? "disabled-button" : ""}>Delete
                                     Game
                                 </button>
                             </td>

@@ -17,6 +17,7 @@ export default class GamesRoomComponent extends React.Component {
         };
         this.addGame = this.addGame.bind(this);
         this.joinGame = this.joinGame.bind(this);
+        this.deleteGame = this.deleteGame.bind(this);
         this.logout = this.logout.bind(this);
         this.displayAddGame = this.displayAddGame.bind(this);
         this.setAddGameFormVisibility = this.setAddGameFormVisibility.bind(this);
@@ -100,6 +101,25 @@ export default class GamesRoomComponent extends React.Component {
                 this.props.gameSelected(gameIdSelected);
             }
             return response.json();
+        });
+    }
+
+    deleteGame(gameIdToDelete) {
+        let body = {gameId: gameIdToDelete};
+        // delete game
+        fetch('/games/deleteGame', {
+            method: 'POST',
+            body: JSON.stringify(body),
+            credentials: 'include'
+        }).then(response => {
+            if (!response.ok) {
+                return response.text().then(text => {
+                    throw Error(text)
+                });
+            }
+            console.log("gameId " + gameIdToDelete + " delete successfully");
+        }).catch(errorMessage => {
+            alert(errorMessage);
         });
     }
 

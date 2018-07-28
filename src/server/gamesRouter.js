@@ -15,11 +15,11 @@ gamesRouter.get('/activeGameId', playersManager.getLoggedInPlayer, (req, res) =>
 });
 
 gamesRouter.post('/addGame', playersManager.getLoggedInPlayer, (req, res) => {
-    const playerName = req.session.loggedInPlayer.getName();
+    const gameCreator = req.session.loggedInPlayer;
     let gameParams = JSON.parse(req.body);
 
     // addGame returns true if game was successfully added
-    let addGameStatus = gameManager.addGame(gameParams.gameType, gameParams.numPlayers, gameParams.gameTitle, playerName);
+    let addGameStatus = gameManager.addGame(gameParams.gameType, gameParams.numPlayers, gameParams.gameTitle, gameCreator);
     if (addGameStatus.valid) {
         res.sendStatus(200);
     } else {
@@ -27,12 +27,18 @@ gamesRouter.post('/addGame', playersManager.getLoggedInPlayer, (req, res) => {
     }
 });
 
-gamesRouter.get('/deleteGame', playersManager.removePlayer, (req, res) => {
-    const gameId = res.gameId;
+gamesRouter.post('/deleteGame', playersManager.getLoggedInPlayer, (req, res) => {
+    let gameId = JSON.parse(req.body).gameId;
+    let loggedInPlayer = req.session.loggedInPlayer;
+    let errorMessage;
     if (gameId !== undefined) {
-        gameManager.removeGame(gameId);
+        errorMessage = gameManager.removeGame(gameId, loggedInPlayer);
+        if (errorMessage !== undefined) {
+            res.status(403).json(errorMessage);
+        } else {
+            res.sendStatus(200);
+        }
     }
-    res.sendStatus(200);
 });
 
 gamesRouter.get('/allGames', playersManager.getLoggedInPlayer, (req, res) => {
