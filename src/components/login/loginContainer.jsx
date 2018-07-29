@@ -49,11 +49,11 @@ export default class LoginContainer extends React.Component {
                 if (response.ok) {
                     return response.json();
                 } else {
-                    if (response.status === 403) {
-                        this.setState({errMessage: "User name already exist, please try another one"});
-                    }
-                    this.props.loginErrorHandler();
-                    return null;
+                    response.text().then(text => {
+                        this.setState({errMessage: text});
+                        this.props.loginErrorHandler();
+                        return null;
+                    });
                 }
             })
             .then(player => {

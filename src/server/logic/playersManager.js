@@ -45,10 +45,18 @@ function addPlayer(req, res) {
                 return;
             }
         }
-        // we got here only when the user is validate
-        players[sessionId] = new Player(sessionId, playerNameToAdd, false);
-        // send to next middleware request
-        res.json(players[sessionId]);
+        if (playerNameToAdd !== undefined && playerNameToAdd !== null) {
+            playerNameToAdd = playerNameToAdd.trim();
+            if (playerNameToAdd.length > 0) {
+                /* add player */
+                // we got here only when the user is validate
+                players[sessionId] = new Player(sessionId, playerNameToAdd, false);
+                // send to next middleware request
+                res.json(players[sessionId]);
+            } else {
+                res.status(403).send("user name can't be empty string");
+            }
+        }
     }
 }
 
