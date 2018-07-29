@@ -197,7 +197,14 @@ class Player {
     }
 
     leave() {
+        this._cards = [];
+        this._isActive = false;
+        this._isWinner = false;
         this._isLeave = true;
+        this._currTurnStartTime = undefined;
+        this._turnsPlayed = 0;
+        this._totalTimePlayed = 0;
+        this._timesReachedSingleCard = 0;
     }
 
 // for testing
