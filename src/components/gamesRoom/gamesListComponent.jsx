@@ -133,6 +133,7 @@ export default class GamesListComponent extends React.Component {
         this.setState({showAddGame: showAddGame});
     }
 
+
     render() {
         return (
             <div id='games-list-container'>
@@ -159,11 +160,12 @@ export default class GamesListComponent extends React.Component {
                             <td>{game._gameState.gameState}</td>
                             <td>
                                 <button onClick={this.joinGame.bind(this, game._gameId)}
-                                        className={game._players.length == game._numPlayersToStartGame ? "disabled-button" : "" + " green"}>
+                                        className={game._players.length === game._numPlayersToStartGame ? "disabled-button" : "" + " green"}>
                                     Join Game
                                 </button>
                                 <button onClick={this.deleteGame.bind(this, game._gameId)}
-                                        className={game._players.length == game._numPlayersToStartGame ? "disabled-button" : "" + " red"}>
+                                        className={game._players.length === game._numPlayersToStartGame ||
+                                        this.props.userName !== game._gameCreatorName? "disabled-button" : "" + " red"}>
                                     Delete Game
                                 </button>
                             </td>

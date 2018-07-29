@@ -14,7 +14,8 @@ export default class GamesRoomComponent extends React.Component {
                 <UsersListComponent userName={this.props.userName}
                                     handleLogout={this.props.handleLogout}
                 />
-                <GamesListComponent gameSelected={this.props.gameSelected}/>
+                <GamesListComponent gameSelected={this.props.gameSelected}
+                                    userName={this.props.userName}/>
             </div>
         )
     }

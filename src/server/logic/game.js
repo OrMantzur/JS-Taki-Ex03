@@ -20,6 +20,7 @@ class Game {
         this._numPlayersToStartGame = playersNum;
         this._gameName = gameName;
         this._gameCreator = gameCreator;
+        this._gameCreatorName = gameCreator.getName();
         this._players = [];
         this._activePlayerIndex = 0;
         this._activeGame = false;
