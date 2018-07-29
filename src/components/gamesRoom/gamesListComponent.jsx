@@ -136,16 +136,21 @@ export default class GamesListComponent extends React.Component {
     render() {
         return (
             <div id='games-list-container'>
-                <button onClick={this.setAddGameFormVisibility.bind(this, true)}>add game</button>
-                <table>
+                <table id='games-list-table'>
+                    <thead>
                     <tr>
                         <th>Game ID</th>
                         <th>Game Title</th>
                         <th>Players in game</th>
                         <th>Game State</th>
-                        <th></th>
+                        <th>
+                            <button id='add-game-button' className='blue'
+                                    onClick={this.setAddGameFormVisibility.bind(this, true)}>add new game
+                            </button>
+                        </th>
                     </tr>
-
+                    </thead>
+                    <tbody>
                     {Object.values(this.state.allGames).map(game => (
                         <tr key={game._gameId}>
                             <td>{game._gameId}</td>
@@ -154,16 +159,17 @@ export default class GamesListComponent extends React.Component {
                             <td>{game._gameState.gameState}</td>
                             <td>
                                 <button onClick={this.joinGame.bind(this, game._gameId)}
-                                        className={game._players.length == game._numPlayersToStartGame ? "disabled-button" : ""}>
+                                        className={game._players.length == game._numPlayersToStartGame ? "disabled-button" : "" + " green"}>
                                     Join Game
                                 </button>
                                 <button onClick={this.deleteGame.bind(this, game._gameId)}
-                                        className={game._players.length == game._numPlayersToStartGame ? "disabled-button" : ""}>
+                                        className={game._players.length == game._numPlayersToStartGame ? "disabled-button" : "" + " red"}>
                                     Delete Game
                                 </button>
                             </td>
                         </tr>
                     ))}
+                    </tbody>
                 </table>
                 <div id='add-new-game-form-container' style={this.displayAddGame()}>
                     <form onSubmit={this.addGame}>

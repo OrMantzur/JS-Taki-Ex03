@@ -15,15 +15,7 @@ const playersManager = require('./logic/playersManager');
 usersRouter.post('/addPlayer', playersManager.addPlayer);
 
 usersRouter.get('/allUsers', playersManager.getLoggedInPlayer, (req, res) => {
-    let usersMap = Object
-        .keys(playersManager.players)
-        .map(key => {
-            const keyValue = {};
-            keyValue["sessionId"] = key;
-            keyValue["playerName"] = playersManager.players[key].getName();
-            return keyValue;
-        });
-    res.json(usersMap);
+    res.json(playersManager.players);
 });
 
 usersRouter.get('/activePlayer', playersManager.getLoggedInPlayer, (req, res) => {
