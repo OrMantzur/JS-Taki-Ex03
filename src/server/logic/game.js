@@ -10,7 +10,7 @@ const Deck = require("./deck");
 const Card = require("./card").Card;
 const enums = require("./enums");
 
-const NUM_STARTING_CARDS = 8;
+const NUM_STARTING_CARDS = 1;
 
 class Game {
     constructor(gameType, playersNum, gameName, gameCreator) {
@@ -483,7 +483,9 @@ class Game {
     removePlayerFromGame(playerId) {
         let playerIndex = this.getPlayerIndexById(playerId);
 
-        if (playerIndex < 0 || this._gameState.gameState !== enums.GameState.WAITING_FOR_PLAYERS) {
+        if (playerIndex < 0 ||
+            (this._gameState.gameState !== enums.GameState.WAITING_FOR_PLAYERS &&
+                this._gameState.gameState !== enums.GameState.GAME_ENDED)) {
             console.log("error while trying to remove playerId " + playerId + " from gameId " + this._gameId + " \n.Player isn't in the game/less than two players are active/game has already started");
             return false;
         }
@@ -492,6 +494,30 @@ class Game {
         playerRemoved.leave();
         console.log("player " + playerRemoved.getName() + " has left the game");
         // this._notifyOnMakeMove();
+
+        if (this._players.length === 0 && this._gameState.gameState === enums.GameState.GAME_ENDED) {
+            this.restart();
+            console.log("game restart");
+            return true;
+        }
+    }
+
+    restart() {
+        this._players = [];
+        this._activePlayerIndex = 0;
+        this._activeGame = false;
+        this._deck = new Deck(this._gameType);
+        this._cardsOnTable = new CardsOnTable();
+        this._gameStartTime = null;
+        this._gameEndTime = null;
+        this._gameDirection = enums.Direction.RIGHT;
+        this._gameState = {
+            currColor: null,
+            gameState: enums.GameState.WAITING_FOR_PLAYERS,
+            additionalInfo: null
+        };
+        this._notifyOnMakeMove = null;
+        this._chatContent = [];
     }
 
     getPlayerIndexById(playerId) {

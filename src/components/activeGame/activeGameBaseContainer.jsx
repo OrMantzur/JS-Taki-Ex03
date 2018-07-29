@@ -21,6 +21,7 @@ export default class ActiveGameBaseContainer extends React.Component {
         this.restartGame = this.restartGame.bind(this);
         this.callSetState = this.callSetState.bind(this);
         this.exitGameClicked = this.exitGameClicked.bind(this);
+        // this.endGameClicked = this.endGameClicked.bind(this);
         this.updateUIGameState = this.updateUIGameState.bind(this);
     }
 
@@ -82,13 +83,13 @@ export default class ActiveGameBaseContainer extends React.Component {
         this.updateUIGameState();
     }
 
-    // enable only when waiting for other player
     exitGameClicked() {
         fetch('/activeGame/exitGame', {method: 'GET', credentials: 'include'})
             .then((response) => {
                 if (!response.ok) {
                     throw response;
                 } else {
+                    // pass to game room
                     this.props.exitGame();
                 }
             })
@@ -98,6 +99,24 @@ export default class ActiveGameBaseContainer extends React.Component {
 
         console.log("game exit");
     }
+
+    // // enable only after the game ended
+    // endGameClicked() {
+    //     fetch('/games/endGame', {method: 'GET', credentials: 'include'})
+    //         .then((response) => {
+    //             if (!response.ok) {
+    //                 throw response;
+    //             } else {
+    //                 // pass to game room
+    //                 this.props.exitGame();
+    //             }
+    //         })
+    //         .catch(err => {
+    //             console.log("error while trying to end the game");
+    //         });
+    //
+    //     console.log("game ended");
+    // }
 
     render() {
         const imgStyle = {
@@ -122,7 +141,8 @@ export default class ActiveGameBaseContainer extends React.Component {
                                             loggedInPlayerName={this.state.loggedInPlayerName}
                                             gameState={this.state.currentGameState}
                                             statistics={this.state.statistics}
-                                            restartGameClick={this.restartGame}
+                                            // endGame={this.endGameClicked}
+                                            endGame={this.exitGameClicked}
                         />
                     </div>
                     <PlayerContainer gameControlsLocked={this.state.gameControlsLocked}
