@@ -27,6 +27,7 @@ export default class BaseContainer extends React.Component {
         this.logoutHandler = this.logoutHandler.bind(this);
         this.initActiveGameState = this.initActiveGameState.bind(this);
         this.gameSelectedHandler = this.gameSelectedHandler.bind(this);
+        this.exitGame = this.exitGame.bind(this);
         this.getActiveGameForThisSession = this.getActiveGameForThisSession.bind(this);
         this.getPlayerNameForThisSession();
         this.getActiveGameForThisSession();
@@ -51,6 +52,7 @@ export default class BaseContainer extends React.Component {
             return (
                 <ActiveGameBaseContainer gameId={this.state.activeGameId}
                                          playerName={this.state.playerName}
+                                         exitGame={this.exitGame}
                 />
             );
         }
@@ -130,6 +132,11 @@ export default class BaseContainer extends React.Component {
 
     initActiveGameState(activeGameId) {
         this.setState({activeGameId: activeGameId});
+    }
+
+    exitGame(){
+        this.setState({activeGameId: null});
+        console.log("return to game room screen");
     }
 
 }

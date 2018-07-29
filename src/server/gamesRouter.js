@@ -55,14 +55,4 @@ gamesRouter.post('/joinGame', playersManager.getLoggedInPlayer, (req, res) => {
     res.sendStatus(200);
 });
 
-// get in the request gameId
-gamesRouter.post('/exitGame', playersManager.getLoggedInPlayer, (req, res) => {
-    // TODO exit game
-
-    // TODO check the chat exit work
-    let playerName = req.session.loggedInPlayer.getName();
-    chatManagement.appendUserLogoutMessage(playerName );
-    res.sendStatus(200);
-});
-
 module.exports = gamesRouter;

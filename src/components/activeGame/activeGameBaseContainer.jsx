@@ -82,10 +82,21 @@ export default class ActiveGameBaseContainer extends React.Component {
         this.updateUIGameState();
     }
 
+    // enable only when waiting for other player
     exitGameClicked() {
-        console.log("TEST GAME EXIT");
-        alert("TEST GAME EXIT");
-        //TODO implement (can't exit during game)
+        fetch('/activeGame/exitGame', {method: 'GET', credentials: 'include'})
+            .then((response) => {
+                if (!response.ok) {
+                    throw response;
+                } else {
+                    this.props.exitGame();
+                }
+            })
+            .catch(err => {
+                console.log("error while trying to exit the game");
+            });
+
+        console.log("game exit");
     }
 
     render() {

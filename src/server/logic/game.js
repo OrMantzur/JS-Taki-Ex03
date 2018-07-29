@@ -356,7 +356,10 @@ class Game {
     }
 
     getPossibleMoveForActivePlayer(ignoreSuperTaki = false) {
-        return this._players[this._activePlayerIndex].getPossibleMove(this._isValidMove, this, ignoreSuperTaki);
+        if (this._players[this._activePlayerIndex] !== undefined) {
+            return this._players[this._activePlayerIndex].getPossibleMove(this._isValidMove, this, ignoreSuperTaki);
+        }
+        return null;
     }
 
     viewTopCardOnTable() {
@@ -473,7 +476,6 @@ class Game {
         console.log("game ended");
     }
 
-    //TODO debug and make sure this works
     removePlayerFromGame(playerId) {
         let playerIndex = this.getPlayerIndexById(playerId);
 
@@ -482,7 +484,7 @@ class Game {
             return false;
         }
 
-        let playerRemoved = this._players.splice(playerIndex, 1);
+        let playerRemoved = this._players.splice(playerIndex, 1)[0];
         playerRemoved.leave();
         console.log("player " + playerRemoved.getName() + " has left the game");
         // this._notifyOnMakeMove();

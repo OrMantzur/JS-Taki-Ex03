@@ -49,7 +49,7 @@ export default class StatisticsContainer extends React.Component {
                 <button type="button"
                         onClick={this.props.exitGame}
                         className={( !enableExitButton ? 'disabled-button ' : ' ') + "red "}>
-                    End game
+                    Exit game
                 </button>
 
                 <h5>Cards remaining:</h5>

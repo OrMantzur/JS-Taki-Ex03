@@ -22,8 +22,9 @@ chatManagement.route('/')
         res.sendStatus(200);
     });
 
-chatManagement.appendUserLogoutMessage = function (userInfo) {
-    chatContent.push({user: userInfo, text: `user had exit the game`});
+chatManagement.appendUserLogoutMessage = function (activeGameId, playerName) {
+    let activeGame = gameManager.getGame(activeGameId);
+    activeGame.addChatMessage(playerName, `user had exit the game`);
 };
 
 module.exports = chatManagement;
