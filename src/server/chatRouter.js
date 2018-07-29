@@ -24,7 +24,12 @@ chatManagement.route('/')
 
 chatManagement.appendUserLogoutMessage = function (activeGameId, playerName) {
     let activeGame = gameManager.getGame(activeGameId);
-    activeGame.addChatMessage(playerName, `user had exit the game`);
+    activeGame.addChatMessage(playerName, `has left the game`);
+};
+
+chatManagement.appendUserLoginMessage = function (activeGameId, playerName) {
+    let activeGame = gameManager.getGame(activeGameId);
+    activeGame.addChatMessage(playerName, `has joined the game`);
 };
 
 module.exports = chatManagement;

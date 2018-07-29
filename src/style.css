@@ -43,7 +43,6 @@ html, body {
     height: fit-content;
     width: fit-content;
     align-self: center;
-    padding: 5%;
     display: none;
     flex-direction: column;
     justify-content: center;
@@ -187,6 +186,13 @@ html, body {
     flex-shrink: 0
 }
 
+#playerWonScreen table {
+    margin-top: 10px;
+    border-collapse: collapse;
+    width: 99%;
+    align-self: center;
+}
+
 /*======================================================================================*/
 /*=================================== Players List =====================================*/
 /*======================================================================================*/
@@ -298,14 +304,24 @@ html, body {
     background-color: #cadcff;
 }
 
-#games-list-container button{
+#games-list-container #cancel-btn {
+    align-self: flex-end;
+    margin: 10px;
+}
+
+#games-list-container button {
     width: fit-content;
     margin: 5px;
 }
 
-#add-game-button{
+#add-game-button {
     align-self: center;
 }
+
+#add-new-game-form-container form {
+    margin: 20px
+}
+
 
 /*======================================================================================*/
 /*=================================== Game Elements ====================================*/
@@ -729,31 +745,31 @@ button:active {
     font-weight: 600;
 }
 
-.chat-contaier {
+.chat-container {
     flex-grow: 1;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
 }
 
-.chat-contaier .converssion-area-wrpper {
+.chat-container .conversation-area-wrapper {
     flex-grow: 1;
     border: 1px solid #ccc;
     margin: 3px;
     padding: 8px;
 }
 
-.chat-contaier .converssion-area-wrpper p {
+.chat-container .conversation-area-wrapper p {
     margin: 0 0 8px 0;
 }
 
-.chat-contaier .chat-input-wrapper {
+.chat-container .chat-input-wrapper {
     margin-bottom: 8px;
     width: 100%;
     display: flex;
 }
 
-.chat-contaier .chat-input-wrapper input {
+.chat-container .chat-input-wrapper input {
     line-height: 16px;
     font-size: 16px;
     margin: 1px;
@@ -763,7 +779,7 @@ button:active {
     flex-grow: 1;
 }
 
-.chat-contaier .chat-input-wrapper .btn {
+.chat-container .chat-input-wrapper .btn {
     flex-grow: 0;
     width: 88px;
     margin: 0 2px 0 5px;

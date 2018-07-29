@@ -50,12 +50,12 @@ export default class PlayerContainer extends React.Component {
 
     getDisplayOverlayText() {
         let overlayDisplayText = null;
-        if (this.props.gameControlsLocked)
-            overlayDisplayText = "Please wait for your turn";
+        if (this.props.currentGameState.gameState === GameState.WAITING_FOR_PLAYERS)
+            overlayDisplayText = "Waiting for other players to join";
         else if (this.props.currentGameState.gameState === GameState.GAME_ENDED)
             overlayDisplayText = "Game ended";
-        else if (this.props.currentGameState.gameState === GameState.WAITING_FOR_PLAYERS)
-            overlayDisplayText = "Waiting for other players to join";
+        else if (this.props.gameControlsLocked)
+            overlayDisplayText = "Please wait for your turn";
 
         return overlayDisplayText;
     }

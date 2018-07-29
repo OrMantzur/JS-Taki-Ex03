@@ -51,7 +51,7 @@ class Deck {
         let specialCardValue;
         for (let specialCardKey in SpecialCard) {
             specialCardValue = SpecialCard[specialCardKey];
-            // skip only when it basic game with PLUS_2 or SUPER_TAKI cards
+            // skip only in basic game with PLUS_2 or SUPER_TAKI cards
             if (!(this.gameType === GameType.BASIC &&
                 (specialCardValue === SpecialCard.PLUS_2 || specialCardValue === SpecialCard.SUPER_TAKI))) {
                 let cardsToAdd;

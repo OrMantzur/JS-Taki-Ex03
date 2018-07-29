@@ -1,11 +1,11 @@
 import React from 'react';
-import ConversationArea from './converssionArea.jsx';
+import ConversationArea from './conversationArea.jsx';
 import ChatInput from './chatInput.jsx';
 
 export default function () {
 
     return (
-        <div className="chat-contaier">
+        <div className="chat-container">
             <ConversationArea/>
             <ChatInput/>
         </div>

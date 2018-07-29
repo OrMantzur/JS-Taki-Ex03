@@ -1,6 +1,8 @@
 import React from 'react';
 
-export default class converssionArea extends React.Component {
+const CHAT_TIMEOUT_INTERVAL = 0.2 * 1000;
+
+export default class conversationArea extends React.Component {
 
     constructor(args) {
         super(...args);
@@ -24,9 +26,9 @@ export default class converssionArea extends React.Component {
 
     render() {
         return (
-            <div className="converssion-area-wrpper">
-                {this.state.content.map((line, index) => (
-                    <p key={line.user.name + index}>{line.user}: {line.text}</p>))}
+            <div className="conversation-area-wrapper">
+                {this.state.content.map((line) => (
+                    <p key={line.user.name + line.timeStamp}>{line.user}: {line.text}</p>))}
             </div>
         )
     }
@@ -37,7 +39,7 @@ export default class converssionArea extends React.Component {
                 if (!response.ok) {
                     throw response;
                 }
-                this.timeoutId = setTimeout(this.getChatContent, 200);
+                this.timeoutId = setTimeout(this.getChatContent, CHAT_TIMEOUT_INTERVAL);
                 return response.json();
             })
             .then(content => {

@@ -52,6 +52,7 @@ gamesRouter.post('/joinGame', playersManager.getLoggedInPlayer, (req, res) => {
     let gameId = JSON.parse(req.body).gameId;
     req.session.activeGameId = gameId;
     gameManager.addPlayerToGame(gameId, loggedInPlayer);
+    chatManagement.appendUserLoginMessage(gameId, loggedInPlayer.getName());
     res.sendStatus(200);
 });
 

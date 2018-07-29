@@ -37,8 +37,6 @@ activeGameRouter.get('/gameState', playersManager.getLoggedInPlayer, (req, res) 
         possibleMoveForActivePlayer: activeGame.getPossibleMoveForActivePlayer(),
         statistics: {
             gameStatistics: activeGame.getStatistics(),
-            // regularPlayerStats: activeGame.getPlayer(loggedInPlayerId).getStatistics(),
-            // TODO get other players statistics
             allPlayerStats: activeGame.getAllPlayersStatistics(),
         }
     };

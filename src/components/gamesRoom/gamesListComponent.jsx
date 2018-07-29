@@ -125,7 +125,7 @@ export default class GamesListComponent extends React.Component {
             if (response.ok) {
                 this.props.gameSelected(gameIdSelected);
             }
-            return response.json();
+            return true;
         });
     }
 
@@ -159,13 +159,14 @@ export default class GamesListComponent extends React.Component {
                             <td>{game._players.length}/{game._numPlayersToStartGame}</td>
                             <td>{game._gameState.gameState}</td>
                             <td>
+                                {/*this is == and not === because 2 == "2" but 2 !== "2"*/}
                                 <button onClick={this.joinGame.bind(this, game._gameId)}
-                                        className={game._players.length === game._numPlayersToStartGame ? "disabled-button" : "" + " green"}>
+                                        className={game._players.length === parseInt(game._numPlayersToStartGame) || game._gameState.gameState !== enums.GameState.WAITING_FOR_PLAYERS ? "disabled-button" : "" + " green"}>
                                     Join Game
                                 </button>
                                 <button onClick={this.deleteGame.bind(this, game._gameId)}
-                                        className={game._players.length === game._numPlayersToStartGame ||
-                                        this.props.userName !== game._gameCreatorName? "disabled-button" : "" + " red"}>
+                                        className={game._players.length === parseInt(game._numPlayersToStartGame) ||
+                                        this.props.userName !== game._gameCreatorName ? "disabled-button" : "" + " red"}>
                                     Delete Game
                                 </button>
                             </td>
@@ -175,9 +176,9 @@ export default class GamesListComponent extends React.Component {
                 </table>
                 <div id='add-new-game-form-container' style={this.displayAddGame()}>
                     <form onSubmit={this.addGame}>
-                        <label className="gameTitle-label" htmlFor="gameTitle"> title: </label>
+                        <label className="gameTitle-label" htmlFor="gameTitle"> Title: </label>
                         <input className="gameTitle-input" name="gameTitle"/>
-                        <label className="gameType-label" htmlFor="gameType"> game type: </label>
+                        <label className="gameType-label" htmlFor="gameType"> Game type: </label>
                         <select name="gameType">
                             <option value={enums.GameType.BASIC}>Basic</option>
                             <option value={enums.GameType.ADVANCED}>Advanced</option>
@@ -186,6 +187,7 @@ export default class GamesListComponent extends React.Component {
                         <input type="number" name="numPlayers" min="2" max="4" defaultValue="2"/>
                         <input className="submit-btn btn" type="submit" value="Add Game"/>
                     </form>
+                    <button id="cancel-btn" className="red" onClick={this.setAddGameFormVisibility.bind(this, false)}>Cancel</button>
                 </div>
             </div>
         )

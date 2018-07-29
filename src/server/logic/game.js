@@ -10,11 +10,10 @@ const Deck = require("./deck");
 const Card = require("./card").Card;
 const enums = require("./enums");
 
-const NUM_STARTING_CARDS = 1;
+const NUM_STARTING_CARDS = 8;
 
 class Game {
     constructor(gameType, playersNum, gameName, gameCreator) {
-        // TODO (advanced game) Validate in gameManager when there is more than one game
         this._gameId = Game.nextFreeGameId++;
         this._gameType = gameType;
         this._numPlayersToStartGame = playersNum;
@@ -34,12 +33,7 @@ class Game {
             gameState: enums.GameState.WAITING_FOR_PLAYERS,
             additionalInfo: null
         };
-        this._notifyOnMakeMove = null;
         this._chatContent = [];
-    }
-
-    setNotifyOnMakeMove(callback) {
-        this._notifyOnMakeMove = callback;
     }
 
     getGameId() {
@@ -153,7 +147,7 @@ class Game {
     }
 
     addChatMessage(userName, message) {
-        this._chatContent.push({user: userName, text: message});
+        this._chatContent.push({user: userName, text: message, timeStamp: new Date()});
     }
 
     isGameStart() {
@@ -350,7 +344,6 @@ class Game {
      * @param skipOnePlayer - if true will skip the next player
      * @param {enums.Direction} direction to move (left or right - using enum)
      */
-    // TODO debug and verify this works in both directions with and without skipping
     _moveToNextPlayer(skipOnePlayer) {
         this._players[this._activePlayerIndex].endTurn();
         let newIndex = this._activePlayerIndex + (this._gameDirection * (skipOnePlayer === true ? 2 : 1));
