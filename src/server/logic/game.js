@@ -34,6 +34,7 @@ class Game {
             additionalInfo: null
         };
         this._notifyOnMakeMove = null;
+        this._chatContent = [];
     }
 
     setNotifyOnMakeMove(callback) {
@@ -144,6 +145,14 @@ class Game {
             playerStatistics[player.getId()] = player.getStatistics();
         });
         return playerStatistics;
+    }
+
+    getChatContent() {
+        return this._chatContent;
+    }
+
+    addChatMessage(userName, message) {
+        this._chatContent.push({user: userName, text: message});
     }
 
     isGameStart() {

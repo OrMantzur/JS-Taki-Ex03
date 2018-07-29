@@ -24,7 +24,7 @@ gamesRouter.post('/addGame', playersManager.getLoggedInPlayer, (req, res) => {
     if (addGameStatus.valid) {
         res.sendStatus(200);
     } else {
-        res.status(403).json(addGameStatus.errorMessage);
+        res.status(403).send(addGameStatus.errorMessage);
     }
 });
 

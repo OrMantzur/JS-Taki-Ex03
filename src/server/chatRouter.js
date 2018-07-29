@@ -1,28 +1,26 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const playersManager = require('./logic/playersManager');
+const gameManager = require('./logic/gamesManager.js');
 const chatManagement = express.Router();
-const chatContent = [];
 
 chatManagement.use(bodyParser.text());
 
 chatManagement.route('/')
-    .get((req, res) => {
-        res.json(chatContent);
+    .get(playersManager.getLoggedInPlayer, (req, res) => {
+        let loggedInPlayer = req.session.loggedInPlayer;
+        let activeGameId = gameManager.getGameIdByPlayerId(loggedInPlayer.getId());
+        let activeGame = gameManager.getGame(activeGameId);
+        res.json(activeGame.getChatContent());
     })
     .post(playersManager.getLoggedInPlayer, (req, res) => {
         const body = req.body;
         let loggedInPlayer = req.session.loggedInPlayer;
-        chatContent.push({user: loggedInPlayer.getName(), text: body});
+        let activeGameId = gameManager.getGameIdByPlayerId(loggedInPlayer.getId());
+        let activeGame = gameManager.getGame(activeGameId);
+        activeGame.addChatMessage(loggedInPlayer.getName(), body);
         res.sendStatus(200);
     });
-
-
-// chatManagement.post('/logout', playersManager.getLoggedInPlayer, (req, res) => {
-//     let loggedInPlayer = req.session.loggedInPlayer;
-//     chatContent.push({user: userInfo, text: `user had logout`});
-//     res.sendStatus(200);
-// });
 
 chatManagement.appendUserLogoutMessage = function (userInfo) {
     chatContent.push({user: userInfo, text: `user had exit the game`});
