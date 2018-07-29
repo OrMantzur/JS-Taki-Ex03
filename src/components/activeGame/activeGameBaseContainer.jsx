@@ -84,6 +84,7 @@ export default class ActiveGameBaseContainer extends React.Component {
 
     exitGameClicked() {
         console.log("TEST GAME EXIT");
+        alert("TEST GAME EXIT");
         //TODO implement (can't exit during game)
     }
 
