@@ -165,7 +165,7 @@ class Game {
             console.log("Cannot add another player, game is full or has already started");
         } else {
             this._players.push(playerToAdd);
-            playerToAdd.addCardsToHand(this._deck.drawCards(NUM_STARTING_CARDS));
+            // playerToAdd.addCardsToHand(this._deck.drawCards(NUM_STARTING_CARDS));
             console.log("GameID (" + this._gameId + "): " + playerToAdd.getName() + " has joined the game");
             playerAddedSuccessfully = true;
             if (this._players.length.toString() === this._numPlayersToStartGame) {
@@ -180,6 +180,9 @@ class Game {
      * @private
      */
     _startGame() {
+        this._players.forEach(player => {
+            player.addCardsToHand(this._deck.drawCards(NUM_STARTING_CARDS));
+        });
         this._activeGame = true;
         console.log("GameID (" + this._gameId + "): The game has started");
         // open start card (can't start with changeColor or superTaki card)
@@ -215,6 +218,7 @@ class Game {
         // the move
         // var cardValue = cardPlaced.getValue();
         let activePlayer = this._players[this._activePlayerIndex];
+        activePlayer.removeCardFromHand(cardPlaced);
         activePlayer.removeCardFromHand(cardPlaced);
         this._cardsOnTable.putCardOnTable(cardPlaced);
 
