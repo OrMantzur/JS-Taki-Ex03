@@ -8,8 +8,8 @@ export default class UsersListComponent extends React.Component {
         this.state = {
             userList: []
         };
-
         this.getAllUsers = this.getAllUsers.bind(this);
+        this.logout = this.logout.bind(this);
     }
 
     /**
@@ -45,6 +45,16 @@ export default class UsersListComponent extends React.Component {
         if (this.timeoutId) {
             clearTimeout(this.timeoutId);
         }
+    }
+
+    logout() {
+        fetch('/users/logout', {method: 'GET', credentials: 'include'})
+            .then(response => {
+                if (!response.ok) {
+                    console.log(`failed to logout user ${this.state.playerName}`, response);
+                }
+                this.props.handleLogout();
+            })
     }
 
     render() {

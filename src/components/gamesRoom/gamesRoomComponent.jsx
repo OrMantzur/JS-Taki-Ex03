@@ -6,7 +6,6 @@ export default class GamesRoomComponent extends React.Component {
 
     constructor() {
         super();
-        this.logout = this.logout.bind(this);
     }
 
     render() {
@@ -20,15 +19,7 @@ export default class GamesRoomComponent extends React.Component {
         )
     }
 
-    logout() {
-        fetch('/users/logout', {method: 'GET', credentials: 'include'})
-            .then(response => {
-                if (!response.ok) {
-                    console.log(`failed to logout user ${this.state.playerName}`, response);
-                }
-                this.props.handleLogout();
-            })
-    }
+
 
 }
 
