@@ -7,7 +7,7 @@ export default class UsersListComponent extends React.Component {
     constructor() {
         super();
         this.state = {
-            userList: []
+            userList: {}
         };
         this.getAllUsers = this.getAllUsers.bind(this);
         this.logout = this.logout.bind(this);
@@ -60,12 +60,23 @@ export default class UsersListComponent extends React.Component {
 
     render() {
         return (
-            <div id='user-list-container'>
-                Hello {this.props.userName}
-                <button className="logout btn" onClick={this.props.logoutClicked}>Logout</button>
-                list of all logged in users:
-                {this.state.userList.map((entry, index) => (
-                    <p key={entry.playerName + index}>{entry.playerName + ":" + entry.sessionId}</p>))}
+            <div id='players-list-container'>
+                <p>Logged in as: <br/><b>"{this.props.userName}"</b></p>
+                <button id='logout-button' className="red" onClick={this.logout}>Logout</button>
+                <table id='logged-in-players-table'>
+                    <thead>
+                        <tr>
+                            <th>Logged in players</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {Object.values(this.state.userList).map(player => (
+                        <tr key={player._playerId}>
+                            <td>{player._playerName}</td>
+                        </tr>
+                    ))}
+                    </tbody>
+                </table>
             </div>
         )
     }

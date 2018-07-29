@@ -20,9 +20,7 @@ function getLoggedInPlayer(req, res, next) {
     let loggedInPlayer = players[req.session.id];
     if (loggedInPlayer === undefined) {
         res.status(401).send("User is not logged in")
-        // req.session.loggedInPlayer = null;
     } else {
-        // JSON.parse(req.body).loggedInPlayer = loggedInPlayer;
         req.session.loggedInPlayer = loggedInPlayer;
         next()
     }

@@ -141,11 +141,11 @@ export default class ActiveGameBaseContainer extends React.Component {
                                          exitGame={this.exitGameClicked}
                                          gameEnded={this.state.currentGameState && this.state.currentGameState.gameState === enums.GameState.GAME_ENDED}
                     />
-                </div>
-
-                <div>
                     <ChatContainer/>
                 </div>
+                <div>
+                </div>
+
 
             </div>
         );

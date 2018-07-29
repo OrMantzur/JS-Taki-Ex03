@@ -12,7 +12,7 @@ export default class GamesRoomComponent extends React.Component {
         return (
             <div id='games-room-container'>
                 <UsersListComponent userName={this.props.userName}
-                                    logoutClicked={this.logout}
+                                    handleLogout={this.props.handleLogout}
                 />
                 <GamesListComponent gameSelected={this.props.gameSelected}/>
             </div>

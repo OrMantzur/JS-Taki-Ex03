@@ -22,7 +22,7 @@ html, body {
     background-size: cover;
 }
 
-#login-screen-inner-container{
+#login-screen-inner-container {
     height: fit-content;
     width: fit-content;
     align-self: center;
@@ -38,7 +38,7 @@ html, body {
     min-width: fit-content;
 }
 
-#add-new-game-form-container{
+#add-new-game-form-container {
     position: inherit;
     height: fit-content;
     width: fit-content;
@@ -63,20 +63,6 @@ html, body {
     position: absolute;
     background-image: url("./server/takiImages/bg.jpg");
     background-size: cover;
-}
-
-#user-list-container{
-    width: fit-content;
-    display: flex;
-    flex-direction: column;
-    padding: 2%;
-}
-
-#games-list-container{
-    width: inherit;
-    display: flex;
-    flex-direction: column;
-    padding: 2%;
 }
 
 #active-game-container {
@@ -107,7 +93,7 @@ html, body {
     height: fit-content;
     width: 80%;
     align-self: center;
-    margin: 5% 0 50% 0;
+    margin: 5%;
     padding: 10px;
     display: flex;
     flex-direction: column;
@@ -178,9 +164,9 @@ html, body {
     font-weight: bolder;
     width: fit-content;
     align-self: center;
-    background-color: rgba(201, 200, 245, 0.9);
     border-radius: 10px;
     padding: 5px 15px;
+    background-color: rgba(201, 200, 245, 0.9);
     box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.8);
 }
 
@@ -199,6 +185,126 @@ html, body {
 
 #playerWonScreen > button {
     flex-shrink: 0
+}
+
+/*======================================================================================*/
+/*=================================== Players List =====================================*/
+/*======================================================================================*/
+
+#players-list-container {
+    width: 20%;
+    display: flex;
+    flex-direction: column;
+    margin: 1%;
+    border-radius: 15px;
+    background: rgba(200, 200, 200, 0.6);
+    text-align: center;
+    height: 90%;
+    align-self: center;
+    box-shadow: 1px 1px 10px black;
+    font-size: 2vw;
+    min-height: fit-content;
+    min-width: fit-content;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+#logout-button {
+    margin: 0 10px 10px 10px;
+    width: fit-content;
+    align-self: center;
+}
+
+#logged-in-players-table {
+    margin-top: 10px;
+    border-collapse: collapse;
+    width: 99%;
+    align-self: center;
+}
+
+#logged-in-players-table tbody {
+    background: rgba(255, 255, 255, 0.9);
+}
+
+#logged-in-players-table td {
+    padding: 5px 15px 5px 15px;
+    border-left: none;
+    border-right: none;
+    text-align: left;
+}
+
+#logged-in-players-table th {
+    padding: 5px 15px 5px 15px;
+    border: none;
+    background: none;
+}
+
+#logged-in-players-table tbody tr:hover {
+    background-color: #cadcff;
+}
+
+/*======================================================================================*/
+/*===================================== Games List =====================================*/
+/*======================================================================================*/
+
+#games-list-container {
+    width: inherit;
+    display: flex;
+    flex-direction: column;
+    padding: 2%;
+    margin: 1%;
+    border-radius: 15px;
+    background: rgba(200, 200, 200, 0.6);
+    text-align: center;
+    height: 90%;
+    align-self: center;
+    box-shadow: 1px 1px 10px black;
+    font-size: 2vw;
+    min-height: fit-content;
+    min-width: fit-content;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+#games-list-container table {
+    border-collapse: collapse;
+    width: 99%;
+    align-self: center;
+    text-align: center;
+}
+
+#games-list-container thead {
+    /*background: rgba(80, 80, 255, 0.9);*/
+    /*color: whitesmoke;*/
+}
+
+#games-list-container tbody {
+    background: rgba(255, 255, 255, 0.9);
+}
+
+#games-list-container td {
+    padding: 5px 15px 5px 15px;
+    border-left: none;
+    border-right: none;
+}
+
+#games-list-container th {
+    padding: 10px 15px 10px 15px;
+    border: none;
+    background: none;
+}
+
+#games-list-container tbody tr:hover {
+    background-color: #cadcff;
+}
+
+#games-list-container button{
+    width: fit-content;
+    margin: 5px;
+}
+
+#add-game-button{
+    align-self: center;
 }
 
 /*======================================================================================*/
@@ -227,7 +333,7 @@ html, body {
     position: relative;
 }
 
-.card:before{
+.card:before {
     content: "";
     display: block;
     padding-top: 150%;
@@ -266,18 +372,6 @@ html, body {
     cursor: pointer;
     box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
     transform: scale(1.15);
-}
-
-.replay-button:hover {
-    cursor: pointer;
-    transform: scale(1.1);
-}
-
-.replay-controls-div {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    margin: 20px;
 }
 
 .backOfCard {
@@ -324,7 +418,7 @@ td {
 /*======================================= General ======================================*/
 /*======================================================================================*/
 
-.error{
+.error {
     text-align: center;
     color: red;
 }
@@ -360,7 +454,7 @@ button:active {
     0% {
         opacity: 0;
     }
-    15%{
+    15% {
         opacity: 100;
     }
     100% {
@@ -368,11 +462,11 @@ button:active {
     }
 }
 
-.fadeIn{
+.fadeIn {
     animation: fadeIn 2s;
 }
 
-.fadeOut{
+.fadeOut {
     animation: fadeIn 0.1s;
     animation-direction: reverse;
     opacity: 0;
@@ -390,74 +484,162 @@ button:active {
 }
 
 @keyframes change-to-red {
-    0%  {background:  radial-gradient(#f5f5f5 100%,#f5c8c8);}
-    10% {background:  radial-gradient(#f5f5f5 90%, #f5c8c8);}
-    20% {background:  radial-gradient(#f5f5f5 80%, #f5c8c8);}
-    30% {background:  radial-gradient(#f5f5f5 70%, #f5c8c8);}
-    40% {background:  radial-gradient(#f5f5f5 60%, #f5c8c8);}
-    50% {background:  radial-gradient(#f5f5f5 50%, #f5c8c8);}
-    60% {background:  radial-gradient(#f5f5f5 40%, #f5c8c8);}
-    70% {background:  radial-gradient(#f5f5f5 30%, #f5c8c8);}
-    80% {background:  radial-gradient(#f5f5f5 20%, #f5c8c8);}
-    90% {background:  radial-gradient(#f5f5f5 10%, #f5c8c8);}
-    100% {background: radial-gradient(#f5f5f5 0%,  #f5c8c8);}
+    0% {
+        background: radial-gradient(#f5f5f5 100%, #f5c8c8);
+    }
+    10% {
+        background: radial-gradient(#f5f5f5 90%, #f5c8c8);
+    }
+    20% {
+        background: radial-gradient(#f5f5f5 80%, #f5c8c8);
+    }
+    30% {
+        background: radial-gradient(#f5f5f5 70%, #f5c8c8);
+    }
+    40% {
+        background: radial-gradient(#f5f5f5 60%, #f5c8c8);
+    }
+    50% {
+        background: radial-gradient(#f5f5f5 50%, #f5c8c8);
+    }
+    60% {
+        background: radial-gradient(#f5f5f5 40%, #f5c8c8);
+    }
+    70% {
+        background: radial-gradient(#f5f5f5 30%, #f5c8c8);
+    }
+    80% {
+        background: radial-gradient(#f5f5f5 20%, #f5c8c8);
+    }
+    90% {
+        background: radial-gradient(#f5f5f5 10%, #f5c8c8);
+    }
+    100% {
+        background: radial-gradient(#f5f5f5 0%, #f5c8c8);
+    }
 }
 
 @keyframes change-to-green {
-    0%  {background:  radial-gradient(#f5f5f5 100%, #64ff64);}
-    10% {background:  radial-gradient(#f5f5f5 90%, #64ff64);}
-    20% {background:  radial-gradient(#f5f5f5 80%, #64ff64);}
-    30% {background:  radial-gradient(#f5f5f5 70%, #64ff64);}
-    40% {background:  radial-gradient(#f5f5f5 60%, #64ff64);}
-    50% {background:  radial-gradient(#f5f5f5 50%, #64ff64);}
-    60% {background:  radial-gradient(#f5f5f5 40%, #64ff64);}
-    70% {background:  radial-gradient(#f5f5f5 30%, #64ff64);}
-    80% {background:  radial-gradient(#f5f5f5 20%, #64ff64);}
-    90% {background:  radial-gradient(#f5f5f5 10%, #64ff64);}
-    100% {background: radial-gradient(#f5f5f5 0%,  #64ff64);}
+    0% {
+        background: radial-gradient(#f5f5f5 100%, #64ff64);
+    }
+    10% {
+        background: radial-gradient(#f5f5f5 90%, #64ff64);
+    }
+    20% {
+        background: radial-gradient(#f5f5f5 80%, #64ff64);
+    }
+    30% {
+        background: radial-gradient(#f5f5f5 70%, #64ff64);
+    }
+    40% {
+        background: radial-gradient(#f5f5f5 60%, #64ff64);
+    }
+    50% {
+        background: radial-gradient(#f5f5f5 50%, #64ff64);
+    }
+    60% {
+        background: radial-gradient(#f5f5f5 40%, #64ff64);
+    }
+    70% {
+        background: radial-gradient(#f5f5f5 30%, #64ff64);
+    }
+    80% {
+        background: radial-gradient(#f5f5f5 20%, #64ff64);
+    }
+    90% {
+        background: radial-gradient(#f5f5f5 10%, #64ff64);
+    }
+    100% {
+        background: radial-gradient(#f5f5f5 0%, #64ff64);
+    }
 }
 
 @keyframes change-to-blue {
-    0%  {background:  radial-gradient(#f5f5f5 100%,#6464ff);}
-    10% {background:  radial-gradient(#f5f5f5 90%, #6464ff);}
-    20% {background:  radial-gradient(#f5f5f5 80%, #6464ff);}
-    30% {background:  radial-gradient(#f5f5f5 70%, #6464ff);}
-    40% {background:  radial-gradient(#f5f5f5 60%, #6464ff);}
-    50% {background:  radial-gradient(#f5f5f5 50%, #6464ff);}
-    60% {background:  radial-gradient(#f5f5f5 40%, #6464ff);}
-    70% {background:  radial-gradient(#f5f5f5 30%, #6464ff);}
-    80% {background:  radial-gradient(#f5f5f5 20%, #6464ff);}
-    90% {background:  radial-gradient(#f5f5f5 10%, #6464ff);}
-    100% {background: radial-gradient(#f5f5f5 0%,  #6464ff);}
+    0% {
+        background: radial-gradient(#f5f5f5 100%, #6464ff);
+    }
+    10% {
+        background: radial-gradient(#f5f5f5 90%, #6464ff);
+    }
+    20% {
+        background: radial-gradient(#f5f5f5 80%, #6464ff);
+    }
+    30% {
+        background: radial-gradient(#f5f5f5 70%, #6464ff);
+    }
+    40% {
+        background: radial-gradient(#f5f5f5 60%, #6464ff);
+    }
+    50% {
+        background: radial-gradient(#f5f5f5 50%, #6464ff);
+    }
+    60% {
+        background: radial-gradient(#f5f5f5 40%, #6464ff);
+    }
+    70% {
+        background: radial-gradient(#f5f5f5 30%, #6464ff);
+    }
+    80% {
+        background: radial-gradient(#f5f5f5 20%, #6464ff);
+    }
+    90% {
+        background: radial-gradient(#f5f5f5 10%, #6464ff);
+    }
+    100% {
+        background: radial-gradient(#f5f5f5 0%, #6464ff);
+    }
 }
 
 @keyframes change-to-yellow {
-    0%  {background:  radial-gradient(#f5f5f5 100%,#ffff64);}
-    10% {background:  radial-gradient(#f5f5f5 90%, #ffff64);}
-    20% {background:  radial-gradient(#f5f5f5 80%, #ffff64);}
-    30% {background:  radial-gradient(#f5f5f5 70%, #ffff64);}
-    40% {background:  radial-gradient(#f5f5f5 60%, #ffff64);}
-    50% {background:  radial-gradient(#f5f5f5 50%, #ffff64);}
-    60% {background:  radial-gradient(#f5f5f5 40%, #ffff64);}
-    70% {background:  radial-gradient(#f5f5f5 30%, #ffff64);}
-    80% {background:  radial-gradient(#f5f5f5 20%, #ffff64);}
-    90% {background:  radial-gradient(#f5f5f5 10%, #ffff64);}
-    100% {background: radial-gradient(#f5f5f5 0%,  #ffff64);}
+    0% {
+        background: radial-gradient(#f5f5f5 100%, #ffff64);
+    }
+    10% {
+        background: radial-gradient(#f5f5f5 90%, #ffff64);
+    }
+    20% {
+        background: radial-gradient(#f5f5f5 80%, #ffff64);
+    }
+    30% {
+        background: radial-gradient(#f5f5f5 70%, #ffff64);
+    }
+    40% {
+        background: radial-gradient(#f5f5f5 60%, #ffff64);
+    }
+    50% {
+        background: radial-gradient(#f5f5f5 50%, #ffff64);
+    }
+    60% {
+        background: radial-gradient(#f5f5f5 40%, #ffff64);
+    }
+    70% {
+        background: radial-gradient(#f5f5f5 30%, #ffff64);
+    }
+    80% {
+        background: radial-gradient(#f5f5f5 20%, #ffff64);
+    }
+    90% {
+        background: radial-gradient(#f5f5f5 10%, #ffff64);
+    }
+    100% {
+        background: radial-gradient(#f5f5f5 0%, #ffff64);
+    }
 }
 
-.change-to-red{
+.change-to-red {
     animation: change-to-red 800ms;
 }
 
-.change-to-green{
+.change-to-green {
     animation: change-to-green 800ms;
 }
 
-.change-to-blue{
+.change-to-blue {
     animation: change-to-blue 800ms;
 }
 
-.change-to-yellow{
+.change-to-yellow {
     animation: change-to-yellow 800ms;
 }
 
@@ -493,7 +675,8 @@ button:active {
 #login-screen-inner-container > p {
     text-align: center;
 }
-.chat-base-container{
+
+.chat-base-container {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -560,7 +743,7 @@ button:active {
     padding: 8px;
 }
 
-.chat-contaier .converssion-area-wrpper p{
+.chat-contaier .converssion-area-wrpper p {
     margin: 0 0 8px 0;
 }
 
@@ -570,7 +753,7 @@ button:active {
     display: flex;
 }
 
-.chat-contaier .chat-input-wrapper input{
+.chat-contaier .chat-input-wrapper input {
     line-height: 16px;
     font-size: 16px;
     margin: 1px;
