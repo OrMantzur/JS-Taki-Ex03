@@ -9,6 +9,7 @@ import StatisticsContainer from "./statisticsContainer.jsx";
 import PlayerWonContainer from "./playerWonContainer.jsx";
 import takiLogo from "../../server/takiImages/TAKI_logo.png";
 import * as enums from "../../server/logic/enums";
+import ChatContainer from './chat/chatContainer.jsx';
 
 const GAME_STATE_REFRESH_INTERVAL = 0.5 * 1000;
 
@@ -30,10 +31,6 @@ export default class ActiveGameBaseContainer extends React.Component {
     componentDidMount() {
         this.updateUIGameState();
     }
-
-    // componentWillMount() {
-    //     this.updateUIGameState();
-    // }
 
     updateUIGameState() {
         if (this.state.playerWon === true)
@@ -133,6 +130,11 @@ export default class ActiveGameBaseContainer extends React.Component {
                                          gameEnded={this.state.currentGameState && this.state.currentGameState.gameState === enums.GameState.GAME_ENDED}
                     />
                 </div>
+
+                <div>
+                    <ChatContainer/>
+                </div>
+
             </div>
         );
     }

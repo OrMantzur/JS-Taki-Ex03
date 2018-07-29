@@ -6,6 +6,7 @@
 import React from "react";
 
 export default class DeckContainer extends React.Component {
+
     constructor(args) {
         super(...args);
         this.clickedDeck = this.clickedDeck.bind(this);
@@ -61,4 +62,5 @@ export default class DeckContainer extends React.Component {
             </div>
         );
     };
+
 }

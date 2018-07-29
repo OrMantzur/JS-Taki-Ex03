@@ -123,7 +123,6 @@ export default class BaseContainer extends React.Component {
     // ================================================================================================
     // ====================================== ActiveGame Methods ======================================
     // ================================================================================================
-
     logoutHandler() {
         this.getPlayerNameForThisSession();
         this.getActiveGameForThisSession();

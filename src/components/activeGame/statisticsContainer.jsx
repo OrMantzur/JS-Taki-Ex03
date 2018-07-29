@@ -7,6 +7,7 @@ import React from "react";
 import {GameState} from "../../server/logic/enums";
 
 export default class StatisticsContainer extends React.Component {
+
     constructor(args) {
         super(...args);
         this.state = {
@@ -44,7 +45,6 @@ export default class StatisticsContainer extends React.Component {
 
 
         console.log("statisticsProps");
-        // console.log(this.props);
         return (
             <div id="statistics-container">
                 <div>{"Game timer: " + this.state.timerValueStr}</div>
@@ -83,6 +83,6 @@ export default class StatisticsContainer extends React.Component {
                 </h5>
             </div>
         );
-    }
-    ;
+    };
+
 }

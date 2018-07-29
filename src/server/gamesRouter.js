@@ -7,6 +7,7 @@ const express = require('express');
 const gameManager = require('./logic/gamesManager.js');
 const playersManager = require('./logic/playersManager');
 const gamesRouter = express.Router();
+const chatManagement = require('./chatRouter');
 
 gamesRouter.get('/activeGameId', playersManager.getLoggedInPlayer, (req, res) => {
     let loggedInPlayer = req.session.loggedInPlayer;
@@ -51,6 +52,16 @@ gamesRouter.post('/joinGame', playersManager.getLoggedInPlayer, (req, res) => {
     let gameId = JSON.parse(req.body).gameId;
     req.session.activeGameId = gameId;
     gameManager.addPlayerToGame(gameId, loggedInPlayer);
+    res.sendStatus(200);
+});
+
+// get in the request gameId
+gamesRouter.post('/exitGame', playersManager.getLoggedInPlayer, (req, res) => {
+    // TODO exit game
+
+    // TODO check the chat exit work
+    let playerName = req.session.loggedInPlayer.getName();
+    chatManagement.appendUserLogoutMessage(playerName );
     res.sendStatus(200);
 });
 

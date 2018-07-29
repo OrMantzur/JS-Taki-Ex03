@@ -6,6 +6,7 @@ const displayAddGameStyle = {
     display: "flex"
 };
 export default class GamesListComponent extends React.Component {
+
     constructor() {
         super();
         this.state = {
@@ -181,4 +182,5 @@ export default class GamesListComponent extends React.Component {
             </div>
         )
     }
+
 }

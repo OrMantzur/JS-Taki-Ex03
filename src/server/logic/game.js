@@ -138,7 +138,7 @@ class Game {
         };
     }
 
-    getAllPlayersStatistics(){
+    getAllPlayersStatistics() {
         let playerStatistics = {};
         this._players.forEach((player) => {
             playerStatistics[player.getId()] = player.getStatistics();
@@ -146,8 +146,8 @@ class Game {
         return playerStatistics;
     }
 
-    isGameStart(){
-        return this._gameState.gameState &&this._gameState.gameState !== enums.GameState.WAITING_FOR_PLAYERS;
+    isGameStart() {
+        return this._gameState.gameState && this._gameState.gameState !== enums.GameState.WAITING_FOR_PLAYERS;
     }
 
     addPlayerToGame(playerToAdd) {
