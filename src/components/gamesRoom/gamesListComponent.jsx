@@ -137,6 +137,25 @@ export default class GamesListComponent extends React.Component {
     render() {
         return (
             <div id='games-list-container'>
+                <div id='add-new-game-container' style={this.displayAddGame()}>
+                    <div id='add-new-game-form-container' style={this.displayAddGame()}>
+                        <form onSubmit={this.addGame}>
+                            <label className="gameTitle-label" htmlFor="gameTitle"> Title: </label>
+                            <input className="gameTitle-input" name="gameTitle"/>
+                            <label className="gameType-label" htmlFor="gameType"> Game type: </label>
+                            <select name="gameType">
+                                <option value={enums.GameType.BASIC}>Basic</option>
+                                <option value={enums.GameType.ADVANCED}>Advanced</option>
+                            </select>
+                            <label className="numPlayers-label" htmlFor="numPlayers"> num players: </label>
+                            <input type="number" name="numPlayers" min="2" max="4" defaultValue="2"/>
+                            <input className="submit-btn btn" type="submit" value="Add Game"/>
+                        </form>
+                        <button id="cancel-btn" className="red"
+                                onClick={this.setAddGameFormVisibility.bind(this, false)}>Cancel
+                        </button>
+                    </div>
+                </div>
                 <table id='games-list-table'>
                     <thead>
                     <tr>
@@ -174,21 +193,6 @@ export default class GamesListComponent extends React.Component {
                     ))}
                     </tbody>
                 </table>
-                <div id='add-new-game-form-container' style={this.displayAddGame()}>
-                    <form onSubmit={this.addGame}>
-                        <label className="gameTitle-label" htmlFor="gameTitle"> Title: </label>
-                        <input className="gameTitle-input" name="gameTitle"/>
-                        <label className="gameType-label" htmlFor="gameType"> Game type: </label>
-                        <select name="gameType">
-                            <option value={enums.GameType.BASIC}>Basic</option>
-                            <option value={enums.GameType.ADVANCED}>Advanced</option>
-                        </select>
-                        <label className="numPlayers-label" htmlFor="numPlayers"> num players: </label>
-                        <input type="number" name="numPlayers" min="2" max="4" defaultValue="2"/>
-                        <input className="submit-btn btn" type="submit" value="Add Game"/>
-                    </form>
-                    <button id="cancel-btn" className="red" onClick={this.setAddGameFormVisibility.bind(this, false)}>Cancel</button>
-                </div>
             </div>
         )
     }

@@ -38,22 +38,6 @@ html, body {
     min-width: fit-content;
 }
 
-#add-new-game-form-container {
-    position: inherit;
-    height: fit-content;
-    width: fit-content;
-    align-self: center;
-    display: none;
-    flex-direction: column;
-    justify-content: center;
-    background: rgba(200, 200, 200, 0.7);
-    border-radius: 15px;
-    border: black groove thin;
-    box-shadow: 5px 5px 30px black;
-    min-height: fit-content;
-    min-width: fit-content;
-}
-
 #games-room-container {
     height: 100%;
     width: 100%;
@@ -318,7 +302,39 @@ html, body {
     align-self: center;
 }
 
+#add-new-game-container {
+    position: inherit;
+    height: 100%;
+    width: 100%;
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.2);
+    /*border-radius: 15px;*/
+    /*border: black groove thin;*/
+    /*box-shadow: 5px 5px 30px black;*/
+    /*min-height: fit-content;*/
+    /*min-width: fit-content;*/
+}
+
+#add-new-game-form-container {
+    position: inherit;
+    height: fit-content;
+    width: fit-content;
+    align-self: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background: rgba(200, 200, 200, 0.7);
+    border-radius: 15px;
+    border: black groove thin;
+    box-shadow: 5px 5px 30px black;
+    min-height: fit-content;
+    min-width: fit-content;
+}
+
 #add-new-game-form-container form {
+    align-self: center;
     margin: 20px
 }
 
