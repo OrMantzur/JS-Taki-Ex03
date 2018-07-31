@@ -1,9 +1,13 @@
+/**
+ * Dudi Yecheskel - 200441749
+ * Or Mantzur - 204311997
+ */
+
 import React from 'react';
 
 const CHAT_TIMEOUT_INTERVAL = 0.2 * 1000;
 
 export default class conversationArea extends React.Component {
-
     constructor(args) {
         super(...args);
 
@@ -24,15 +28,6 @@ export default class conversationArea extends React.Component {
         }
     }
 
-    render() {
-        return (
-            <div className="conversation-area-wrapper">
-                {this.state.content.map((line) => (
-                    <p key={line.user.name + line.timeStamp}><b>{line.user}:</b> {line.text}</p>))}
-            </div>
-        )
-    }
-
     getChatContent() {
         return fetch('/chat', {method: 'GET', credentials: 'include'})
             .then((response) => {
@@ -50,4 +45,12 @@ export default class conversationArea extends React.Component {
             });
     }
 
+    render() {
+        return (
+            <div className="conversation-area-wrapper">
+                {this.state.content.map((line) => (
+                    <p key={line.user.name + line.timeStamp}><b>{line.user}:</b> {line.text}</p>))}
+            </div>
+        )
+    }
 }

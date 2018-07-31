@@ -4,7 +4,8 @@
  */
 
 import React from "react";
-import {GameState} from "../../server/logic/enums";
+
+const GameState = require('../../server/logic/enums').GameState;
 
 export default class StatisticsContainer extends React.Component {
 
@@ -52,7 +53,7 @@ export default class StatisticsContainer extends React.Component {
                     <thead>
                     <tr>
                         <th>Owner</th>
-                        <th>Cards</th>
+                        <th>Cards Remaining</th>
                     </tr>
                     </thead>
                     <tbody>

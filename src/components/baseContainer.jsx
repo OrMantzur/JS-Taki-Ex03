@@ -32,31 +32,6 @@ export default class BaseContainer extends React.Component {
         this.getActiveGameForThisSession();
     }
 
-    render() {
-        if (this.state.playerName === null) {
-            return (
-                <LoginContainer loginSuccessHandler={this.handleSuccessLogin}
-                                loginErrorHandler={this.handleLoginError}/>
-            );
-        }
-        else if (this.state.activeGameId === null) {
-            return (
-                <GamesRoomComponent userName={this.state.playerName}
-                                    handleLogout={this.logoutHandler}
-                                    gameSelected={this.gameSelectedHandler}
-                                    initActiveGameState={this.initActiveGameState}/>
-            );
-        }
-        else {
-            return (
-                <ActiveGameBaseContainer gameId={this.state.activeGameId}
-                                         playerName={this.state.playerName}
-                                         exitGame={this.exitGame}
-                />
-            );
-        }
-    }
-
     // ================================================================================================
     // ======================================== Player Methods ========================================
     // ================================================================================================
@@ -134,5 +109,28 @@ export default class BaseContainer extends React.Component {
         this.setState({activeGameId: activeGameId});
     }
 
-
+    render() {
+        if (this.state.playerName === null) {
+            return (
+                <LoginContainer loginSuccessHandler={this.handleSuccessLogin}
+                                loginErrorHandler={this.handleLoginError}/>
+            );
+        }
+        else if (this.state.activeGameId === null) {
+            return (
+                <GamesRoomComponent userName={this.state.playerName}
+                                    handleLogout={this.logoutHandler}
+                                    gameSelected={this.gameSelectedHandler}
+                                    initActiveGameState={this.initActiveGameState}/>
+            );
+        }
+        else {
+            return (
+                <ActiveGameBaseContainer gameId={this.state.activeGameId}
+                                         playerName={this.state.playerName}
+                                         exitGame={this.exitGame}
+                />
+            );
+        }
+    }
 }

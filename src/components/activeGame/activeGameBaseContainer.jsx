@@ -2,6 +2,7 @@
  * Dudi Yecheskel - 200441749
  * Or Mantzur - 204311997
  */
+
 import React from 'react';
 import PlayingTableContainer from "./playingTableContainer.jsx";
 import PlayerContainer from "./playerContainer.jsx";
@@ -13,10 +14,8 @@ import ChatContainer from './chat/chatContainer.jsx';
 const GAME_STATE_REFRESH_INTERVAL = 0.5 * 1000;
 
 export default class ActiveGameBaseContainer extends React.Component {
-
     constructor(args) {
         super(...args);
-        this.state = {refreshFlag: 0};
         this.restartGame = this.restartGame.bind(this);
         this.callSetState = this.callSetState.bind(this);
         this.exitGameClicked = this.exitGameClicked.bind(this);
@@ -116,6 +115,7 @@ export default class ActiveGameBaseContainer extends React.Component {
                                                deckDisabled={this.state.gameControlsLocked}
                                                highlightDeck={this.state.possibleMoveForActivePlayer === null && !this.state.gameControlsLocked}
                                                userMessage={this.state.userMessage}
+                                               possibleMoveForActivePlayer={this.state.possibleMoveForActivePlayer}
                         />
                         <PlayerWonContainer playerWon={this.state.playerWon}
                                             loggedInPlayerName={this.state.loggedInPlayerName}

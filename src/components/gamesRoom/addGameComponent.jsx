@@ -1,9 +1,12 @@
+/**
+ * Dudi Yecheskel - 200441749
+ * Or Mantzur - 204311997
+ */
+
 import React from 'react';
 
 const enums = require('../../server/logic/enums');
-const displayAddGameStyle = {
-    display: "flex"
-};
+const displayAddGameStyle = {display: "flex"};
 
 export default class AddGameComponent extends React.Component {
 

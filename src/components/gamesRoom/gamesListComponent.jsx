@@ -57,7 +57,6 @@ export default class GamesListComponent extends React.Component {
 
     deleteGame(gameIdToDelete) {
         let body = {gameId: gameIdToDelete};
-        // delete game
         fetch('/games/deleteGame', {
             method: 'POST',
             body: JSON.stringify(body),
@@ -76,7 +75,6 @@ export default class GamesListComponent extends React.Component {
 
     joinGame(gameIdSelected) {
         let body = {gameId: gameIdSelected};
-        // start game
         fetch('/games/joinGame', {
             method: 'POST',
             body: JSON.stringify(body),
@@ -114,16 +112,16 @@ export default class GamesListComponent extends React.Component {
                             <td>{game._players.length}/{game._numPlayersToStartGame}</td>
                             <td>{game._gameState.gameState}</td>
                             <td>
-                                {/*this is == and not === because 2 == "2" but 2 !== "2"*/}
                                 <button onClick={this.joinGame.bind(this, game._gameId)}
-                                        title="games will start once enough users join"
-                                        className={game._players.length === parseInt(game._numPlayersToStartGame) || game._gameState.gameState !== enums.GameState.WAITING_FOR_PLAYERS ? "disabled-button" : "" + " green"}>
+                                        title="the game will start once enough users join"
+                                        className={game._players.length === parseInt(game._numPlayersToStartGame) || game._gameState.gameState !== enums.GameState.WAITING_FOR_PLAYERS ?
+                                            "disabled-button" : "" + " green"}>
                                     Join
                                 </button>
                                 <button onClick={this.deleteGame.bind(this, game._gameId)}
-                                        title="games can only be deleted by their creator"
-                                        className={game._players.length === parseInt(game._numPlayersToStartGame) ||
-                                        this.props.userName !== game._gameCreatorName ? "disabled-button" : "" + " red"}>
+                                        title="a game can only be deleted by it's creator"
+                                        className={game._players.length === parseInt(game._numPlayersToStartGame) || this.props.userName !== game._gameCreatorName ?
+                                            "disabled-button" : "" + " red"}>
                                     Delete
                                 </button>
                             </td>

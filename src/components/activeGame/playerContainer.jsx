@@ -39,8 +39,6 @@ export default class PlayerContainer extends React.Component {
             fetch('/activeGame/makeMove', {method: 'post', body: JSON.stringify(body), credentials: 'include'})
                 .then(() => this.props.movePlayed());
         }
-        // //TODO should we check if the move was played successfully?
-        // this.props.movePlayed();
     }
 
     colorPickerClickedCard(color) {
@@ -61,11 +59,7 @@ export default class PlayerContainer extends React.Component {
     }
 
     displayOverlay() {
-        if (this.getDisplayOverlayText() !== null
-        /*this.props.gameControlsLocked ||
-        this.props.currentGameState.gameState === GameState.GAME_ENDED ||
-        this.props.currentGameState.gameState === GameState.WAITING_FOR_PLAYERS*/
-        ) {
+        if (this.getDisplayOverlayText() !== null) {
             return displayOverlayStyle;
         }
         else

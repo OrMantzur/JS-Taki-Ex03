@@ -7,7 +7,6 @@ import React from "react";
 import {SpecialCard} from "../../server/logic/enums";
 
 export default class CardContainer extends React.Component {
-
     constructor(args) {
         super(...args);
         this.generateClassName = this.generateClassName.bind(this);
@@ -45,9 +44,7 @@ export default class CardContainer extends React.Component {
             return null;
         }
     };
-
 }
-
 
 CardContainer.defaultProps = {
     card: null,

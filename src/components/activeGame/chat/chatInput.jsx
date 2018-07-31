@@ -1,23 +1,17 @@
+/**
+ * Dudi Yecheskel - 200441749
+ * Or Mantzur - 204311997
+ */
+
 import React from 'react';
 
 export default class ChatInput extends React.Component {
-
     constructor(args) {
         super(...args);
         this.state = {
             sendInProgress: false
         };
         this.sendText = this.sendText.bind(this);
-    }
-
-    render() {
-        return (
-            <form className="chat-input-wrapper" onSubmit={this.sendText}>
-                <input id="chat-text-input" disabled={this.state.sendInProgress} placeholder="enter text here"
-                       ref={input => this.inputElement = input}/>
-                <input type="submit" className="btn" disabled={this.state.sendInProgress} value="Send"/>
-            </form>
-        )
     }
 
     sendText(e) {
@@ -39,4 +33,13 @@ export default class ChatInput extends React.Component {
         return false;
     }
 
+    render() {
+        return (
+            <form className="chat-input-wrapper" onSubmit={this.sendText}>
+                <input id="chat-text-input" disabled={this.state.sendInProgress} placeholder="enter text here"
+                       ref={input => this.inputElement = input}/>
+                <input type="submit" className="btn" disabled={this.state.sendInProgress} value="Send"/>
+            </form>
+        )
+    }
 }

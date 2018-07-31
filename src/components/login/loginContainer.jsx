@@ -17,34 +17,6 @@ export default class LoginContainer extends React.Component {
         this.renderLoginErrorMessage = this.renderLoginErrorMessage.bind(this);
     }
 
-    render() {
-        const imgStyle = {
-            width: 'fit-content',
-            height: 'fit-content',
-            alignSelf: 'center'
-        };
-        const loginFormStyle = {
-            width: 'fit-content',
-            alignSelf: 'center',
-            marginTop: '15px'
-        };
-        return (
-            <div id='login-screen-container'>
-                <div id='login-screen-inner-container'>
-                    <img src="/images/taki-logo" alt="Taki Logo" style={imgStyle}/>
-                    <div style={loginFormStyle}>
-                        <form onSubmit={this.login}>
-                            <label htmlFor="playerName">Name: </label>
-                            <input type="text" name="playerName" maxLength="15"/>
-                            <input type="submit" value="Login"/>
-                        </form>
-                        <p className='error'>{this.state.errMessage}</p>
-                    </div>
-                </div>
-            </div>
-        );
-    }
-
     login(formEvent) {
         formEvent.preventDefault();
         let playerName = {"playerName": formEvent.target.elements.playerName.value};
@@ -81,4 +53,31 @@ export default class LoginContainer extends React.Component {
         return null;
     }
 
+    render() {
+        const imgStyle = {
+            width: 'fit-content',
+            height: 'fit-content',
+            alignSelf: 'center'
+        };
+        const loginFormStyle = {
+            width: 'fit-content',
+            alignSelf: 'center',
+            marginTop: '15px'
+        };
+        return (
+            <div id='login-screen-container'>
+                <div id='login-screen-inner-container'>
+                    <img src="/images/taki-logo" alt="Taki Logo" style={imgStyle}/>
+                    <div style={loginFormStyle}>
+                        <form onSubmit={this.login}>
+                            <label htmlFor="playerName">Name: </label>
+                            <input type="text" name="playerName" maxLength="15"/>
+                            <input type="submit" value="Login"/>
+                        </form>
+                        <p className='error'>{this.state.errMessage}</p>
+                    </div>
+                </div>
+            </div>
+        );
+    }
 }

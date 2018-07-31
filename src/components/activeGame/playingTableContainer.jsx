@@ -18,7 +18,9 @@ export default class PlayingTableContainer extends React.Component {
             <div id='playing_table_container'>
                 <DeckContainer pickedUpCardFromDeck={this.props.pickedUpCardFromDeck}
                                deckDisabled={this.props.deckDisabled}
-                               highlightDeck={this.props.highlightDeck}/>
+                               highlightDeck={this.props.highlightDeck}
+                               possibleMoveForActivePlayer={this.props.possibleMoveForActivePlayer}
+                />
                 <div align="center">
                     <CardContainer id="topCard"
                                    card={this.props.topCardOnTable}
