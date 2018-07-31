@@ -127,7 +127,7 @@ class Game {
     getAllPlayersStatistics() {
         let playerStatistics = {};
         this._players.forEach((player) => {
-            playerStatistics[player.getId()] = player.getStatistics();
+            playerStatistics[player.getId()] = player.getStatistics(this._gameId);
         });
         return playerStatistics;
     }
@@ -150,6 +150,7 @@ class Game {
             console.log("Cannot add another player, game is full or has already started");
         } else {
             this._players.push(playerToAdd);
+            playerToAdd.setCurrentActiveGameId(this._gameId);
             // playerToAdd.addCardsToHand(this._deck.drawCards(NUM_STARTING_CARDS));
             console.log("GameID (" + this._gameId + "): " + playerToAdd.getName() + " has joined the game");
             playerAddedSuccessfully = true;
@@ -266,7 +267,7 @@ class Game {
             this.playerReachedZeroCards(activePlayer);
             let playersWithCards = [];
             this._players.forEach((player) => {
-                if (!player.reachedZeroCards())
+                if (!player.reachedZeroCards() && player.getCurrentActiveGameId() === this._gameId)
                     playersWithCards.push(player);
             });
             if (playersWithCards.length === 1) {
@@ -348,7 +349,7 @@ class Game {
             if (i < 0)
                 i += this._players.length;
             i = i % this._players.length;
-            if (!this._players[i].reachedZeroCards())
+            if (!this._players[i].reachedZeroCards() && this._players[i].getCurrentActiveGameId() === this._gameId)
                 playersToAdvance--;
             if (playersToAdvance === 0) {
                 nextIndexFound = true;
@@ -443,15 +444,28 @@ class Game {
             return false;
         }
 
-        let playerRemoved = this._players.splice(playerIndex, 1)[0];
-        playerRemoved.leave();
-        console.log("player " + playerRemoved.getName() + " has left the game");
-        this._moveToNextPlayer();
+        let playerLeaving;
+        if (this._gameState.gameState !== enums.GameState.GAME_ENDED && this._gameState.gameState !== enums.GameState.WAITING_FOR_PLAYERS) {
+            playerLeaving = this._players[playerIndex];
+            playerLeaving.saveStatistics(this._gameId);
+        } else {
+            playerLeaving = this._players.splice(playerIndex, 1)[0];
+        }
 
-        if (this._players.length === 0 && this._gameState.gameState === enums.GameState.GAME_ENDED) {
-            this.restart();
-            console.log("game restart");
-            return true;
+        playerLeaving.leave(this._gameId);
+        console.log("player " + playerLeaving.getName() + " has left the game");
+
+        if (this._gameState.gameState === enums.GameState.GAME_ENDED) {
+            let nonActivePlayers = 0;
+            this._players.forEach((player) => {
+                if (player.getCurrentActiveGameId() !== this._gameId)
+                    nonActivePlayers++
+            });
+            if (this._players.length - nonActivePlayers === 0) {
+                this.restart();
+                console.log("game restart");
+                return true;
+            }
         }
     }
 

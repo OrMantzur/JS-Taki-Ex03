@@ -25,10 +25,16 @@ class Player {
         this._turnsPlayed = 0;
         this._totalTimePlayed = 0;
         this._timesReachedSingleCard = 0;
+        this._savedStatistics = {};
+        this._currentActiveGameId = null;
     }
 
     getId() {
         return this._playerId;
+    }
+
+    getCurrentActiveGameId(){
+        return this._currentActiveGameId;
     }
 
     getName() {
@@ -117,7 +123,11 @@ class Player {
         return this._timesReachedSingleCard;
     }
 
-    getStatistics() {
+    setCurrentActiveGameId(gameId){
+        this._currentActiveGameId = gameId;
+    }
+
+    _getCurrentStatistics() {
         return {
             playerName: this._playerName,
             avgTurnTime: this.getAverageTurnTime(),
@@ -126,6 +136,15 @@ class Player {
             numCardsInHand: this._cards.length,
             ranking: this._ranking
         }
+    }
+
+    saveStatistics(gameId){
+        this._savedStatistics[gameId] = this._getCurrentStatistics();
+    }
+
+    getStatistics(gameId){
+        let savedStatistics = this._savedStatistics[gameId];
+        return savedStatistics === undefined ? this._getCurrentStatistics() : savedStatistics;
     }
 
     /**
@@ -191,10 +210,14 @@ class Player {
         this._isWinner = true;
     }
 
-    leave() {
+    leave(saveStatistics) {
+        if (saveStatistics) {
+            this.saveStatistics(this.currentActiveGameId);
+        }
         this._ranking = 0;
         this._cards = [];
         this._isActive = false;
+        this._currentActiveGameId = null;
         this._isWinner = false;
         this._currTurnStartTime = undefined;
         this._turnsPlayed = 0;

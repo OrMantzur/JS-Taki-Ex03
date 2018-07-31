@@ -25,7 +25,14 @@ class GamesManager {
     }
 
     getGameObjectByPlayerId(playerId) {
-        let gameId = this._playerIdToGameIdMap[playerId];
+        let gameId = null;
+        Object.values(this._games).forEach((game) => {
+            game._players.forEach((player) => {
+                if (player.getId() === playerId)
+                    gameId = game.getGameId();
+            })
+        });
+        // let gameId = this._playerIdToGameIdMap[playerId];
         return this._games[gameId];
     }
 
