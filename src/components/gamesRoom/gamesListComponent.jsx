@@ -120,7 +120,7 @@ export default class GamesListComponent extends React.Component {
                                 </button>
                                 <button onClick={this.deleteGame.bind(this, game._gameId)}
                                         title="a game can only be deleted by it's creator"
-                                        className={game._players.length === parseInt(game._numPlayersToStartGame) || this.props.userName !== game._gameCreatorName ?
+                                        className={game._players.length !== 0 || this.props.userName !== game._gameCreatorName ?
                                             "disabled-button" : "" + " red"}>
                                     Delete
                                 </button>

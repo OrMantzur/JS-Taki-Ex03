@@ -16,6 +16,7 @@ const GAME_STATE_REFRESH_INTERVAL = 0.5 * 1000;
 export default class ActiveGameBaseContainer extends React.Component {
     constructor(args) {
         super(...args);
+        this.state = {};
         this.restartGame = this.restartGame.bind(this);
         this.callSetState = this.callSetState.bind(this);
         this.exitGameClicked = this.exitGameClicked.bind(this);
