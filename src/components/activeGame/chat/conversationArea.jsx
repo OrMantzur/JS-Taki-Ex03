@@ -28,7 +28,7 @@ export default class conversationArea extends React.Component {
         return (
             <div className="conversation-area-wrapper">
                 {this.state.content.map((line) => (
-                    <p key={line.user.name + line.timeStamp}>{line.user}: {line.text}</p>))}
+                    <p key={line.user.name + line.timeStamp}><b>{line.user}:</b> {line.text}</p>))}
             </div>
         )
     }

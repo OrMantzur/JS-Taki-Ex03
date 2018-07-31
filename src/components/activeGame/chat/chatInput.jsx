@@ -13,7 +13,7 @@ export default class ChatInput extends React.Component {
     render() {
         return (
             <form className="chat-input-wrapper" onSubmit={this.sendText}>
-                <input disabled={this.state.sendInProgress} placeholder="enter text here"
+                <input id="chat-text-input" disabled={this.state.sendInProgress} placeholder="enter text here"
                        ref={input => this.inputElement = input}/>
                 <input type="submit" className="btn" disabled={this.state.sendInProgress} value="Send"/>
             </form>
