@@ -2,22 +2,17 @@ import React from 'react';
 
 const GAMES_REFRESH_INTERVAL = 2000;
 const enums = require('../../server/logic/enums');
-const displayAddGameStyle = {
-    display: "flex"
-};
+
 export default class GamesListComponent extends React.Component {
 
     constructor() {
         super();
         this.state = {
             allGames: {},
-            showAddGame: false
         };
         this.getAllGames = this.getAllGames.bind(this);
-        this.addGame = this.addGame.bind(this);
         this.deleteGame = this.deleteGame.bind(this);
         this.displayAddGame = this.displayAddGame.bind(this);
-        this.setAddGameFormVisibility = this.setAddGameFormVisibility.bind(this);
         this.joinGame = this.joinGame.bind(this);
     }
 
@@ -56,43 +51,12 @@ export default class GamesListComponent extends React.Component {
         }
     }
 
-    deleteGame(gameId) {
-        this.props.deleteGame(gameId);
-    }
-
     displayAddGame() {
         if (this.state.showAddGame) {
             return displayAddGameStyle;
         }
         else
             return null;
-    }
-
-    addGame(formEvent) {
-        formEvent.preventDefault();
-        const body = {
-            gameTitle: formEvent.target.elements.gameTitle.value,
-            gameType: formEvent.target.elements.gameType.value,
-            numPlayers: formEvent.target.elements.numPlayers.value
-        };
-
-        fetch('/games/addGame', {method: 'POST', body: JSON.stringify(body), credentials: 'include'})
-            .then(response => {
-                if (!response.ok) {
-                    return response.text().then(text => {
-                        throw Error(text)
-                    });
-                } else {
-                    console.log("game " + body.gameTitle + " was added successfully");
-                }
-            })
-            .then(() =>
-                this.setAddGameFormVisibility(false)
-            )
-            .catch(errorMessage => {
-                alert(errorMessage);
-            });
-        formEvent.target.reset();
     }
 
     deleteGame(gameIdToDelete) {
@@ -129,43 +93,19 @@ export default class GamesListComponent extends React.Component {
         });
     }
 
-    setAddGameFormVisibility(showAddGame) {
-        this.setState({showAddGame: showAddGame});
-    }
-
-
     render() {
         return (
             <div id='games-list-container'>
-                <div id='add-new-game-container' style={this.displayAddGame()}>
-                    <div id='add-new-game-form-container' style={this.displayAddGame()}>
-                        <form onSubmit={this.addGame}>
-                            <label className="gameTitle-label" htmlFor="gameTitle"> Title: </label>
-                            <input className="gameTitle-input" name="gameTitle"/>
-                            <label className="gameType-label" htmlFor="gameType"> Game type: </label>
-                            <select name="gameType">
-                                <option value={enums.GameType.BASIC}>Basic</option>
-                                <option value={enums.GameType.ADVANCED}>Advanced</option>
-                            </select>
-                            <label className="numPlayers-label" htmlFor="numPlayers"> num players: </label>
-                            <input type="number" name="numPlayers" min="2" max="4" defaultValue="2"/>
-                            <input className="submit-btn btn" type="submit" value="Add Game"/>
-                        </form>
-                        <button id="cancel-btn" className="red"
-                                onClick={this.setAddGameFormVisibility.bind(this, false)}>Cancel
-                        </button>
-                    </div>
-                </div>
                 <table id='games-list-table'>
                     <thead>
                     <tr>
-                        <th>Game ID</th>
                         <th>Game Title</th>
+                        <th>Game Creator</th>
                         <th>Players in game</th>
                         <th>Game State</th>
                         <th>
                             <button id='add-game-button' className='blue'
-                                    onClick={this.setAddGameFormVisibility.bind(this, true)}>add new game
+                                    onClick={this.props.setAddGameVisibility.bind(this, true)}>add new game
                             </button>
                         </th>
                     </tr>
@@ -173,20 +113,22 @@ export default class GamesListComponent extends React.Component {
                     <tbody>
                     {Object.values(this.state.allGames).map(game => (
                         <tr key={game._gameId}>
-                            <td>{game._gameId}</td>
                             <td>{game._gameName}</td>
+                            <td>{game._gameCreator._playerName}</td>
                             <td>{game._players.length}/{game._numPlayersToStartGame}</td>
                             <td>{game._gameState.gameState}</td>
                             <td>
                                 {/*this is == and not === because 2 == "2" but 2 !== "2"*/}
                                 <button onClick={this.joinGame.bind(this, game._gameId)}
+                                        title="games will start once enough users join"
                                         className={game._players.length === parseInt(game._numPlayersToStartGame) || game._gameState.gameState !== enums.GameState.WAITING_FOR_PLAYERS ? "disabled-button" : "" + " green"}>
-                                    Join Game
+                                    Join
                                 </button>
                                 <button onClick={this.deleteGame.bind(this, game._gameId)}
+                                        title="games can only be deleted by their creator"
                                         className={game._players.length === parseInt(game._numPlayersToStartGame) ||
                                         this.props.userName !== game._gameCreatorName ? "disabled-button" : "" + " red"}>
-                                    Delete Game
+                                    Delete
                                 </button>
                             </td>
                         </tr>

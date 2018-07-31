@@ -286,6 +286,7 @@ class Game {
 
     _afterMoveOfSpecialCard(card, additionalData) {
         let cardValue = card._value;
+        // noinspection FallThroughInSwitchStatementJS
         switch (cardValue) {
             case enums.SpecialCard.STOP:
                 // two calls to skip the next player
@@ -342,7 +343,6 @@ class Game {
     /**
      *
      * @param skipOnePlayer - if true will skip the next player
-     * @param {enums.Direction} direction to move (left or right - using enum)
      */
     _moveToNextPlayer(skipOnePlayer) {
         this._players[this._activePlayerIndex].endTurn();

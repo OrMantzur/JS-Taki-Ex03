@@ -46,6 +46,7 @@ export default class StatisticsContainer extends React.Component {
             <div id="statistics-container">
                 <div>{"Game timer: " + this.state.timerValueStr}</div>
                 <button type="button"
+                        title="players can't exit once the game has started"
                         onClick={this.props.exitGame}
                         className={(!enableExitButton ? 'disabled-button ' : ' ') + "red "}>
                     Exit game

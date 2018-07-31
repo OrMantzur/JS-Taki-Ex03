@@ -100,24 +100,6 @@ export default class ActiveGameBaseContainer extends React.Component {
         console.log("game exit");
     }
 
-    // // enable only after the game ended
-    // endGameClicked() {
-    //     fetch('/games/endGame', {method: 'GET', credentials: 'include'})
-    //         .then((response) => {
-    //             if (!response.ok) {
-    //                 throw response;
-    //             } else {
-    //                 // pass to game room
-    //                 this.props.exitGame();
-    //             }
-    //         })
-    //         .catch(err => {
-    //             console.log("error while trying to end the game");
-    //         });
-    //
-    //     console.log("game ended");
-    // }
-
     render() {
         const imgStyle = {
             width: 'fit-content',

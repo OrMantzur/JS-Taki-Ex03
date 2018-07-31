@@ -31,7 +31,7 @@ export default class LoginContainer extends React.Component {
                     <div style={loginFormStyle}>
                         <form onSubmit={this.login}>
                             <label htmlFor="playerName">Name: </label>
-                            <input type="text" name="playerName"/>
+                            <input type="text" name="playerName" maxLength="15"/>
                             <input type="submit" value="Login"/>
                         </form>
                         <p className='error'>{this.state.errMessage}</p>
