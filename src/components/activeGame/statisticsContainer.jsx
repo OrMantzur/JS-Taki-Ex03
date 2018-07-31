@@ -36,8 +36,12 @@ export default class StatisticsContainer extends React.Component {
     render() {
         if (!this.props.statistics)
             return null;
-        let enableExitButton = (this.props.currentGameState !== undefined && this.props.currentGameState.gameState === GameState.WAITING_FOR_PLAYERS);
+        // ranking will be !== 0 if the player has reached 0 cards
+        let enableExitButton = this.props.loggedInPlayer._ranking !== 0 || (this.props.currentGameState !== undefined && this.props.currentGameState.gameState === GameState.WAITING_FOR_PLAYERS);
 
+        // TODO delete
+        console.log("statistics container - props");
+        console.log(this.props);
         return (
             <div id="statistics-container">
                 <div>{"Game timer: " + this.state.timerValueStr}</div>

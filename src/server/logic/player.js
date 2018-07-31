@@ -20,6 +20,7 @@ class Player {
         this._cards = [];
         this._isActive = false;
         this._isWinner = false;
+        this._ranking = 0;
         this._currTurnStartTime = undefined;
         this._turnsPlayed = 0;
         this._totalTimePlayed = 0;
@@ -122,7 +123,8 @@ class Player {
             avgTurnTime: this.getAverageTurnTime(),
             totalTurnsPlayed: this._turnsPlayed,
             timesReachedSingleCard: this._timesReachedSingleCard,
-            numCardsInHand: this._cards.length
+            numCardsInHand: this._cards.length,
+            ranking: this._ranking
         }
     }
 
@@ -184,11 +186,13 @@ class Player {
         }
     }
 
-    win() {
+    win(rank) {
+        this.setRanking(rank);
         this._isWinner = true;
     }
 
     leave() {
+        this._ranking = 0;
         this._cards = [];
         this._isActive = false;
         this._isWinner = false;
@@ -206,6 +210,13 @@ class Player {
         }
     }
 
+    setRanking(rank) {
+        this._ranking = rank;
+    }
+
+    reachedZeroCards(){
+        return this._cards.length === 0;
+    }
 }
 
 Player.nextFreePlayerId = 0;

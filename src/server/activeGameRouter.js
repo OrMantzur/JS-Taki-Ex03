@@ -18,7 +18,7 @@ activeGameRouter.get('/gameState', playersManager.getLoggedInPlayer, (req, res) 
     let topCardOnTable = activeGame.viewTopCardOnTable() ? new Card(activeGame.viewTopCardOnTable()._value, activeGame.viewTopCardOnTable()._color) : null;
     let userMessage = topCardOnTable ? topCardOnTable.getUserMessage() : null;
     let gameState = {
-        loggedInPlayerName: loggedInPlayer._playerName,
+        loggedInPlayer: loggedInPlayer,
         playerWon: activeGame.getGameState().gameState === enums.GameState.GAME_ENDED,
         activePlayer: activeGame.getActivePlayer(),
         playerCards: activeGame.getPlayer(req.session.id) !== undefined ? activeGame.getPlayer(req.session.id).getCards() : undefined,

@@ -59,7 +59,7 @@ export default class ActiveGameBaseContainer extends React.Component {
 
     callSetState(gameStateUI) {
         this.setState({
-            loggedInPlayerName: gameStateUI.loggedInPlayerName,
+            loggedInPlayer: gameStateUI.loggedInPlayer,
             playerWon: gameStateUI.playerWon,
             activePlayer: gameStateUI.activePlayer,
             playerCards: gameStateUI.playerCards,
@@ -107,6 +107,8 @@ export default class ActiveGameBaseContainer extends React.Component {
         if (!this.state)
             return <div><h1>gameState has not bee set yet</h1></div>;
 
+        console.log("in activeGameBaseContainer");
+        console.log(this.state);
         return (
             <div id="active-game-container">
                 <div id="play-area-div">
@@ -119,10 +121,10 @@ export default class ActiveGameBaseContainer extends React.Component {
                                                possibleMoveForActivePlayer={this.state.possibleMoveForActivePlayer}
                         />
                         <PlayerWonContainer playerWon={this.state.playerWon}
-                                            loggedInPlayerName={this.state.loggedInPlayerName}
+                                            loggedInPlayer={this.state.loggedInPlayer}
                                             gameState={this.state.currentGameState}
                                             statistics={this.state.statistics}
-                                            // endGame={this.endGameClicked}
+                            // endGame={this.endGameClicked}
                                             endGame={this.exitGameClicked}
                         />
                     </div>
@@ -136,6 +138,7 @@ export default class ActiveGameBaseContainer extends React.Component {
                 <div id="statistics-div">
                     <img src="/images/taki-logo" alt="Taki Logo" style={imgStyle}/>
                     <StatisticsContainer statistics={this.state.statistics}
+                                         loggedInPlayer={this.state.loggedInPlayer}
                                          gameControlsLocked={this.state.gameControlsLocked}
                                          activePlayer={this.state.activePlayer}
                                          currentGameState={this.state.currentGameState}

@@ -14,7 +14,8 @@ export default class PlayerWonContainer extends React.Component {
     render() {
         if (this.props.playerWon) {
             let stats = this.props.statistics;
-            console.log("in player won screen");
+            console.log("player won screen props");
+            console.log(this.props);
             return (
                 <div id="playerWonScreen">
                     <h1>{this.props.gameState.additionalInfo._playerName} has won the game!</h1>
@@ -30,16 +31,18 @@ export default class PlayerWonContainer extends React.Component {
                         <thead>
                         <tr>
                             <th> Player Name</th>
+                            <th> Ranking</th>
                             <th> Turns Played</th>
                             <th> Avg Turn Time</th>
-                            <th> Time Reached Single Card</th>
+                            <th> Times Reached Single Card</th>
                         </tr>
                         </thead>
                         <tbody>
                         {Object.values(stats.allPlayerStats).map(playerStats => (
                             <tr key={playerStats.playerName}
-                                className={this.props.loggedInPlayerName === playerStats.playerName ? 'bold' : ''}>
-                                <td>{playerStats.playerName}</td>
+                                className={this.props.loggedInPlayer._playerName === playerStats.playerName ? 'bold' : ''}>
+                                <td>{playerStats.playerName} {this.props.loggedInPlayer._playerName === playerStats.playerName ? '- this is you (•ᴗ•)' : ''}</td>
+                                <td>{playerStats.ranking} {playerStats.ranking === 1 ? "(winner)" : ""}</td>
                                 <td>{playerStats.totalTurnsPlayed}</td>
                                 <td>{playerStats.avgTurnTime}</td>
                                 <td>{playerStats.timesReachedSingleCard}</td>

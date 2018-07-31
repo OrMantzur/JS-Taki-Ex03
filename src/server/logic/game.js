@@ -26,6 +26,7 @@ class Game {
         this._gameStartTime = null;
         this._gameEndTime = null;
         this._gameDirection = enums.Direction.RIGHT;
+        this._ranking = {};
         this._gameState = {
             currColor: null,
             gameState: enums.GameState.WAITING_FOR_PLAYERS,
@@ -55,7 +56,10 @@ class Game {
     }
 
     getActivePlayer() {
-        return this._players[this._activePlayerIndex];
+        if (this._players.length === 1 && this._activePlayerIndex === 1)
+            return this._players[0];
+        else
+            return this._players[this._activePlayerIndex];
     }
 
     getPlayer(playerId) {
@@ -259,10 +263,17 @@ class Game {
         let activePlayer = this._players[this._activePlayerIndex];
         // check if the active player win
         if (activePlayer.getCardsRemainingNum() === 0 && !this.needToTakeCardFromDeck()) {
-            playerWon = true;
-            activePlayer.win();
-            console.log("Player \"" + activePlayer.getName() + "\" has won!");
-            this._gameEnded(activePlayer);
+            this.playerReachedZeroCards(activePlayer);
+            let playersWithCards = [];
+            this._players.forEach((player) => {
+                if (!player.reachedZeroCards())
+                    playersWithCards.push(player);
+            });
+            if (playersWithCards.length === 1) {
+                this.playerReachedZeroCards(playersWithCards[0]);
+                playerWon = true;
+                this._gameEnded(this.getPlayer(this._ranking[1]).getName());
+            }
         }
         return playerWon;
     }
@@ -329,10 +340,29 @@ class Game {
      */
     _moveToNextPlayer(skipOnePlayer) {
         this._players[this._activePlayerIndex].endTurn();
-        let newIndex = this._activePlayerIndex + (this._gameDirection * (skipOnePlayer === true ? 2 : 1));
-        if (newIndex < 0)
-            newIndex += this._players.length;
-        this._activePlayerIndex = newIndex % this._players.length;
+        let nextIndexFound = false;
+        let playersToAdvance = skipOnePlayer ? 2 : 1;
+        let i = this._activePlayerIndex;
+        while (!nextIndexFound && playersToAdvance !== 0) {
+            i = (i + this._gameDirection)
+            if (i < 0)
+                i += this._players.length;
+            i = i % this._players.length;
+            if (!this._players[i].reachedZeroCards())
+                playersToAdvance--;
+            if (playersToAdvance === 0) {
+                nextIndexFound = true;
+                this._activePlayerIndex = i;
+            }
+        }
+        //
+        //
+        // let newIndex = this._activePlayerIndex + (this._gameDirection * (skipOnePlayer === true ? 2 : 1));
+        // if (newIndex < 0)
+        //     newIndex += this._players.length;
+        // this._activePlayerIndex = newIndex % this._players.length;
+        // if (this._players[this._activePlayerIndex].reachedZeroCards())
+        //     this._moveToNextPlayer();
         this._players[this._activePlayerIndex].startTurn();
     }
 
@@ -406,7 +436,9 @@ class Game {
 
         if (playerIndex < 0 ||
             (this._gameState.gameState !== enums.GameState.WAITING_FOR_PLAYERS &&
-                this._gameState.gameState !== enums.GameState.GAME_ENDED)) {
+                this._gameState.gameState !== enums.GameState.GAME_ENDED &&
+                !this.getPlayer(playerId).reachedZeroCards()
+            )) {
             console.log("error while trying to remove playerId " + playerId + " from gameId " + this._gameId + " \n.Player isn't in the game/less than two players are active/game has already started");
             return false;
         }
@@ -414,6 +446,7 @@ class Game {
         let playerRemoved = this._players.splice(playerIndex, 1)[0];
         playerRemoved.leave();
         console.log("player " + playerRemoved.getName() + " has left the game");
+        this._moveToNextPlayer();
 
         if (this._players.length === 0 && this._gameState.gameState === enums.GameState.GAME_ENDED) {
             this.restart();
@@ -448,6 +481,15 @@ class Game {
             index++;
         });
         return playerIndex;
+    }
+
+    playerReachedZeroCards(activePlayer) {
+        let i = 1;
+        while (this._ranking[i] !== undefined)
+            i++;
+        activePlayer.win(i);
+        this._ranking[i] = activePlayer.getId();
+        console.log("Player \"" + activePlayer.getName() + "\" has finished his cards and is ranked #" + i);
     }
 }
 
