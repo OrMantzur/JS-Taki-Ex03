@@ -28,7 +28,9 @@ const Direction = {
     RIGHT: 1,
     LEFT: -1
 };
+
 // ================================= Cards =================================
+
 const NumberCard = ["1", "3", "4", "5", "6", "7", "8", "9"];
 
 const SpecialCard = {

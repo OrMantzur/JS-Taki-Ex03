@@ -33,11 +33,6 @@ export default class StatisticsContainer extends React.Component {
     }
 
     render() {
-        const imgStyle = {
-            width: '50px',
-            height: '50px',
-            alignSelf: 'center'
-        };
         if (!this.props.statistics)
             return null;
         let enableExitButton = (this.props.currentGameState !== undefined && this.props.currentGameState.gameState === GameState.WAITING_FOR_PLAYERS);
@@ -54,11 +49,13 @@ export default class StatisticsContainer extends React.Component {
 
                 <h5>Cards remaining:</h5>
                 <table id="cardsRemainingTable">
-                    <tbody>
+                    <thead>
                     <tr>
                         <th>Owner</th>
                         <th>Cards</th>
                     </tr>
+                    </thead>
+                    <tbody>
                     <tr>
                         <td>Deck</td>
                         <td>{this.props.statistics.gameStatistics.cardsInDeck}</td>

@@ -3,25 +3,32 @@
  * Or Mantzur - 204311997
  */
 
-/**
- * manage all the user management
- * use {@code userAuth} for authentication all change in {@code users}
- */
-
 const express = require('express');
-const usersRouter = express.Router();
 const playersManager = require('./logic/playersManager');
+const playersRouter = express.Router();
 
-usersRouter.post('/addPlayer', playersManager.addPlayer);
+/**
+ * add a new player to the logged in players list
+ */
+playersRouter.post('/addPlayer', playersManager.addPlayer);
 
-usersRouter.get('/allUsers', playersManager.getLoggedInPlayer, (req, res) => {
+/**
+ * get a list of all logged in players
+ */
+playersRouter.get('/allPlayers', playersManager.getLoggedInPlayer, (req, res) => {
     res.json(playersManager.players);
 });
 
-usersRouter.get('/activePlayer', playersManager.getLoggedInPlayer, (req, res) => {
+/**
+ * get the current session's active player
+ */
+playersRouter.get('/activePlayer', playersManager.getLoggedInPlayer, (req, res) => {
     res.json(req.session.loggedInPlayer);
 });
 
-usersRouter.get('/logout', playersManager.removePlayer);
+/**
+ * remove the current session's active player from the logged in players list and the session
+ */
+playersRouter.get('/logout', playersManager.removePlayer);
 
-module.exports = usersRouter;
+module.exports = playersRouter;

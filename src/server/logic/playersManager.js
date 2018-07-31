@@ -4,18 +4,15 @@
  */
 
 const Player = require("./player");
-const _ = require("lodash");
-
-/**
- * all the changes in userList in userManager go through that module
- */
 
 /**
  * list of <sessionId, Player>
- * playerName and userName are unique
  */
 const players = {};
 
+/**
+ *  return the player object associated with the session id, 403 if player is not logged in
+ */
 function getLoggedInPlayer(req, res, next) {
     let loggedInPlayer = players[req.session.id];
     if (loggedInPlayer === undefined) {
@@ -47,8 +44,8 @@ function addPlayer(req, res) {
             playerNameToAdd = playerNameToAdd.trim();
             if (playerNameToAdd.length > 0) {
                 /* add player */
-                // we got here only when the user is validate
-                players[sessionId] = new Player(sessionId, playerNameToAdd, false);
+                // we get here only if the user is valid
+                players[sessionId] = new Player(sessionId, playerNameToAdd);
                 // send to next middleware request
                 res.json(players[sessionId]);
             } else {
@@ -64,7 +61,7 @@ function removePlayer(req, res, next) {
     } else {
         // send to next middleware request
         res.deletedPlayerName = players[req.session.id].getName();
-        // delete that key and value
+        // delete the given key and value
         delete players[req.session.id];
         res.status(200).send(res.deletedPlayerName + " has been removed");
         next();

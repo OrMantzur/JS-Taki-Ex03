@@ -1,16 +1,15 @@
+/**
+ * Dudi Yecheskel - 200441749
+ * Or Mantzur - 204311997
+ */
+
 import React from 'react';
 import LoginContainer from "./login/loginContainer.jsx";
 import GamesRoomComponent from "./gamesRoom/gamesRoomComponent.jsx";
 import ActiveGameBaseContainer from "./activeGame/activeGameBaseContainer.jsx";
 
-const DisplayScreen = {
-    LOGIN: "login",
-    GAMES_ROOM: "GamesRoom",
-    ACTIVE_GAME: "ActiveGame"
-};
-
 /**
- * kind of entry point of all components
+ * "entry point" of all components
  */
 export default class BaseContainer extends React.Component {
 
@@ -61,6 +60,7 @@ export default class BaseContainer extends React.Component {
     // ================================================================================================
     // ======================================== Player Methods ========================================
     // ================================================================================================
+
     handleSuccessLogin() {
         this.getPlayerNameForThisSession();
     }
@@ -78,7 +78,6 @@ export default class BaseContainer extends React.Component {
                 return response.json();
             })
             .then(activePlayer => {
-                // let playerName = activePlayer ? activePlayer._playerName : null;
                 this.setState({playerName: activePlayer._playerName});
             })
             .catch(err => {
@@ -92,6 +91,10 @@ export default class BaseContainer extends React.Component {
             });
     }
 
+    logoutHandler() {
+        this.getPlayerNameForThisSession();
+        this.getActiveGameForThisSession();
+    }
     // ================================================================================================
     // ========================================= Game Methods =========================================
     // ================================================================================================
@@ -122,21 +125,14 @@ export default class BaseContainer extends React.Component {
             });
     }
 
-    // ================================================================================================
-    // ====================================== ActiveGame Methods ======================================
-    // ================================================================================================
-    logoutHandler() {
-        this.getPlayerNameForThisSession();
-        this.getActiveGameForThisSession();
+    exitGame(){
+        this.setState({activeGameId: null});
+        console.log("return to game room screen");
     }
 
     initActiveGameState(activeGameId) {
         this.setState({activeGameId: activeGameId});
     }
 
-    exitGame(){
-        this.setState({activeGameId: null});
-        console.log("return to game room screen");
-    }
 
 }

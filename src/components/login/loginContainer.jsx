@@ -1,5 +1,9 @@
+/**
+ * Dudi Yecheskel - 200441749
+ * Or Mantzur - 204311997
+ */
+
 import React from 'react';
-import takiLogo from "../../server/takiImages/TAKI_logo.png";
 
 export default class LoginContainer extends React.Component {
 

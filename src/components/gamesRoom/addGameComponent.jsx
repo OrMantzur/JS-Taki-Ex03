@@ -50,8 +50,8 @@ export default class AddGameComponent extends React.Component {
                         <input name="gameTitle" type="text" maxLength="10"/>
                         <label htmlFor="gameType"> Game type: </label>
                         <select name="gameType">
+                            <option value={enums.GameType.ADVANCED}>Advanced</option>
                             <option value={enums.GameType.BASIC}>Basic</option>
-                            <option value={enums.GameType.ADVANCED} selected="selected">Advanced</option>
                         </select>
                         <label className="numPlayers-label" htmlFor="numPlayers"> Num players: </label>
                         <input type="number" name="numPlayers" min="2" max="4" defaultValue="2"/>

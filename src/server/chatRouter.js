@@ -1,10 +1,7 @@
 const express = require('express');
-const bodyParser = require('body-parser');
 const playersManager = require('./logic/playersManager');
 const gameManager = require('./logic/gamesManager.js');
 const chatManagement = express.Router();
-
-chatManagement.use(bodyParser.text());
 
 chatManagement.route('/')
     .get(playersManager.getLoggedInPlayer, (req, res) => {

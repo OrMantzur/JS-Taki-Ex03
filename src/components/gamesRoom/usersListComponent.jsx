@@ -1,3 +1,8 @@
+/**
+ * Dudi Yecheskel - 200441749
+ * Or Mantzur - 204311997
+ */
+
 import React from 'react';
 
 const USER_REFRESH_INTERVAL = 2 * 1000;
@@ -9,7 +14,7 @@ export default class UsersListComponent extends React.Component {
         this.state = {
             userList: {}
         };
-        this.getAllUsers = this.getAllUsers.bind(this);
+        this.getAllPlayers = this.getAllPlayers.bind(this);
         this.logout = this.logout.bind(this);
     }
 
@@ -18,20 +23,20 @@ export default class UsersListComponent extends React.Component {
      * and our Component instances are mounted onto the Native UI
      */
     componentDidMount() {
-        this.getAllUsers();
+        this.getAllPlayers();
     }
 
     /**
      * update {@code userList} every {@code USER_REFRESH_INTERVAL}
      * @returns {Promise<Response>}
      */
-    getAllUsers() {
-        return fetch('/users/allUsers', {method: 'GET', credentials: 'include'})
+    getAllPlayers() {
+        return fetch('/users/allPlayers', {method: 'GET', credentials: 'include'})
             .then((response) => {
                 if (!response.ok) {
                     throw response;
                 }
-                this.timeoutId = setTimeout(this.getAllUsers, USER_REFRESH_INTERVAL);
+                this.timeoutId = setTimeout(this.getAllPlayers, USER_REFRESH_INTERVAL);
                 return response.json();
             })
             .then(userList => {

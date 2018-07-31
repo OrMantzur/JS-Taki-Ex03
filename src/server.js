@@ -18,12 +18,11 @@ const PORT = 3000;
 
 app.use(session({secret: 'top secret password', cookie: {maxAge: null}}));
 app.use(bodyParser.text());
-// app.use(bodyParser.json());
-// app.use(bodyParser.urlencoded({ extended: true }));
 
 // run index.html on startup
 app.use(express.static(path.resolve(__dirname, "..", "public")));
 
+// use routers
 app.use('/users', userRouter);
 app.use('/games', gameRouter);
 app.use('/activeGame', activeGameRouter);

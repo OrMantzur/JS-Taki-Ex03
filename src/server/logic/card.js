@@ -3,7 +3,6 @@
  * Or Mantzur - 204311997
  */
 
-
 const SpecialCard = require("./enums").SpecialCard;
 
 //TODO separate to module
@@ -83,16 +82,6 @@ class Card {
         }
         return isSpecial;
     }
-
-    // isSpecialCard() {
-    //     let isSpecial = false;
-    //     for (let specialCardKey in SpecialCard) {
-    //         if (this._value === SpecialCard[specialCardKey]) {
-    //             isSpecial = true;
-    //         }
-    //     }
-    //     return isSpecial;
-    // }
 
     toString() {
         return "Color: " + this._color + ", Value: " + this._value + ", ID: " + this._id;

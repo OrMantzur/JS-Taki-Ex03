@@ -7,7 +7,6 @@ import PlayingTableContainer from "./playingTableContainer.jsx";
 import PlayerContainer from "./playerContainer.jsx";
 import StatisticsContainer from "./statisticsContainer.jsx";
 import PlayerWonContainer from "./playerWonContainer.jsx";
-import takiLogo from "../../server/takiImages/TAKI_logo.png";
 import * as enums from "../../server/logic/enums";
 import ChatContainer from './chat/chatContainer.jsx';
 
@@ -21,7 +20,6 @@ export default class ActiveGameBaseContainer extends React.Component {
         this.restartGame = this.restartGame.bind(this);
         this.callSetState = this.callSetState.bind(this);
         this.exitGameClicked = this.exitGameClicked.bind(this);
-        // this.endGameClicked = this.endGameClicked.bind(this);
         this.updateUIGameState = this.updateUIGameState.bind(this);
     }
 

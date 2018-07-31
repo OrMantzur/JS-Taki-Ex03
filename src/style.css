@@ -4,8 +4,9 @@ html, body {
 }
 
 /*======================================================================================*/
-/*===================================== Containers =====================================*/
+/*===================================== Login Screen ===================================*/
 /*======================================================================================*/
+
 #login-screen-container {
     height: 100%;
     width: 100%;
@@ -33,6 +34,39 @@ html, body {
     min-width: fit-content;
 }
 
+#login-screen-inner-container input[type=submit] {
+    width: 100%;
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    margin: 8px 0;
+    border: #004b00 wave 1px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+#login-screen-inner-container input[type=submit]:hover {
+    background-color: #45a049;
+}
+
+#login-screen-inner-container input[type=text], #login-screen-inner-container select {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+#login-screen-inner-container > p {
+    text-align: center;
+}
+
+/*======================================================================================*/
+/*====================================== Games Room ====================================*/
+/*======================================================================================*/
+
 #games-room-container {
     height: 100%;
     width: 100%;
@@ -45,137 +79,9 @@ html, body {
     overflow: auto;
 }
 
-#active-game-container {
-    height: 100%;
-    width: 100%;
-    display: flex;
-    position: absolute;
-    background-image: url("./server/takiImages/bg.jpg");
-    background-size: cover;
-}
-
-#play-area-div {
-    width: 70%;
-}
-
-#statistics-div {
-    height: 100%;
-    width: 30%;
-    display: flex;
-    justify-content: flex-start;
-    flex-direction: column;
-    overflow-y: auto;
-}
-
-#statistics-container {
-    z-index: 2;
-    float: right;
-    height: fit-content;
-    width: 80%;
-    align-self: center;
-    margin: 5%;
-    padding: 10px;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-    background: rgba(200, 200, 200, 0.6);
-    border-radius: 15px;
-    border: black groove thin;
-    box-shadow: 5px 5px 30px black;
-    font-size: 2vw;
-    min-height: fit-content;
-    min-width: fit-content;
-}
-
-#statistics-container > h5 {
-    margin: 15px 0 0 0;
-}
-
-#playing_table_container {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
-
-#player-and-table-container {
-    height: 70%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
-
-#player-container {
-    height: 30%;
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    overflow: auto;
-}
-
 /*======================================================================================*/
-/*====================================== Overlays ======================================*/
-/*======================================================================================*/
-
-#colorPicker {
-    display: none;
-    align-items: center;
-    justify-content: center;
-    flex-direction: row;
-    background: rgba(200, 200, 200, 0.9);
-}
-
-.screen-overlay {
-    z-index: 9999;
-    position: absolute;
-    /*top: 70%;*/
-    width: 70%;
-    height: 30%;
-    display: none;
-    text-align: center;
-    flex-direction: column;
-    justify-content: flex-start;
-    background: rgba(200, 200, 200, 0.7);
-}
-
-.screen-overlay > h1 {
-    text-shadow: 0 0 10px whitesmoke;
-    font-weight: bolder;
-    width: fit-content;
-    align-self: center;
-    border-radius: 10px;
-    padding: 5px 15px;
-    background-color: rgba(201, 200, 245, 0.9);
-    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.8);
-}
-
-#playerWonScreen {
-    z-index: 999;
-    display: flex;
-    position: absolute;
-    width: 70%;
-    height: 70%;
-    background: rgba(200, 200, 200, 0.9);
-    align-items: center;
-    justify-content: flex-start;
-    flex-direction: column;
-    overflow: auto;
-}
-
-#playerWonScreen > button {
-    flex-shrink: 0
-}
-
-#playerWonScreen table {
-    margin-top: 10px;
-    border-collapse: collapse;
-    width: 99%;
-    align-self: center;
-}
-
-/*======================================================================================*/
-/*=================================== Players List =====================================*/
+/*=================================== Games Room =======================================*/
+/*=================================== -> Players List ==================================*/
 /*======================================================================================*/
 
 #players-list-container {
@@ -231,7 +137,8 @@ html, body {
 }
 
 /*======================================================================================*/
-/*===================================== Games List =====================================*/
+/*=================================== Games Room =======================================*/
+/*=================================== -> Games List ====================================*/
 /*======================================================================================*/
 
 #games-list-container {
@@ -258,11 +165,6 @@ html, body {
     width: 99%;
     align-self: center;
     text-align: center;
-}
-
-#games-list-container thead {
-    /*background: rgba(80, 80, 255, 0.9);*/
-    /*color: whitesmoke;*/
 }
 
 #games-list-container tbody {
@@ -331,11 +233,232 @@ html, body {
     margin: 0 20px 20px 20px;
 }
 
-#add-new-game-form-container form > input,select {
+#add-new-game-form-container form > input, select {
     border-radius: 5px;
     margin: 0 20px 0 0;
     text-align: center;
 }
+
+/*======================================================================================*/
+/*================================== Active Game Screen ================================*/
+/*======================================================================================*/
+
+#active-game-container {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    position: absolute;
+    background-image: url("./server/takiImages/bg.jpg");
+    background-size: cover;
+}
+
+#play-area-div {
+    width: 70%;
+}
+
+/*======================================================================================*/
+/*================================== Active Game Screen ================================*/
+/*==================================== -> Statistics ===================================*/
+/*======================================================================================*/
+
+#statistics-div {
+    height: 100%;
+    width: 30%;
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+    overflow-y: auto;
+}
+
+#statistics-container {
+    z-index: 2;
+    float: right;
+    height: fit-content;
+    width: 80%;
+    align-self: center;
+    margin: 5%;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    background: rgba(200, 200, 200, 0.6);
+    border-radius: 15px;
+    border: black groove thin;
+    box-shadow: 5px 5px 30px black;
+    font-size: 2vw;
+    min-height: fit-content;
+    min-width: fit-content;
+}
+
+#statistics-container > h5 {
+    margin: 15px 0 0 0;
+}
+
+#cardsRemainingTable {
+    width: 96%;
+    margin: 2%;
+    border-collapse: collapse;
+}
+
+#cardsRemainingTable {
+    margin-top: 10px;
+    border-collapse: collapse;
+    width: 99%;
+    align-self: center;
+}
+
+#cardsRemainingTable thead {
+    background: #86c7ff;
+    font-weight: bolder;
+}
+
+#cardsRemainingTable tbody {
+    background: aliceblue;
+}
+
+/*======================================================================================*/
+/*================================== Active Game Screen ================================*/
+/*==================================== -> Playing Table ================================*/
+/*======================================================================================*/
+
+#playing_table_container {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#player-and-table-container {
+    height: 70%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#player-container {
+    height: 30%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    overflow: auto;
+}
+
+
+/*======================================================================================*/
+/*================================== Active Game Screen ================================*/
+/*================================== -> Chat ===========================================*/
+/*======================================================================================*/
+
+.chat-container {
+    height: inherit;
+    display: flex;
+    flex-direction: column;
+    margin: 0 5% 10% 5%;
+}
+
+.chat-container .conversation-area-wrapper {
+    height: inherit;
+    border: 1px solid #ccc;
+    padding: 8px;
+    overflow-y: auto;
+    margin-bottom: 8px;
+    background-color: rgba(255, 255, 255, 0.3);
+    border-radius: 5px;
+}
+
+.chat-container .conversation-area-wrapper p {
+    margin: 0 0 8px 0;
+    word-wrap: break-word;
+    border-bottom: #c0c0c08a solid thin;
+}
+
+.chat-container .chat-input-wrapper {
+    width: 99%;
+    display: flex;
+}
+
+#chat-text-input {
+    font-size: small;
+    padding: 8px;
+    width: inherit;
+    border-radius: 5px;
+}
+
+.chat-input-wrapper .btn {
+    width: fit-content;
+    margin: 0 2px 0 5px;
+    border-radius: 5px;
+}
+
+/*======================================================================================*/
+/*====================================== Overlays ======================================*/
+/*======================================================================================*/
+
+#colorPicker {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    background: rgba(200, 200, 200, 0.9);
+}
+
+.screen-overlay {
+    z-index: 9999;
+    position: absolute;
+    width: 70%;
+    height: 30%;
+    display: none;
+    text-align: center;
+    flex-direction: column;
+    justify-content: flex-start;
+    background: rgba(200, 200, 200, 0.7);
+}
+
+.screen-overlay > h1 {
+    text-shadow: 0 0 10px whitesmoke;
+    font-weight: bolder;
+    width: fit-content;
+    align-self: center;
+    border-radius: 10px;
+    padding: 5px 15px;
+    background-color: rgba(201, 200, 245, 0.9);
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.8);
+}
+
+#playerWonScreen {
+    z-index: 999;
+    display: flex;
+    position: absolute;
+    width: 70%;
+    height: 70%;
+    background: rgba(200, 200, 200, 0.9);
+    align-items: center;
+    justify-content: flex-start;
+    flex-direction: column;
+    overflow: auto;
+}
+
+#playerWonScreen > button {
+    flex-shrink: 0
+}
+
+#playerWonScreen table {
+    margin-top: 10px;
+    border-collapse: collapse;
+    width: 99%;
+    align-self: center;
+}
+
+#playerWonScreen table thead {
+    background: #86c7ff;
+    font-weight: bolder;
+}
+
+#playerWonScreen table tbody {
+    background: aliceblue;
+}
+
 /*======================================================================================*/
 /*=================================== Game Elements ====================================*/
 /*======================================================================================*/
@@ -418,23 +541,15 @@ html, body {
 }
 
 /*======================================================================================*/
-/*===================================== Statistics =====================================*/
+/*======================================= General ======================================*/
 /*======================================================================================*/
 
-#cardsRemainingTable {
-    width: 96%;
-    margin: 2%;
-}
-
-#cardsRemainingTable, th, td {
+th, td {
     border-collapse: collapse;
     border: 1px solid black;
     white-space: nowrap;
     text-align: center;
     font-size: 1.5vw;
-}
-
-td {
     padding: 5px;
 }
 
@@ -442,10 +557,6 @@ td {
     font-weight: bold;
     text-shadow: 1px 1px rgba(200, 200, 200, 0.3);
 }
-
-/*======================================================================================*/
-/*======================================= General ======================================*/
-/*======================================================================================*/
 
 .error {
     text-align: center;
@@ -478,7 +589,7 @@ button:active {
 /*======================================================================================*/
 /*===================================== Animations =====================================*/
 /*======================================================================================*/
-/* The animation code */
+
 @keyframes fadeIn {
     0% {
         opacity: 0;
@@ -670,82 +781,4 @@ button:active {
 
 .change-to-yellow {
     animation: change-to-yellow 800ms;
-}
-
-/*======================================================================================*/
-/*======================================= Forms ========================================*/
-/*======================================================================================*/
-
-#login-screen-inner-container input[type=submit] {
-    width: 100%;
-    background-color: #4CAF50;
-    color: white;
-    padding: 10px 20px;
-    margin: 8px 0;
-    border: #004b00 wave 1px;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-#login-screen-inner-container input[type=submit]:hover {
-    background-color: #45a049;
-}
-
-#login-screen-inner-container input[type=text], #login-screen-inner-container select {
-    width: 100%;
-    padding: 12px 20px;
-    margin: 8px 0;
-    display: inline-block;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box;
-}
-
-#login-screen-inner-container > p {
-    text-align: center;
-}
-
-/*======================================================================================*/
-/*======================================= Chat =========================================*/
-/*======================================================================================*/
-
-.chat-container {
-    height: inherit;
-    display: flex;
-    flex-direction: column;
-    margin: 0 5% 10% 5%;
-}
-
-.chat-container .conversation-area-wrapper {
-    height: inherit;
-    border: 1px solid #ccc;
-    padding: 8px;
-    overflow-y: auto;
-    margin-bottom: 8px;
-    background-color: rgba(255,255,255,0.3);
-    border-radius: 5px;
-}
-
-.chat-container .conversation-area-wrapper p {
-    margin: 0 0 8px 0;
-    word-wrap: break-word;
-    border-bottom: #c0c0c08a solid thin;
-}
-
-.chat-container .chat-input-wrapper {
-    width: 99%;
-    display: flex;
-}
-
-#chat-text-input {
-    font-size: small;
-    padding: 8px;
-    width: inherit;
-    border-radius: 5px;
-}
-
-.chat-input-wrapper .btn {
-    width: fit-content;
-    margin: 0 2px 0 5px;
-    border-radius: 5px;
 }

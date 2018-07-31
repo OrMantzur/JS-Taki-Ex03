@@ -4,7 +4,6 @@
  */
 
 const Color = require("./card").Color;
-const SpecialCard = require("./card").SpecialCard;
 const CardsOnTable = require("./cardsOnTable");
 const Deck = require("./deck");
 const Card = require("./card").Card;
@@ -22,7 +21,6 @@ class Game {
         this._gameCreatorName = gameCreator.getName();
         this._players = [];
         this._activePlayerIndex = 0;
-        this._activeGame = false;
         this._deck = new Deck(gameType);
         this._cardsOnTable = new CardsOnTable();
         this._gameStartTime = null;
@@ -71,18 +69,6 @@ class Game {
             playersNames.push(player.getName());
         });
         return playersNames;
-    }
-
-    getFirstHumanPlayer() {
-        return this._players.find(player => !player.isComputerPlayer());
-    }
-
-    getFirstComputerPlayer() {
-        return this._players.find(player => player.isComputerPlayer());
-    }
-
-    isActiveGame() {
-        return this._activeGame;
     }
 
     getCardsRemainingInDeck() {
@@ -150,7 +136,7 @@ class Game {
         this._chatContent.push({user: userName, text: message, timeStamp: new Date()});
     }
 
-    isGameStart() {
+    hasGameStarted() {
         return this._gameState.gameState && this._gameState.gameState !== enums.GameState.WAITING_FOR_PLAYERS;
     }
 
@@ -178,7 +164,6 @@ class Game {
         this._players.forEach(player => {
             player.addCardsToHand(this._deck.drawCards(NUM_STARTING_CARDS));
         });
-        this._activeGame = true;
         console.log("GameID (" + this._gameId + "): The game has started");
         // open start card (can't start with changeColor or superTaki card)
         let cardDrawnFromDeck;
@@ -211,7 +196,6 @@ class Game {
         }
 
         // the move
-        // var cardValue = cardPlaced.getValue();
         let activePlayer = this._players[this._activePlayerIndex];
         activePlayer.removeCardFromHand(cardPlaced);
         activePlayer.removeCardFromHand(cardPlaced);
@@ -249,7 +233,6 @@ class Game {
         console.log("Player \"" + activePlayer.getName() + "\" placed the following card on the table:");
         let cardCopy = new Card(cardPlaced._value, cardPlaced._color);
         cardCopy.printCardToConsole();
-        // this._notifyOnMakeMove();
         return true;
     }
 
@@ -395,7 +378,6 @@ class Game {
         console.log("player: " + activePlayer.getName() + " took " + numCardsToTake + " cards from the deck");
         activePlayer.addCardsToHand(cardsTaken);
         this._moveToNextPlayer();
-        // this._notifyOnMakeMove();
         return cardsTaken;
     }
 
@@ -410,61 +392,6 @@ class Game {
     needToTakeCardFromDeck() {
         return this._cardsOnTable.viewTopCard()._value === enums.SpecialCard.PLUS;
     }
-
-    // makeComputerPlayerMove() {
-    //     let activePlayer = this._players[this._activePlayerIndex];
-    //     let topCard = this._cardsOnTable.viewTopCard();
-    //     let cardToPlace;
-    //     let additionalData;
-    //     let chooseCardToPlaceFunc = [() => {
-    //         // anyColorPlus2card
-    //         cardToPlace = this._gameState.gameState === GameState.OPEN_PLUS_2 ? activePlayer.getCardOfValue(SpecialCard.PLUS_2) : undefined;
-    //     }, () => {
-    //         // sameColorPlus2card
-    //         cardToPlace = activePlayer.getCardOfColorAndValue(topCard.getColor(), SpecialCard.PLUS_2);
-    //     }, () => {
-    //         // changeColorCard
-    //         cardToPlace = activePlayer.getCardOfValue(SpecialCard.CHANGE_COLOR);
-    //         if (cardToPlace !== undefined) {
-    //             let i;
-    //             for (i = 0; Color.allColors[i] !== undefined; i++) {
-    //                 if (activePlayer.getCardOfColor(Color.allColors[i]) !== undefined) {
-    //                     break;
-    //                 }
-    //             }
-    //             additionalData = Color.allColors[i] !== undefined ? Color.allColors[i] : Color.getRandomColor();
-    //         }
-    //     }, () => {
-    //         // sameColorStopCard
-    //         cardToPlace = activePlayer.getCardOfColorAndValue(topCard.getColor(), SpecialCard.STOP);
-    //     }, () => {
-    //         // sameColorPlusCard
-    //         cardToPlace = activePlayer.getCardOfColorAndValue(topCard.getColor(), SpecialCard.PLUS);
-    //     }, () => {
-    //         // superTakiCard
-    //         cardToPlace = activePlayer.getCardOfValue(SpecialCard.SUPER_TAKI);
-    //         additionalData = topCard.getColor();
-    //     }, () => {
-    //         // sameColorTakiCard
-    //         cardToPlace = activePlayer.getCardOfColorAndValue(topCard.getColor(), SpecialCard.TAKI);
-    //     }, () => {
-    //         cardToPlace = activePlayer.getCardOfColor(topCard.getColor());
-    //     }, () => {
-    //         if (this._gameState.gameState !== GameState.OPEN_TAKI) {
-    //             cardToPlace = activePlayer.getCardOfValue(topCard.getValue());
-    //         }
-    //     }];
-    //
-    //     // iterate through all function until a card is found, if not then draw a card from th deck
-    //     for (let i = 0; i < chooseCardToPlaceFunc.length && cardToPlace === undefined; i++) {
-    //         chooseCardToPlaceFunc[i]();
-    //     }
-    //
-    //     if (cardToPlace !== undefined && this._gameState.gameState === GameState.OPEN_PLUS_2 && cardToPlace.getValue() !== SpecialCard.PLUS_2)
-    //         cardToPlace = undefined;
-    //
-    //     return cardToPlace === undefined ? this.takeCardsFromDeck().length > 0 : this.makeMove(cardToPlace, additionalData);
-    // }
 
     _gameEnded(playerWhoWon) {
         this._active = false;
@@ -487,7 +414,6 @@ class Game {
         let playerRemoved = this._players.splice(playerIndex, 1)[0];
         playerRemoved.leave();
         console.log("player " + playerRemoved.getName() + " has left the game");
-        // this._notifyOnMakeMove();
 
         if (this._players.length === 0 && this._gameState.gameState === enums.GameState.GAME_ENDED) {
             this.restart();
@@ -499,7 +425,6 @@ class Game {
     restart() {
         this._players = [];
         this._activePlayerIndex = 0;
-        this._activeGame = false;
         this._deck = new Deck(this._gameType);
         this._cardsOnTable = new CardsOnTable();
         this._gameStartTime = null;
@@ -510,7 +435,6 @@ class Game {
             gameState: enums.GameState.WAITING_FOR_PLAYERS,
             additionalInfo: null
         };
-        this._notifyOnMakeMove = null;
         this._chatContent = [];
     }
 
@@ -525,11 +449,6 @@ class Game {
         });
         return playerIndex;
     }
-
-    // makeComputerMove() {
-    //     return this.makeComputerPlayerMove.bind(this).apply();
-    // }
-
 }
 
 Game.nextFreeGameId = 1;

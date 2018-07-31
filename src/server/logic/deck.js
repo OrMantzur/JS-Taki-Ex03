@@ -8,7 +8,9 @@ const Color = require("./card").Color;
 const SpecialCard = require("./enums").SpecialCard;
 const NumberCard = require("./enums").NumberCard;
 const GameType = require("./enums").GameType;
-
+const CARD_NUMBER_OF_EACH_COLOR = 2;
+const CHANGE_COLOR_AMOUNT = 4;
+const SUPER_TAKI_AMOUNT = 2;
 /**
  * deck in BASIC game contains:
  * number card(8): 2 of each color
@@ -42,7 +44,7 @@ class Deck {
     _initNumberCards() {
         Color.allColors.forEach((color) => {
             NumberCard.forEach((cardValue) => {
-                this._cards = this._cards.concat(Deck.createCards(cardValue, color, Deck.CARD_NUMBER_OF_EACH_COLOR));
+                this._cards = this._cards.concat(Deck.createCards(cardValue, color, CARD_NUMBER_OF_EACH_COLOR));
             });
         });
     }
@@ -56,14 +58,14 @@ class Deck {
                 (specialCardValue === SpecialCard.PLUS_2 || specialCardValue === SpecialCard.SUPER_TAKI))) {
                 let cardsToAdd;
                 if (specialCardValue === SpecialCard.CHANGE_COLOR) {
-                    cardsToAdd = Deck.createCards(specialCardValue, null, Deck.CHANGE_COLOR_AMOUNT);
+                    cardsToAdd = Deck.createCards(specialCardValue, null, CHANGE_COLOR_AMOUNT);
                     this._cards = this._cards.concat(cardsToAdd);
                 } else if (specialCardValue === SpecialCard.SUPER_TAKI) {
-                    cardsToAdd = Deck.createCards(specialCardValue, null, Deck.SUPER_TAKI_AMOUNT);
+                    cardsToAdd = Deck.createCards(specialCardValue, null, SUPER_TAKI_AMOUNT);
                     this._cards = this._cards.concat(cardsToAdd);
                 } else {
                     Color.allColors.forEach((color) => {
-                        cardsToAdd = Deck.createCards(specialCardValue, color, Deck.CARD_NUMBER_OF_EACH_COLOR);
+                        cardsToAdd = Deck.createCards(specialCardValue, color, CARD_NUMBER_OF_EACH_COLOR);
                         this._cards = this._cards.concat(cardsToAdd);
                     });
                 }
@@ -130,11 +132,6 @@ class Deck {
         });
         console.log(arr.join("\n"));
     }
-
 }
-
-Deck.CARD_NUMBER_OF_EACH_COLOR = 2;
-Deck.CHANGE_COLOR_AMOUNT = 4;
-Deck.SUPER_TAKI_AMOUNT = 2;
 
 module.exports = Deck;

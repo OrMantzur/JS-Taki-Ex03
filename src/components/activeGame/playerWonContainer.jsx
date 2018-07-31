@@ -23,16 +23,18 @@ export default class PlayerWonContainer extends React.Component {
                     <h3><u>Game statistics:</u></h3>
                     <p>
                         Total turns played: {stats.gameStatistics.totalTurnsPlayed}<br/>
-                        Total game duration (including replays): {stats.gameStatistics.gameDuration}
+                        Total game duration: {stats.gameStatistics.gameDuration}
                     </p>
                     <h3><u>Player Statistics:</u></h3>
                     <table>
+                        <thead>
                         <tr>
                             <th> Player Name</th>
                             <th> Turns Played</th>
                             <th> Avg Turn Time</th>
                             <th> Time Reached Single Card</th>
                         </tr>
+                        </thead>
                         <tbody>
                         {Object.values(stats.allPlayerStats).map(playerStats => (
                             <tr key={playerStats.playerName}

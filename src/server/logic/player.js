@@ -14,16 +14,12 @@ const SpecialCard = require("./enums").SpecialCard;
  * @constructor
  */
 class Player {
-
-    // TODO delete all computer player
-    constructor(playerId, playerName, isComputer) {
+    constructor(playerId, playerName) {
         this._playerId = playerId;
         this._playerName = playerName;
         this._cards = [];
-        this._isComputer = isComputer;
         this._isActive = false;
         this._isWinner = false;
-        this._isLeave = false;
         this._currTurnStartTime = undefined;
         this._turnsPlayed = 0;
         this._totalTimePlayed = 0;
@@ -95,10 +91,6 @@ class Player {
 
     isWinner() {
         return this._isWinner;
-    }
-
-    isLeave() {
-        return this._isLeave;
     }
 
     increaseTimesReachedSingleCard() {
@@ -200,7 +192,6 @@ class Player {
         this._cards = [];
         this._isActive = false;
         this._isWinner = false;
-        this._isLeave = true;
         this._currTurnStartTime = undefined;
         this._turnsPlayed = 0;
         this._totalTimePlayed = 0;

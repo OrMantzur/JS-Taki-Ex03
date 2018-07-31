@@ -1,7 +1,12 @@
+/**
+ * Dudi Yecheskel - 200441749
+ * Or Mantzur - 204311997
+ */
+
 import React from 'react';
 
-const GAMES_REFRESH_INTERVAL = 2000;
 const enums = require('../../server/logic/enums');
+const GAMES_REFRESH_INTERVAL = 2000;
 
 export default class GamesListComponent extends React.Component {
 
@@ -12,7 +17,6 @@ export default class GamesListComponent extends React.Component {
         };
         this.getAllGames = this.getAllGames.bind(this);
         this.deleteGame = this.deleteGame.bind(this);
-        this.displayAddGame = this.displayAddGame.bind(this);
         this.joinGame = this.joinGame.bind(this);
     }
 
@@ -49,14 +53,6 @@ export default class GamesListComponent extends React.Component {
         if (this.timeoutId) {
             clearTimeout(this.timeoutId);
         }
-    }
-
-    displayAddGame() {
-        if (this.state.showAddGame) {
-            return displayAddGameStyle;
-        }
-        else
-            return null;
     }
 
     deleteGame(gameIdToDelete) {

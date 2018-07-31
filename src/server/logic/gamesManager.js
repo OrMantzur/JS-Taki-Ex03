@@ -3,12 +3,9 @@
  * Or Mantzur - 204311997
  */
 
-// const CardOnTable = require("./cardsOnTable");
 const Game = require("./game");
 const Player = require("./player");
-// const Deck = require("./deck");
 const enums = require("./enums");
-
 const MIN_PLAYER_PER_GAME = 2;
 const MAX_PLAYER_PER_GAME = 4;
 
@@ -17,7 +14,6 @@ class GamesManager {
     constructor() {
         this._games = {};
         this._playerIdToGameIdMap = {};
-        // this.getGameState = this.getGameState.bind(this);
     }
 
     getGame(gameId) {
@@ -79,7 +75,7 @@ class GamesManager {
             gameToRemove.getGameCreator().getId() === playerWhoDeleteTheGame.getId()) {
             delete this._games[gameId];
         } else {
-            return "game can be delete only if you the creator and there are no body in game";
+            return "game can be deleted only by the creator and when there are no active players";
         }
     }
 
@@ -95,29 +91,6 @@ class GamesManager {
     takeCardsFromDeck(playerId) {
         let game = this.getGameObjectByPlayerId(playerId);
         return game.takeCardsFromDeck();
-    }
-
-    getGameState(playerId) {
-        try {
-            let game = this.getGameObjectByPlayerId(playerId);
-            let userMessage = game.viewTopCardOnTable().getUserMessage();
-            return {
-                playerWon: game.getGameState().gameState === enums.GameState.GAME_ENDED,
-                activePlayer: game.getActivePlayer(),
-                regularPlayerCards: game.getFirstHumanPlayer().getCards().slice(),
-                computerPlayerCards: game.getFirstComputerPlayer().getCards().slice(),
-                topCardOnTable: game.viewTopCardOnTable(),
-                currentGameState: game.getGameState(),
-                userMessage: userMessage !== null ? userMessage : null,
-                statistics: {
-                    gameStatistics: game.getStatistics(),
-                    regularPlayerStats: game.getFirstHumanPlayer().getStatistics(),
-                    computerPlayerStats: game.getFirstComputerPlayer().getStatistics(),
-                }
-            };
-        } catch (e) {
-            throw new Error("error while trying to get game state for playerID: " + playerId + "\ninner exception: " + e);
-        }
     }
 }
 

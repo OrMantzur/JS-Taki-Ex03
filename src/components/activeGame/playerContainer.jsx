@@ -35,7 +35,7 @@ export default class PlayerContainer extends React.Component {
         }
         else {
             if (i_Card._value === SpecialCard.SUPER_TAKI)
-                additionalData = this.state.topCardOnTable._color;
+                body.additionalData = this.props.topCardOnTable._color;
             fetch('/activeGame/makeMove', {method: 'post', body: JSON.stringify(body), credentials: 'include'})
                 .then(() => this.props.movePlayed());
         }
