@@ -18,6 +18,7 @@ export default class GamesListComponent extends React.Component {
         this.getAllGames = this.getAllGames.bind(this);
         this.deleteGame = this.deleteGame.bind(this);
         this.joinGame = this.joinGame.bind(this);
+        this.generateGameStateString = this.generateGameStateString.bind(this);
     }
 
     /**
@@ -87,6 +88,23 @@ export default class GamesListComponent extends React.Component {
         });
     }
 
+    generateGameStateString(gameState){
+        let gameStateString;
+        switch (gameState) {
+            case (enums.GameState.WAITING_FOR_PLAYERS):
+                gameStateString = "waiting for players to join";
+                break;
+            case  (enums.GameState.GAME_ENDED):
+                gameStateString = "Game ended - waiting for all players to exit";
+                break;
+            default:
+                gameStateString = "Game in progress...";
+                break;
+        }
+
+        return gameStateString;
+    }
+
     render() {
         return (
             <div id='games-list-container'>
@@ -110,7 +128,7 @@ export default class GamesListComponent extends React.Component {
                             <td>{game._gameName}</td>
                             <td>{game._gameCreator._playerName}</td>
                             <td>{game._players.length}/{game._numPlayersToStartGame}</td>
-                            <td>{game._gameState.gameState}</td>
+                            <td>{this.generateGameStateString(game._gameState.gameState)}</td>
                             <td>
                                 <button onClick={this.joinGame.bind(this, game._gameId)}
                                         title="the game will start once enough users join"
