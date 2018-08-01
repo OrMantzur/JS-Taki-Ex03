@@ -120,11 +120,11 @@ export default class ActiveGameBaseContainer extends React.Component {
                                             loggedInPlayer={this.state.loggedInPlayer}
                                             gameState={this.state.currentGameState}
                                             statistics={this.state.statistics}
-                            // endGame={this.endGameClicked}
                                             endGame={this.exitGameClicked}
                         />
                     </div>
                     <PlayerContainer gameControlsLocked={this.state.gameControlsLocked}
+                                     loggedInPlayer={this.state.loggedInPlayer}
                                      topCardOnTable={this.state.topCardOnTable}
                                      currentGameState={this.state.currentGameState}
                                      cards={this.state.playerCards}

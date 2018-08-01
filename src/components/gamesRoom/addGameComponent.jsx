@@ -30,7 +30,7 @@ export default class AddGameComponent extends React.Component {
                         throw Error(text)
                     });
                 } else {
-                    console.log("Tיק Game \"" + body.gameTitle + "\" was added successfully");
+                    console.log("The Game \"" + body.gameTitle + "\" was added successfully");
                 }
             })
             .then(() =>

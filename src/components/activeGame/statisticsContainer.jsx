@@ -11,26 +11,6 @@ export default class StatisticsContainer extends React.Component {
 
     constructor(args) {
         super(...args);
-        this.state = {
-            timerValueInt: 0,
-            timerValueStr: "00:00",
-            restartTimer: false
-        };
-    }
-
-    componentDidMount() {
-        setInterval(() => {
-            if (this.props.gameEnded) {
-                this.setState({restartTimer: true});
-            } else if (this.state.restartTimer) {
-                this.setState({
-                    timerValueStr: "00:00",
-                    restartTimer: false
-                });
-            } else {
-                this.setState({timerValueStr: this.props.statistics.gameStatistics.gameDuration});
-            }
-        }, 1000)
     }
 
     render() {
@@ -40,7 +20,7 @@ export default class StatisticsContainer extends React.Component {
         let enableExitButton = this.props.loggedInPlayer._ranking !== 0 || (this.props.currentGameState !== undefined && this.props.currentGameState.gameState === GameState.WAITING_FOR_PLAYERS);
         return (
             <div id="statistics-container">
-                <div>{"Game timer: " + this.state.timerValueStr}</div>
+                <div>{"Game timer: " + this.props.statistics.gameStatistics.gameDuration}</div>
                 <button type="button"
                         title="players can't exit once the game has started"
                         onClick={this.props.exitGame}
