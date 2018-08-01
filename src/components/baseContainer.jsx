@@ -102,7 +102,6 @@ export default class BaseContainer extends React.Component {
 
     exitGame(){
         this.setState({activeGameId: null});
-        console.log("return to game room screen");
     }
 
     initActiveGameState(activeGameId) {

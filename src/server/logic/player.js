@@ -33,7 +33,7 @@ class Player {
         return this._playerId;
     }
 
-    getCurrentActiveGameId(){
+    getCurrentActiveGameId() {
         return this._currentActiveGameId;
     }
 
@@ -123,7 +123,7 @@ class Player {
         return this._timesReachedSingleCard;
     }
 
-    setCurrentActiveGameId(gameId){
+    setCurrentActiveGameId(gameId) {
         this._currentActiveGameId = gameId;
     }
 
@@ -138,11 +138,11 @@ class Player {
         }
     }
 
-    saveStatistics(gameId){
+    saveStatistics(gameId) {
         this._savedStatistics[gameId] = this._getCurrentStatistics();
     }
 
-    getStatistics(gameId){
+    getStatistics(gameId) {
         let savedStatistics = this._savedStatistics[gameId];
         return savedStatistics === undefined ? this._getCurrentStatistics() : savedStatistics;
     }
@@ -227,7 +227,7 @@ class Player {
 
 // for testing
     printCardsInHandToConsole() {
-        console.log("printing all cards in hand");
+        console.log("Player \"" + this._playerName + "\": printing all cards in hand");
         for (let i = 0; i < this._cards.length; i++) {
             console.log(this._cards[i].getValue() + ", " + this._cards[i].getColor() + "\n");
         }
@@ -237,7 +237,7 @@ class Player {
         this._ranking = rank;
     }
 
-    reachedZeroCards(){
+    reachedZeroCards() {
         return this._cards.length === 0;
     }
 }

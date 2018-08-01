@@ -147,12 +147,11 @@ class Game {
     addPlayerToGame(playerToAdd) {
         let playerAddedSuccessfully = false;
         if (this._active || this._players.length >= this._numPlayersToStartGame) {
-            console.log("Cannot add another player, game is full or has already started");
+            console.log("Game \""+ this._gameName + "\": Cannot add another player, game is full or has already started");
         } else {
             this._players.push(playerToAdd);
             playerToAdd.setCurrentActiveGameId(this._gameId);
-            // playerToAdd.addCardsToHand(this._deck.drawCards(NUM_STARTING_CARDS));
-            console.log("GameID (" + this._gameId + "): " + playerToAdd.getName() + " has joined the game");
+            console.log("Game \""+ this._gameName + "\": " + playerToAdd.getName() + " has joined the game");
             playerAddedSuccessfully = true;
             if (this._players.length.toString() === this._numPlayersToStartGame) {
                 this._startGame();
@@ -169,7 +168,7 @@ class Game {
         this._players.forEach(player => {
             player.addCardsToHand(this._deck.drawCards(NUM_STARTING_CARDS));
         });
-        console.log("GameID (" + this._gameId + "): The game has started");
+        console.log("Game \""+ this._gameName + "\": The game has started");
         // open start card (can't start with changeColor or superTaki card)
         let cardDrawnFromDeck;
         do {
@@ -196,7 +195,7 @@ class Game {
     makeMove(cardPlaced, additionalData) {
         // first, check move validation
         if (!this._isValidMove(cardPlaced)) {
-            console.log("Invalid move!");
+            console.log("Game \"" + this._gameName + "\": Invalid move!");
             return false;
         }
 
@@ -235,7 +234,7 @@ class Game {
         }
 
         // for debugging
-        console.log("Player \"" + activePlayer.getName() + "\" placed the following card on the table:");
+        console.log("Game \"" + this._gameName + "\": Player \"" + activePlayer.getName() + "\" placed the following card on the table:");
         let cardCopy = new Card(cardPlaced._value, cardPlaced._color);
         cardCopy.printCardToConsole();
         return true;
@@ -287,7 +286,6 @@ class Game {
                 // two calls to skip the next player
                 let skipOnePlayer = true;
                 this._moveToNextPlayer(skipOnePlayer);
-                console.log("in case - Stop");
                 break;
             case enums.SpecialCard.SUPER_TAKI:
                 card._color = additionalData;
@@ -300,16 +298,14 @@ class Game {
                     this._gameState.gameState = undefined;
                     this._moveToNextPlayer();
                 }
-                console.log("in case - Taki");
                 break;
             case enums.SpecialCard.CHANGE_COLOR:
                 if (additionalData === undefined) {
                     additionalData = Color.getRandomColor();
                 }
                 card._color = additionalData;
-                console.log("change color to " + additionalData);
+                console.log("changed color to " + additionalData);
                 this._moveToNextPlayer();
-                console.log("in case - Change Color");
                 break;
             case enums.SpecialCard.PLUS_2:
                 if (this._gameState.gameState === enums.GameState.OPEN_PLUS_2)
@@ -319,16 +315,13 @@ class Game {
                     this._gameState.additionalInfo = 2;
                 }
                 this._moveToNextPlayer();
-                console.log("in case - PLUS_2");
                 break;
             case enums.SpecialCard.PLUS:
                 // do nothing, the player gets another turn
-                console.log("in case - PLUS");
                 break;
             case enums.SpecialCard.CHANGE_DIRECTION:
                 this.switchGameDirection();
                 this._moveToNextPlayer();
-                console.log("in case - CHANGE_DIRECTION");
                 break;
             default:
                 console.log("Error - no matching special card found");
@@ -383,9 +376,7 @@ class Game {
         // check if there is a possible move that the player can make
         let card = this._players[this._activePlayerIndex].getPossibleMove(this._isValidMove, this, true);
         if (card !== null) {
-
-
-            console.log("Cannot take card from deck when there is a possible move. \nThe card that can be places is: " + card.getColor() + ", " + card.getValue());
+            console.log("Game \"" + this._gameName + "\": Cannot take card from deck when there is a possible move. \nThe card that can be places is: " + card.getColor() + ", " + card.getValue());
             return cardsTaken;
         }
 
@@ -406,7 +397,7 @@ class Game {
         }
 
         let activePlayer = this._players[this._activePlayerIndex];
-        console.log("player: " + activePlayer.getName() + " took " + numCardsToTake + " cards from the deck");
+        console.log("Game \"" + this._gameName + "\": player: " + activePlayer.getName() + " took " + numCardsToTake + " cards from the deck");
         activePlayer.addCardsToHand(cardsTaken);
         this._moveToNextPlayer();
         return cardsTaken;
@@ -429,7 +420,7 @@ class Game {
         this._gameState.gameState = enums.GameState.GAME_ENDED;
         this._gameState.additionalInfo = playerWhoWon;
         this._gameEndTime = new Date();
-        console.log("game ended");
+        console.log("Game \"" + this._gameName + "\": Game ended");
     }
 
     removePlayerFromGame(playerId) {
@@ -440,7 +431,7 @@ class Game {
                 this._gameState.gameState !== enums.GameState.GAME_ENDED &&
                 !this.getPlayer(playerId).reachedZeroCards()
             )) {
-            console.log("error while trying to remove playerId " + playerId + " from gameId " + this._gameId + " \n.Player isn't in the game/less than two players are active/game has already started");
+            console.log("Game \"" + this._gameName + "\": Error while trying to remove playerId " + playerId + " from gameId " + this._gameId + " \n.Player isn't in the game/less than two players are active/game has already started");
             return false;
         }
 
@@ -453,7 +444,7 @@ class Game {
         }
 
         playerLeaving.leave(this._gameId);
-        console.log("player " + playerLeaving.getName() + " has left the game");
+        console.log("Game \"" + this._gameName + "\": Player \"" + playerLeaving.getName() + "\" has left the game");
 
         if (this._gameState.gameState === enums.GameState.GAME_ENDED) {
             let nonActivePlayers = 0;
@@ -463,7 +454,7 @@ class Game {
             });
             if (this._players.length - nonActivePlayers === 0) {
                 this.restart();
-                console.log("game restart");
+                console.log("Game \"" + this._gameName + "\": Game has been restarted");
                 return true;
             }
         }
@@ -471,6 +462,7 @@ class Game {
 
     restart() {
         this._players = [];
+        this._ranking = {};
         this._activePlayerIndex = 0;
         this._deck = new Deck(this._gameType);
         this._cardsOnTable = new CardsOnTable();
@@ -503,7 +495,7 @@ class Game {
             i++;
         activePlayer.win(i);
         this._ranking[i] = activePlayer.getId();
-        console.log("Player \"" + activePlayer.getName() + "\" has finished his cards and is ranked #" + i);
+        console.log("Game \"" + this._gameName + "\": Player \"" + activePlayer.getName() + "\" has finished his cards and is ranked #" + i);
     }
 }
 

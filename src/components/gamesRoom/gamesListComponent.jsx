@@ -67,7 +67,7 @@ export default class GamesListComponent extends React.Component {
                     throw Error(text)
                 });
             }
-            console.log("gameId " + gameIdToDelete + " delete successfully");
+            console.log("GameId " + gameIdToDelete + " was deleted successfully");
         }).catch(errorMessage => {
             alert(errorMessage);
         });

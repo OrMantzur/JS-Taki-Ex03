@@ -57,7 +57,7 @@ export default class UsersListComponent extends React.Component {
         fetch('/users/logout', {method: 'GET', credentials: 'include'})
             .then(response => {
                 if (!response.ok) {
-                    console.log(`failed to logout user ${this.state.playerName}`, response);
+                    console.log(`The player \"${this.state.playerName}\" failed to logout`, response);
                 }
                 this.props.handleLogout();
             })

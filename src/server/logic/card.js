@@ -68,8 +68,7 @@ class Card {
         if (this._value === SpecialCard.CHANGE_COLOR || this._value === SpecialCard.SUPER_TAKI) {
             this._color = color;
         } else {
-            // throw new Error("color can only be changed for \"change color\" cards");
-            console.log("card color was not changed - color can only be changed for \"change color\" and \"super taki\" cards");
+            console.log("Card color was not changed - color can only be changed for \"change color\" and \"super taki\" cards");
         }
     }
 
