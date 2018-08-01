@@ -4,11 +4,11 @@
  */
 
 const express = require('express');
-const gameManager = require('./logic/gamesManager.js');
-const playersManager = require('./logic/playersManager');
-const Card = require("./logic/card").Card;
+const gameManager = require('../logic/gamesManager.js');
+const playersManager = require('../logic/playersManager');
+const Card = require("../logic/card").Card;
 const chatManagement = require('./chatRouter');
-const enums = require('./logic/enums');
+const enums = require('../logic/enums');
 const activeGameRouter = express.Router();
 
 activeGameRouter.get('/gameState', playersManager.getLoggedInPlayer, (req, res) => {

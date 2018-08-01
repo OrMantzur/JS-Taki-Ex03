@@ -1,6 +1,6 @@
 const express = require('express');
-const playersManager = require('./logic/playersManager');
-const gameManager = require('./logic/gamesManager.js');
+const playersManager = require('../logic/playersManager');
+const gameManager = require('../logic/gamesManager.js');
 const chatManagement = express.Router();
 
 chatManagement.route('/')

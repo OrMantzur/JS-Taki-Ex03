@@ -4,7 +4,7 @@
  */
 
 const express = require('express');
-const playersManager = require('./logic/playersManager');
+const playersManager = require('../logic/playersManager');
 const playersRouter = express.Router();
 
 /**

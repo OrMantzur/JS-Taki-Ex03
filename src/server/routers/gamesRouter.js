@@ -4,8 +4,8 @@
  */
 
 const express = require('express');
-const gameManager = require('./logic/gamesManager.js');
-const playersManager = require('./logic/playersManager');
+const gameManager = require('../logic/gamesManager.js');
+const playersManager = require('../logic/playersManager');
 const chatManagement = require('./chatRouter');
 const gamesRouter = express.Router();
 
