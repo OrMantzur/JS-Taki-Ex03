@@ -15,4 +15,8 @@ imagesRouter.get('/taki-logo', (req, res) => {
     res.sendFile(path.resolve(__dirname, "..", "takiImages", "TAKI_logo.png"));
 });
 
+imagesRouter.get('/taki-icon', (req, res) => {
+    res.sendFile(path.resolve(__dirname, "..", "takiImages", "taki.ico"));
+});
+
 module.exports = imagesRouter;
