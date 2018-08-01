@@ -25,7 +25,6 @@ activeGameRouter.get('/gameState', playersManager.getLoggedInPlayer, (req, res) 
         // otherPlayersCards: activeGame.getOtherPlayersCards(loggedInPlayerId),
         topCardOnTable: topCardOnTable,
         currentGameState: activeGame.getGameState(),
-        //TODO not sure if we need to check for null here
         userMessage: userMessage !== null ? userMessage : null,
         gameControlsLocked: (
             activeGame.getActivePlayer() !== undefined ?
@@ -48,7 +47,6 @@ activeGameRouter.post('/makeMove', playersManager.getLoggedInPlayer, (req, res) 
     let body = JSON.parse(req.body);
     let makeMoveReturnedTrue = activeGame.makeMove(body.cardClicked, body.additionalData);
     makeMoveReturnedTrue ? res.sendStatus(202) : res.sendStatus(400);
-    // TODO what should we return?
 });
 
 activeGameRouter.get('/clickedDeck', playersManager.getLoggedInPlayer, (req, res) => {
@@ -62,9 +60,6 @@ activeGameRouter.get('/exitGame', playersManager.getLoggedInPlayer, (req, res) =
     let activeGameId = gameManager.getGameIdByPlayerId(loggedInPlayer.getId());
     let activeGame = gameManager.getGame(activeGameId);
     activeGame.removePlayerFromGame(loggedInPlayer.getId());
-
-    // TODO check the chat exit work
-    // write that user exit to chat
     let playerName = req.session.loggedInPlayer.getName();
     chatManagement.appendUserLogoutMessage(activeGameId, playerName);
     res.sendStatus(200);
